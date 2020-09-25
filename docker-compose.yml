@@ -1,0 +1,32 @@
+version: '3.3'
+services:
+  flask:
+    container_name: docker-fmcg-ecomm
+    image: fmcg-ecomm
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/code
+    depends_on:
+      - db
+    expose:
+      - '5000'
+    ports:
+      - '5000:5000'
+
+  db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: 'UEIOS_SENSOR_DATA'
+      MYSQL_USER: 'itapuser'
+      MYSQL_PASSWORD: 'i1t2a3p4'
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - '3306:3306'

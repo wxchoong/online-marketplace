@@ -59,7 +59,10 @@ def login():
 		login_password = request.form['password']
 		
 		#Query relevant user from database 
-		current_user = User.query.filter_by(username=login_username).first()
+		#current_user = User.query.filter_by(username=login_username).first()
+		user_query = "SELECT * FROM user WHERE username=%s;"
+		cursor.execute(user_query, login_username)
+		current_user = cursor.fetchall()
 		
 		#Verify user id and password if user exists
 		if current_user > 0:
@@ -111,10 +114,15 @@ def signup():
 		
 	return render_template('signup.html')
 
-#Product Page (based on Category)
-@app.route('/products/<string:cat>')
-def confirmation(id):
-	return render_template('products.html', cat_id=cat)
+#Products (based on Category) Page
+@app.route('/categories/<string:cat>')
+def categories(cat):
+	return render_template('category.html', cat_id=cat)
+
+#Product Details Page
+@app.route('/products/<string:id>')
+def products(id):
+	return render_template('products.html', prod_id=id)
 
 #Cart Page
 @app.route('/cart')

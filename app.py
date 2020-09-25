@@ -7,6 +7,8 @@ import mysql.connector as mysql
 
 app = Flask(__name__)
 
+#--------------------------------SQL---------------------------------------#
+
 db = mysql.connect(
     host = "localhost",
     user = "root",
@@ -15,7 +17,7 @@ db = mysql.connect(
 )
 cursor = db.cursor(dictionary=True)
 
-#Create table for sales order and sales items 
+#Create table for sales order and sales items if not exist
 cursor.execute("""CREATE TABLE IF NOT EXISTS tabSales_Order(
 	id INT AUTO_INCREMENT NOT NULL,
 	creation_datetime DATETIME(6) NOT NULL,
@@ -88,7 +90,31 @@ def login():
 #Register Page
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+	#Retrieve user inputs from signup form 
+	form = RegisterForm(request.form)
+	if request.method == 'POST' and form.validate():
+		name = form.name.data
+		email = form.email.data
+		username = form.username.data
+		machine = form.machine.data
+		password = sha256_crypt.encrypt(str(form.password.data))
+		
+		#Create new user and add to database
+		new_user = User(name, email, username, machine, password)
+		db.session.add(new_user)
+		db.session.commit()
+		db.session.close()
+	
+		#Redirect to login page
+		flash('You are now registered and can log in', 'success')		
+		return redirect(url_for('login'))
+		
 	return render_template('signup.html')
+
+#Product Page (based on Category)
+@app.route('/products/<string:cat>')
+def confirmation(id):
+	return render_template('products.html', cat_id=cat)
 
 #Cart Page
 @app.route('/cart')
@@ -158,6 +184,7 @@ def confirmation(id):
 	wait_time = 10
 	return render_template('confirmation.html', order_id=id, wait_time=wait_time)
 
+
 #--------------------------------APIs---------------------------------------#
 #APIs for getting data
 @app.route('/get-all-orders', methods=['GET', 'POST'])
@@ -168,6 +195,7 @@ def result():
 	data = cursor.fetchall()
 	return jsonify(data)
 
+#--------------------------------------------------------------------------#
 
 if __name__ == '__main__':
 	app.secret_key = 'db123456'

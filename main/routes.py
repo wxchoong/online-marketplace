@@ -162,10 +162,14 @@ def register():
     addr = request.form['cust_addr']
     postal = request.form['cust_postal']
     parse = (email, firstName, lastName, contact, pwd, addr, postal)
+    #cursor.execute("SHOW DATABASES")
+    #data = cursor.fetchall()
+    #print(data)
     cursor.callproc('sp_registration', parse)
+    db.commit()
     cursor.close()
     
     print("registerd")
-    return jsonify(email)
+    return jsonify("registered")
 
 #--------------------------------------------------------------------------#

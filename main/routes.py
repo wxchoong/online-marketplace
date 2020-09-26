@@ -153,23 +153,29 @@ def result():
 #APIs for registering new user
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    cursor = db.cursor()
-    email = request.form['cust_email']
-    firstName = request.form['cust_firstName']
-    lastName = request.form['cust_lastName']
-    contact = request.form['cust_phone']
-    pwd = request.form['cust_pwd']
-    addr = request.form['cust_addr']
-    postal = request.form['cust_postal']
-    parse = (email, firstName, lastName, contact, pwd, addr, postal)
-    #cursor.execute("SHOW DATABASES")
-    #data = cursor.fetchall()
-    #print(data)
-    cursor.callproc('sp_registration', parse)
-    db.commit()
-    cursor.close()
-    
-    print("registerd")
-    return jsonify("registered")
+    try:
+    	cursor = db.cursor()
+    	email = request.form['cust_email']
+    	firstName = request.form['cust_firstName']
+    	lastName = request.form['cust_lastName']
+    	contact = request.form['cust_phone']
+    	pwd = request.form['cust_pwd']
+    	addr = request.form['cust_addr']
+    	postal = request.form['cust_postal']
+    	parse = (email, firstName, lastName, contact, pwd, addr, postal)
+    except Exception as e:
+        return jsonify({'status': 'failed', 'message' : str(e)})
+    else:
+        try:
+            cursor.callproc('sp_registration', parse)
+        except Exception as e:
+           return jsonify({'status': 'failed', 'message' : str(e)})
+        else:
+        	db.commit()
+        finally:
+        	cursor.close()
+      
+    return jsonify({'status': 'success', 'message' : 'Registration Success'})
+
 
 #--------------------------------------------------------------------------#

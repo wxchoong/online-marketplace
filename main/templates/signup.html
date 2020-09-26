@@ -98,8 +98,11 @@ function registerGo(){
     })
     .done(function(data){
       if(data.status == 'success'){
+		  // flash a success, redirec to main page, flash data.message if possible
+		  location.replace(location.origin.toString()+"/login");
       }
       else{
+		  //show failed and display message frm data.message
       }
   });
 }

@@ -54,7 +54,7 @@
   
   <div class="row text-center">
 	<div class="col">
-		<a class="btn btn-lg btn-block mybtn" id="register">Sign Up</a>
+		<button class="btn btn-lg btn-block mybtn" id="register">Sign Up</button>
 		<p class="mt-3 mb-3 text-muted">Already a member? <a href="/login">Log In</a></p>
 	</div>
   </div> 
@@ -67,44 +67,44 @@
  <!-- <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>-->
 
 <script>
-var register = document.getElementById("register");
-var inputFirstName = document.getElementById("inputFirstName");
-var inputLastName = document.getElementById("inputLastName");
-var inputEmail = document.getElementById("inputEmail");
-var inputPhone = document.getElementById("inputPhone");
-var inputPassword = document.getElementById("inputPassword");
-var inputAddress = document.getElementById("inputAddress");
-var inputPostal = document.getElementById("inputPostal");
+	var register = document.getElementById("register");
+	var inputFirstName = document.getElementById("inputFirstName");
+	var inputLastName = document.getElementById("inputLastName");
+	var inputEmail = document.getElementById("inputEmail");
+	var inputPhone = document.getElementById("inputPhone");
+	var inputPassword = document.getElementById("inputPassword");
+	var inputAddress = document.getElementById("inputAddress");
+	var inputPostal = document.getElementById("inputPostal");
 
-register.onclick = function(){
-	console.log('clicked');
-		registerGo();
-}
+	register.onclick = function(){
+		console.log('clicked');
+			registerGo();
+	}
 
-function registerGo(){
-	$.ajax({
-	data : 
-	{
-		'cust_email':inputEmail.value,
-		'cust_firstName' : inputFirstName.value,
-		'cust_lastName' : inputLastName.value, 
-		'cust_phone':inputPhone.value, 
-		'cust_pwd' : inputPassword.value, 
-		'cust_addr':inputAddress.value, 
-		'cust_postal' : inputPostal.value
-	},
-    type : 'POST',
-		url : '/register'
-    })
-    .done(function(data){
-      if(data.status == 'success'){
-		  // flash a success, redirec to main page, flash data.message if possible
-		  location.replace(location.origin.toString()+"/login");
-      }
-      else{
-		  //show failed and display message frm data.message
-      }
-  });
+	function registerGo(){
+		$.ajax({
+		data : 
+		{
+			'cust_email':inputEmail.value,
+			'cust_firstName' : inputFirstName.value,
+			'cust_lastName' : inputLastName.value, 
+			'cust_phone':inputPhone.value, 
+			'cust_pwd' : inputPassword.value, 
+			'cust_addr':inputAddress.value, 
+			'cust_postal' : inputPostal.value
+		},
+		type : 'POST',
+			url : '/register'
+		})
+		.done(function(data){
+		if(data.status == 'success'){
+			// flash a success, redirect to main page, flash data.message if possible
+			location.replace(location.origin.toString()+"/login");
+		}
+		else{
+			//show failed and display message frm data.message
+		}
+	});
 }
 </script>
 {% endblock %}

@@ -19,46 +19,72 @@ def index():
 #Login Page
 @app.route('/login', methods=['GET', 'POST'])
 def login():				
-	#Retrieve user inputs from form
+	# Retrieve user inputs from form
 	if request.method == 'POST':
-		login_username = request.form['username']
-		login_password = request.form['password']
+		try:
+			login_email = request.form['input_email']
+			login_password = request.form['input_pwd']
 		
-		#Query relevant user from database 
-		#current_user = User.query.filter_by(username=login_username).first()
-		user_query = "SELECT * FROM user WHERE username=%s;"
-		cursor.execute(user_query, login_username)
-		current_user = cursor.fetchall()
+			# Query relevant user from database 
+			user_query = "SELECT * FROM user_info WHERE email='" + login_email + "';"
+			cursor.execute(user_query)
+			current_user = cursor.fetchall()
+			print(current_user)
 		
-		#Verify user id and password if user exists
-		if current_user > 0:
-			pwd = current_user.password
+			#Verify user id and password if user exists
+			if current_user != None:
+				pwd = current_user[0]['password']
 
-			#Login successful
-			if sha256_crypt.verify(login_password, pwd):
-				session['logged_in'] = True
-				session['username'] = login_username
-				flash('You are now logged in','success')
-				
-				#Redirect based on user role (admin/customer)
-				if(session['username'] == 'admin'):
-					return redirect(url_for('index'))
+				#Login successful
+				if login_password == pwd:
+					session['logged_in'] = True
+					session['username'] = current_user[0]['firstName']
+					flash('You are now logged in','success')
+					
+					#Redirect based on user role (admin/customer)
+					if(session['username'] == 'admin'):
+						return redirect(url_for('index'))
+					else:
+						return redirect(url_for('index'))	
+				#Login invalid			
 				else:
-					return redirect(url_for('index'))	
-			#Login invalid			
+					error = 'Invalid login'
+					return render_template('login.html',error=error)	
+			#User not found		
 			else:
-				error = 'Invalid login'
-				return render_template('login.html',error=error)	
-		#User not found		
-		else:
-			error = 'Username not found'
-			return render_template('login.html',error=error)
-			
+				error = 'Username not found'
+				return render_template('login.html',error=error)
+		except Exception as e:
+			print(e)
 	return render_template('login.html')
 
 #Register Page
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+	if request.method == 'POST':
+		try:
+			cursor = db.cursor()
+			email = request.form['cust_email']
+			firstName = request.form['cust_firstName']
+			lastName = request.form['cust_lastName']
+			contact = request.form['cust_phone']
+			pwd = request.form['cust_pwd']
+			addr = request.form['cust_addr']
+			postal = request.form['cust_postal']
+			parse = (email, firstName, lastName, contact, pwd, addr, postal)
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			try:
+				cursor.callproc('sp_registration', parse)
+			except Exception as e:
+				return jsonify({'status': 'failed', 'message' : str(e)})
+			else:
+				db.commit()
+			finally:
+				cursor.close()
+				flash('You are now registered and can login', 'success')  
+				return redirect(url_for('login'))
 	return render_template('signup.html')
 
 #Products (based on Category) Page
@@ -149,33 +175,5 @@ def result():
 	# fetching all records from the 'cursor' object
 	data = cursor.fetchall()
 	return jsonify(data)
-
-#APIs for registering new user
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    try:
-    	cursor = db.cursor()
-    	email = request.form['cust_email']
-    	firstName = request.form['cust_firstName']
-    	lastName = request.form['cust_lastName']
-    	contact = request.form['cust_phone']
-    	pwd = request.form['cust_pwd']
-    	addr = request.form['cust_addr']
-    	postal = request.form['cust_postal']
-    	parse = (email, firstName, lastName, contact, pwd, addr, postal)
-    except Exception as e:
-        return jsonify({'status': 'failed', 'message' : str(e)})
-    else:
-        try:
-            cursor.callproc('sp_registration', parse)
-        except Exception as e:
-           return jsonify({'status': 'failed', 'message' : str(e)})
-        else:
-        	db.commit()
-        finally:
-        	cursor.close()
-      
-    return jsonify({'status': 'success', 'message' : 'Registration Success'})
-
 
 #--------------------------------------------------------------------------#

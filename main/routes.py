@@ -100,6 +100,10 @@ def products(id):
 #Cart Page
 @app.route('/cart')
 def cart():
+	# for 1 argument, db has to give such syntax
+	#authenticator = (current_user[0]['firstName'],)
+	cursor = db.cursor()
+	cursor.callproc('sp_getCurrentUserCart', authenticator)
 	return render_template('cart.html')
 
 #Checkout

@@ -39,3 +39,23 @@ BEGIN
 	insert into user_info VALUES (NULL, email, contact, pwd, fName, lName, addr, postal, now(), now(), 1, "CARD", 0);
 END //
 DELIMITER ;
+
+
+DELIMITER //
+CREATE FUNCTION `get_total_spending_of_the_month`(email varchar(45),  specificMonth int) RETURNS int
+    DETERMINISTIC
+BEGIN
+	DECLARE total INT;
+    SELECT 
+        SUM(OD.subTotal)
+    INTO total
+    FROM 
+        order_detail
+    INNER JOIN 
+		order_info USING (orderedCustomer)
+    WHERE 
+        orderedCustomer = email AND 
+        EXTRACT(MONTH FROM orderedDate) = specificMonth;
+    RETURN total;
+END //
+DELIMITER ;

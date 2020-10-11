@@ -1,0 +1,286 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<title>DecorIt - Category</title>
+<!--
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Living Room</h1>
+        <p class="lead text-muted mb-0">Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. </p>
+    </div>
+</section>
+-->
+<div class="row justify-content-md-center">
+    <div class="col-10">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/categories">Category</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Sub-category</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-10 row">
+        <div class="col-12 col-sm-3">
+            <!--<div class="card bg-light mb-3">
+                
+                <ul class="list-group category_block">
+                    <li class="list-group-item"><a href="category.html">Living Room</a></li>
+                    <li class="list-group-item"><a href="category.html">Dapibus ac facilisis in</a></li>
+                    <li class="list-group-item"><a href="category.html">Morbi leo risus</a></li>
+                    <li class="list-group-item"><a href="category.html">Porta ac consectetur ac</a></li>
+                    <li class="list-group-item"><a href="category.html">Vestibulum at eros</a></li>
+                </ul>
+            </div>-->
+			<div class="card bg-light mb-3">
+			<div class="card-header text-white text-uppercase bg-dark"><b>Categories</b></div>
+			<!--Accordion wrapper-->
+				<div class="accordion md-accordion" id="accordionCat" role="tablist" aria-multiselectable="true">
+				  <!-- Accordion card -->
+				  <div class="card">
+					<!-- Card header -->
+					<div class="card-header" role="tab" id="headingLR">
+					  <div class="collapsed" data-toggle="collapse" data-parent="#accordionCat" href="#collapseLR"
+						aria-expanded="true" aria-controls="collapseLR">
+						  <a href="living_room.html">Living Room</a> 
+					  </div>
+					</div>
+
+					<!-- Card body -->
+					<div id="collapseLR" class="collapse show" role="tabpanel" aria-labelledby="headingLR"
+					  data-parent="#accordionCat">
+						<ul class="list-group category_block">
+							<li class="list-group-item sub-cat">Sofa</li>
+							<li class="list-group-item sub-cat">Carpets &amp; Rugs</li>
+							<li class="list-group-item sub-cat">Coffee Table</li>
+							<li class="list-group-item sub-cat">TV Consoles</li>
+							<li class="list-group-item sub-cat">Arm Chairs</li>
+						</ul>
+					</div>
+
+				  </div>
+				  <div class="card">
+					<!-- Card header -->
+					<div class="card-header" role="tab" id="headingBR">
+					  <div class="collapsed" data-toggle="collapse" data-parent="#accordionCat" href="#collapseBR"
+						aria-expanded="false" aria-controls="collapseBR">
+						  <a href="living_room.html">Bedroom</a> 
+					  </div>
+					</div>
+
+					<!-- Card body -->
+					<div id="collapseBR" class="collapse" role="tabpanel" aria-labelledby="headingBR"
+					  data-parent="#accordionCat">
+						<ul class="list-group category_block">
+							<li class="list-group-item sub-cat">Bedsets</li>
+							<li class="list-group-item sub-cat">Night Stands</li>
+							<li class="list-group-item sub-cat">Bed Frames</li>
+							<li class="list-group-item sub-cat">Mattresses</li>
+						</ul>
+					</div>
+
+				  </div>
+				  <div class="card">
+					<!-- Card header -->
+					<div class="card-header" role="tab" id="headingBath">
+					  <div class="collapsed" data-toggle="collapse" data-parent="#accordionCat" href="#collapseBath"
+						aria-expanded="false" aria-controls="collapseBath">
+						  <a href="living_room.html">Bathroom</a> 
+					  </div>
+					</div>
+
+					<!-- Card body -->
+					<div id="collapseBath" class="collapse" role="tabpanel" aria-labelledby="headingBath"
+					  data-parent="#accordionCat">
+						<ul class="list-group category_block">
+							<li class="list-group-item sub-cat">Bath Towels</li>
+							<li class="list-group-item sub-cat">Rugs</li>
+							<li class="list-group-item sub-cat">Accessories</li>
+						</ul>
+					</div>
+
+				  </div>
+				  
+				  
+				  <div class="card">
+					<!-- Card header -->
+					<div class="card-header" role="tab" id="headingDR">
+					  <div class="collapsed" data-toggle="collapse" data-parent="#accordionCat" href="#collapseDR"
+						aria-expanded="false" aria-controls="collapseDR">
+						  <a href="living_room.html">Dining Room</a> 
+					  </div>
+					</div>
+
+					<!-- Card body -->
+					<div id="collapseDR" class="collapse" role="tabpanel" aria-labelledby="headingDR"
+					  data-parent="#accordionCat">
+						<ul class="list-group category_block">
+							<li class="list-group-item sub-cat">Dining Table</li>
+							<li class="list-group-item sub-cat">Chairs</li>
+							<li class="list-group-item sub-cat">Plates</li>
+							<li class="list-group-item sub-cat">Wine Glasses</li>
+							<li class="list-group-item sub-cat">Cancles</li>
+							<li class="list-group-item sub-cat">Cutlery</li>
+						</ul>
+					</div>
+
+				  </div>
+				  
+				  <div class="card">
+					<!-- Card header -->
+					<div class="card-header" role="tab" id="headingDecor">
+					  <div class="collapsed" data-toggle="collapse" data-parent="#accordionCat" href="#collapseDecor"
+						aria-expanded="false" aria-controls="collapseDecor">
+						  <a href="living_room.html">Décor</a> 
+					  </div>
+					</div>
+
+					<!-- Card body -->
+					<div id="collapseDecor" class="collapse" role="tabpanel" aria-labelledby="headingDecor"
+					  data-parent="#accordionCat">
+						<ul class="list-group category_block">
+							<li class="list-group-item sub-cat">Blinds &amp; Curtains</li>
+							<li class="list-group-item sub-cat">LIghts &amp; Lamps</li>
+							<li class="list-group-item sub-cat">Wall Arts</li>
+							<li class="list-group-item sub-cat">Mirrors</li>
+							<li class="list-group-item sub-cat">Cushions &amp; Throws</li>
+							<li class="list-group-item sub-cat">Scent Products</li>
+						</ul>
+					</div>
+
+				  </div>
+				  <!-- Accordion card -->
+				</div>
+				<!-- Accordion wrapper -->
+							
+			
+			</div>
+        </div>
+        <div class="col">
+            <div class="row">
+				<div class="col-12"><h1 class="selected_item">selected</h1></div>
+				<div class="col-12"> 
+					<label for="sortby">Sort by:</label>
+					<select name="sortby" id="sortby">
+					  <option value="Newest">Newest</option>
+					  <option value="price_low">Price: Low to High</option>
+					  <option value="price_high">Price: High to Low</option>
+					</select> 
+				</div>
+			</div>
+            <div class="row products">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card product-card" category="sofa">
+                        <a href="/leather-sofa.html"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/sofa/leather-sofa.jpg')}}" alt="leather-sofa"></a>
+                        <div class="card-body">
+                            <h5 class="product-name"><a href="/leather-sofa.html">Leather Sofa</a></h5>
+                            <div class="row">
+							<div class="col">
+								<p>S$ <span class="product-price">299.00</span></p>
+								<p class="text-muted">(GST Incl.)</p>
+                            </div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card product-card" category="carpets-and-rugs">
+                        <a href="/persian-carpet.html"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/carpets-and-rugs/persian-carpet.jpg')}}" alt="persian-carpet"></a>
+                        <div class="card-body">
+                            <h5 class="product-name"><a href="/persian-carpet.html">Persian Carpet</a></h5>
+                            <div class="row">
+							<div class="col">
+								<p>S$ <span class="product-price">79.00</span></p>
+								<p class="text-muted">(GST Incl.)</p>
+                            </div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card product-card" category="coffee-table">
+                        <a href="/wooden-coffee-table.html"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/coffee-table/wooden-coffee-table.jpg')}}" alt="wooden-coffee-table"></a>
+                        <div class="card-body">
+                            <h5 class="product-name"><a href="/wooden-coffee-table.html">Wooden Coffee Table</a></h5>
+                            <div class="row">
+							<div class="col">
+								<p>S$ <span class="product-name">99.00</span></p>
+								<p class="text-muted">(GST Incl.)</p>
+                            </div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card product-card" category="coffee-table">
+                        <a href="/black-coffee-table.html"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/coffee-table/black-coffee-table.jpg')}}" alt="black-coffee-table"></a>
+                        <div class="card-body">
+                            <h5 class="product-name"><a href="/black-coffee-table.html">Black Coffee Table</a></h5>
+                            <div class="row">
+							<div class="col">
+								<p>S$ <span class="product-name">49.00</span></p>
+								<p class="text-muted">(GST Incl.)</p>
+                            </div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card product-card" category="night-stands">
+                        <a href="/white-night-stand.html"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg')}}" alt="white-night-stand"></a>
+                        <div class="card-body">
+                            <h5 class="product-name"><a href="/white-night-stand.html">White Night Stand</a></h5>
+                            <div class="row">
+							<div class="col">
+								<p>S$ <span class="product-name">89.00</span></p>
+								<p class="text-muted">(GST Incl.)</p>
+                            </div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card product-card" category="bath-towels">
+                        <a href="/cotton-bath-towel.html"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/bathroom/bath-towels/cotton-bath-towel.jpg')}}" alt="cotton-bath-towel"></a>
+                        <div class="card-body">
+                            <h5 class="product-name"><a href="/cotton-bath-towel.html">Cotton Bath Towel</a></h5>
+                            <div class="row">
+							<div class="col">
+								<p>S$ <span class="product-name">29.00</span></p>
+								<p class="text-muted">(GST Incl.)</p>
+                            </div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="assets/dist/custom/slugify.js"></script>
+      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+	  <script>
+		$( ".sub-cat" ).click(function(){
+			$(this).siblings().removeClass("is-active");
+			$(this).toggleClass('is-active');
+			$(".selected_item").text(jQuery(this).text());
+			//var selectedCat = slugify($(this).text());
+			//showCat(selectedCat);			
+		});
+		
+		function showCat(selectedCat){
+			//$('.product-card').hide();
+			
+			//$('[category='+selectedCat+']').show();
+			
+		}
+	  </script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <style>
+        .ui-container{
+            text-align: center;
+        }
+    </style>
+
+    <div class="ui-container">
+        <h1>Hi {{session.cust_name}},</h1>
+        <h1>Thank you for coming!</h1><br>
+        <h2>Order ID: {{order_id}}</h2><br>
+        <p class="lead">Your order is currently being processed.</p>
+        <p class="lead">Please collect your order at the end of the line.</p>
+        <p class="lead">Estimated Waiting Time: {{wait_time}} min</p>
+    </div>
+{% endblock %}

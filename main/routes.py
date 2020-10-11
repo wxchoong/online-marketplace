@@ -1,4 +1,5 @@
 from main import app, cursor, db
+from functools import wraps
 from flask import render_template, request, json, jsonify, flash, redirect, url_for, session
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -11,10 +12,10 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordFiel
 @app.route('/')
 def index():
     ### check for Session.
-    # if 'user' in session
-    return render_template('index.html')
-    #else:
-    #return redirect(url_for('login'))
+    if 'logged_in' in session:
+    	return render_template('index.html', user=session['username'])
+    else:
+    	return render_template('index.html')
 
 #Login Page
 @app.route('/login', methods=['GET', 'POST'])
@@ -58,6 +59,24 @@ def login():
 			print(e)
 	return render_template('login.html')
 
+# disallows access to pages if user is not logged in
+def is_logged_in(f):
+	@wraps(f)
+	def wrap(*args, **kwargs):
+		if 'logged_in' in session:
+			return f(*args, **kwargs)
+		else:
+			flash('Unauthorized, Please log in','danger')
+			return redirect (url_for('login'))
+	return wrap
+
+#log out function and redirect to login page
+@app.route('/logout')
+def logout():
+	session.clear()
+	flash("You are now logged out",'success')
+	return redirect(url_for('login'))
+
 #Register Page
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -88,17 +107,18 @@ def signup():
 	return render_template('signup.html')
 
 #Products (based on Category) Page
-@app.route('/categories/<string:cat>')
-def categories(cat):
-	return render_template('category.html', cat_id=cat)
+@app.route('/categories')
+def categories():
+	return render_template('category.html')
 
 #Product Details Page
-@app.route('/products/<string:id>')
-def products(id):
-	return render_template('products.html', prod_id=id)
+@app.route('/products')
+def products():
+	return render_template('product.html', prod_id=id)
 
 #Cart Page
 @app.route('/cart')
+@is_logged_in
 def cart():
 	# for 1 argument, db has to give such syntax
 	#authenticator = (current_user[0]['firstName'],)
@@ -108,6 +128,7 @@ def cart():
 
 #Checkout
 @app.route('/checkout', methods=['GET','POST'])
+@is_logged_in
 def order():
 	session.clear()
 
@@ -165,6 +186,7 @@ def order():
 
 #Order Successful Page
 @app.route('/confirmation/<string:id>')
+@is_logged_in
 def confirmation(id):
 	wait_time = 10
 	return render_template('confirmation.html', order_id=id, wait_time=wait_time)

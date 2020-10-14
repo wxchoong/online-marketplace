@@ -23,11 +23,11 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE PROCEDURE `sp_new_order`(createDate DATETIME, Cname VARCHAR(140), addr VARCHAR(140), ph VARCHAR(140), shipName VARCHAR(140), shipAddr VARCHAR(140), shipPh VARCHAR(140), msg VARCHAR(140), cust_mail VARCHAR(140))
+CREATE PROCEDURE `sp_new_order`(custEmail VARCHAR(45), orderDate DATETIME, receiveName VARCHAR(100), receiveAddr VARCHAR(100), receivePostal INT, receivePhone INT, orderStatus VARCHAR(20), totalPrice FLOAT, deliverDate DATETIME, remark VARCHAR(255), totalQuantity INT)
 BEGIN
-	INSERT INTO tabSales_Order(creation_datetime, customer_name,
-	customer_address, customer_phone_no, shipper_name, shipper_address, shipper_phone_no, 
-	personalised_msg, customer_email) VALUES (createDate, Cname, addr, ph, shipName, shipAddr, shipPh, msg, cust_mail);
+	INSERT INTO order_info VALUES(NULL, custEmail,orderDate,receiveName,receiveAddr,receivePostal,
+    receivePhone, orderStatus, totalPrice, deliverDate,remark, totalQuantity);
+
 END //
 DELIMITER ;
 

@@ -19,45 +19,48 @@ def index():
 
 #Login Page
 @app.route('/login', methods=['GET', 'POST'])
-def login():				
-	# Retrieve user inputs from form
-	if request.method == 'POST':
-		try:
-			login_email = request.form['input_email']
-			login_password = request.form['input_pwd']
-		
-			# Query relevant user from database 
-			user_query = "SELECT * FROM user_info WHERE email='" + login_email + "';"
-			cursor.execute(user_query)
-			current_user = cursor.fetchall()
-			print(current_user)
-		
-			#Verify user id and password if user exists
-			if current_user != None:
-				pwd = current_user[0]['password']
+def login():			
+	if 'logged_in' in session:
+		return redirect(url_for('account'))
+	else:
+		# Retrieve user inputs from form
+		if request.method == 'POST':
+			try:
+				login_email = request.form['input_email']
+				login_password = request.form['input_pwd']
+			
+				# Query relevant user from database 
+				user_query = "SELECT * FROM user_info WHERE email='" + login_email + "';"
+				cursor.execute(user_query)
+				current_user = cursor.fetchall()
+				print(current_user)
+			
+				#Verify user id and password if user exists
+				if current_user != None:
+					pwd = current_user[0]['password']
 
-				#Login successful
-				if login_password == pwd:
-					session['logged_in'] = True
-					session['username'] = current_user[0]['firstName']
-					flash('You are now logged in','success')
-					
-					#Redirect based on user role (admin/customer)
-					if(session['username'] == 'admin'):
-						return redirect(url_for('index'))
+					#Login successful
+					if login_password == pwd:
+						session['logged_in'] = True
+						session['username'] = current_user[0]['firstName']
+						flash('You are now logged in','success')
+						
+						#Redirect based on user role (admin/customer)
+						if(session['username'] == 'admin'):
+							return redirect(url_for('index'))
+						else:
+							return redirect(url_for('index'))	
+					#Login invalid			
 					else:
-						return redirect(url_for('index'))	
-				#Login invalid			
+						error = 'Invalid login'
+						return render_template('login.html',error=error)	
+				#User not found		
 				else:
-					error = 'Invalid login'
-					return render_template('login.html',error=error)	
-			#User not found		
-			else:
-				error = 'Username not found'
-				return render_template('login.html',error=error)
-		except Exception as e:
-			print(e)
-	return render_template('login.html')
+					error = 'Username not found'
+					return render_template('login.html',error=error)
+			except Exception as e:
+				print(e)
+		return render_template('login.html')
 
 # disallows access to pages if user is not logged in
 def is_logged_in(f):
@@ -76,6 +79,10 @@ def logout():
 	session.clear()
 	flash("You are now logged out",'success')
 	return redirect(url_for('login'))
+
+@app.route('/account')
+def account():
+	return render_template('account.html')
 
 #Register Page
 @app.route('/signup', methods=['GET', 'POST'])
@@ -107,14 +114,20 @@ def signup():
 	return render_template('signup.html')
 
 #Products (based on Category) Page
-@app.route('/categories')
-def categories():
-	return render_template('category.html')
+@app.route('/categories/<string:cat>')
+def categories(cat):
+	if 'logged_in' in session:
+		return render_template('category.html', user=session['username'])
+	else:
+		return render_template('category.html')
 
 #Product Details Page
-@app.route('/products')
-def products():
-	return render_template('product.html', prod_id=id)
+@app.route('/products/<string:id>')
+def products(id):
+	if 'logged_in' in session:
+		return render_template('product.html', prod_id=id, user=session['username'])
+	else:
+		return render_template('product.html')
 
 #Cart Page
 @app.route('/cart')

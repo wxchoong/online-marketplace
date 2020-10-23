@@ -94,6 +94,9 @@ CREATE TABLE `product_info` (
   `availableQuantity` int NOT NULL DEFAULT '0',
   `lastUpdated` datetime DEFAULT NULL,
   `price` float NOT NULL DEFAULT '0',
+  `soldQuantity` INT NOT NULL DEFAULT `0`,
+  `baseQuantity` INT NOT NULL DEFAULT `0`,
+  `imagePath` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`productID`),
   CONSTRAINT `product_info_ref_category` FOREIGN KEY (`categoryID`) REFERENCES `category` (`categoryID`)
 ) ENGINE=InnoDB;
@@ -109,8 +112,11 @@ CREATE TABLE `user_comment` (
   `comment` varchar(100) NOT NULL,
   `commentDate` datetime DEFAULT NULL,
   `rate` int NOT NULL,
+  `productID` int NOT NULL,
+  `adminReply` VARCHAR(100) NOT NULL DEFAULT 'No Reply Yet',
   PRIMARY KEY (`commentID`),
   CONSTRAINT `user_comment_ref_user_info` FOREIGN KEY (`commentorEmail`) REFERENCES `user_info` (`userEmail`)
+  CONSTRAINT `user_comment_ref_product_info` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `order_detail`;
@@ -121,4 +127,19 @@ CREATE TABLE `order_detail` (
   `subTotal` FLOAT NOT NULL,
   CONSTRAINT `order_detail_ref_product_info` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`),
   CONSTRAINT `order_detail_ref_order_info` FOREIGN KEY (`orderID`) REFERENCES `order_info` (`orderID`)
+) ENGINE=InnoDB;
+
+
+--
+-- Table structure for table `bookmark`
+--
+DROP TABLE IF EXISTS `bookmark`;
+CREATE TABLE `bookmark` (
+  `bookMarkID` int NOT NULL AUTO_INCREMENT,
+   `productID` int NOT NULL,
+   `userEmail` varchar(45) NOT NULL,
+  PRIMARY KEY (`bookMarkID`),
+  CONSTRAINT `bookmark_ref_productInfo` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`),
+  CONSTRAINT `bookmark_ref_userInfo` FOREIGN KEY (`userEmail`) REFERENCES `user_info` (`userEmail`)
+
 ) ENGINE=InnoDB;

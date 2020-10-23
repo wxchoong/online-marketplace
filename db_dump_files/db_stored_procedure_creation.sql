@@ -40,6 +40,14 @@ BEGIN
 END //
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE `matchQuantities` ()
+BEGIN
+	UPDATE product_info
+    set availableQuantity = baseQuantity - soldQuantity;
+END//
+DELIMITER ;
+
 
 DELIMITER //
 CREATE FUNCTION `get_total_spending_of_the_month`(email varchar(45),  specificMonth int) RETURNS int
@@ -59,3 +67,5 @@ BEGIN
     RETURN total;
 END //
 DELIMITER ;
+
+

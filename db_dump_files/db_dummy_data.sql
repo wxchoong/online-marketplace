@@ -1,6 +1,30 @@
 --          Dummy Data Generation       --
 
-INSERT INTO `category` VALUES (1,'Living Room','Sofa'),(2,'Living Room','Carpets & Rugs'),(3,'Living Room','Coffee Table'),(4,'Living Room','TV Consoles'),(5,'Living Room','Arm Chairs'),(6,'Bedroom','Bedsets'),(7,'Bedroom','Night Stands'),(8,'Bedroom','Bed Frames'),(9,'Bedroom','Mattresses'),(10,'Bathroom','Bath Towels'),(11,'Bathroom','Rugs'),(12,'Bathroom','Accessories'),(13,'Dining Room','Dining Table'),(14,'Dining Room','Chairs'),(15,'Dining Room','Plates'),(16,'Dining Room','Wine Glasses'),(17,'Dining Room','Candles'),(18,'Dining Room','Cutlery'),(19,'Home Decor','Blinds & Curtains'),(20,'Home Decor','Lights & Lamps'),(21,'Home Decor','Wall Arts'),(22,'Home Decor','Mirrors'),(23,'Home Decor','Cushions & Throws'),(24,'Home Decor','Scent Products');
+INSERT INTO `category` VALUES 
+(1,'Living Room','Sofa'),
+(2,'Living Room','Carpets-and-Rugs'),
+(3,'Living Room','Coffee-Table'),
+(4,'Living Room','TV-Consoles'),
+(5,'Living Room','Arm-Chairs'),
+(6,'Bedroom','Bedsets'),
+(7,'Bedroom','Night-Stands'),
+(8,'Bedroom','Bed-Frames'),
+(9,'Bedroom','Mattresses'),
+(10,'Bathroom','Bath-Towels'),
+(11,'Bathroom','Rugs'),
+(12,'Bathroom','Accessories'),
+(13,'Dining Room','Dining-Table'),
+(14,'Dining Room','Chairs'),
+(15,'Dining Room','Plates'),
+(16,'Dining Room','Wine-Glasses'),
+(17,'Dining Room','Candles'),
+(18,'Dining Room','Cutlery'),
+(19,'Home Decor','Blinds-and-Curtains'),
+(20,'Home Decor','Lights-and-Lamps'),
+(21,'Home Decor','Wall-Arts'),
+(22,'Home Decor','Mirrors'),
+(23,'Home Decor','Cushions-and-Throws'),
+(24,'Home Decor','Scent-Products');
 
 
 INSERT INTO user_info VALUES ('superuser@inserted.com' , 97984038, 'super@123', 'Super', 'User', 'Blk 51C Olympia Square #01-01', '111051', now(), now(), 1, 'Free', 1);
@@ -136,11 +160,6 @@ INSERT INTO product_info VALUES(NULL,24,'scent_products_115','Description_115',7
 INSERT INTO product_info VALUES(NULL,24,'scent_products_116','Description_116',45,now(),17.69,20,100,NULL);
 update product_info
 set soldQuantity = baseQuantity - availableQuantity;
-
-INSERT INTO audit_log VALUES (NULL , 'tpu@inserted.com', now(), 'For First Entry test only');
- INSERT INTO audit_log VALUES (NULL , 'mystery@inserted.com', now(), 'For Second Entry test only, for the Mr Mystery!');
- INSERT INTO audit_log VALUES (NULL , 'cwx@inserted.com',now(),'Last Entry test');
-
 
 INSERT INTO user_comment VALUES (NULL, 'augustine@inserted.com', 'product was nice!',now(),9,1);
 INSERT INTO user_comment VALUES (NULL, 'cwx@inserted.com', 'delivery was fast!',now(),8,1);

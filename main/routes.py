@@ -278,6 +278,7 @@ def renderCategories():
 		args = (subCat,)
 		itemList = []
 	except Exception as e:
+		cursor.close()
 		return jsonify({'status': 'failed', 'message' : str(e)})
 	else:
 		try:
@@ -287,7 +288,9 @@ def renderCategories():
 					itemList.append(item)
 					print(item)
 		except Exception as e:
+			cursor.close()
 			return jsonify({'status': 'failed', 'message': str(e)})
 		else:
+			cursor.close()
 			return jsonify({"success":"success", 'itemList':itemList})
 #--------------------------------------------------------------------------#

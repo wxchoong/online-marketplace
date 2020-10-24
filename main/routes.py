@@ -158,14 +158,15 @@ def cart():
 @app.route('/checkout', methods=['GET','POST'])
 @is_logged_in
 def order():
+	if request.method == 'POST':
+		return redirect(url_for('payment'))
 	return render_template('checkout.html', user=session['username'])
 
-
 #Order Successful Page
-@app.route('/confirmation/<string:id>')
+@app.route('/payment')
 @is_logged_in
-def confirmation(id):
-	return render_template('confirmation.html', order_id=id, user=session['username'])
+def payment():
+	return render_template('payment.html', user=session['username'])
 
 
 #Search for Products
@@ -212,7 +213,7 @@ def changePassword():
 	return redirect(url_for('account'))
 
 
-#
+#Update Profile Function
 @app.route('/updateProfile', methods=['GET', 'POST'])
 def updateProfile():
 	try:
@@ -236,7 +237,7 @@ def updateProfile():
 			flash('Profile updated', 'success')  
 	return redirect(url_for('account'))
 
-
+#Post Review Function
 @app.route('/postReview', methods=['GET', 'POST'])
 def postReview():
 	try:

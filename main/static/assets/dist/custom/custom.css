@@ -349,7 +349,7 @@
 	}
 }
 
-.number-input input[type="number"] {
+input[type="number"] {
 	-webkit-appearance: textfield;
 	-moz-appearance: textfield;
 	appearance: textfield;
@@ -425,46 +425,36 @@
 			color: #495057;
 		}
 
-@media not all and (min-resolution:.001dpcm) {
-	@supports (-webkit-appearance: none) and (stroke-color:transparent) {
-
-		.number-input.def-number-input.safari_only button:before,
-		.number-input.def-number-input.safari_only button:after {
-			margin-top: -.3rem;
-		}
-	}
+.product-detail .number-input.number-input {
+    border: 1px solid #ced4da;
+    width: 8.6rem;
+    border-radius: .25rem;
+}
+.product-detail .fa-minus,.product-detail .fa-plus {
+    cursor:pointer;
+	padding: 10px;
 }
 
-#custCarousel .carousel-indicators {
-	position: static;
-	margin-top: 20px
+.product-detail .number-input.number-input input[type="number"] {
+    max-width: 3rem;
+    padding: .5rem;
+    border: 1px solid #ced4da;
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+    border-width: 0 1px;
+    font-size: 1rem;
+    height: 2rem;
+    color: #495057;
+	appearance: textfield;
+	text-align: center;
+}
+.product-detail a{
+	color: #fff;
 }
 
-	#custCarousel .carousel-indicators > li {
-		width: 100px
-	}
 
-	#custCarousel .carousel-indicators li img {
-		display: block;
-		opacity: 0.5
-	}
-
-	#custCarousel .carousel-indicators li.active img {
-		opacity: 1
-	}
-
-	#custCarousel .carousel-indicators li:hover img {
-		opacity: 0.75
-	}
-
-.carousel-item img {
-	width: 100%
-}
-
-.carousel-indicators {
-	margin-left: 0px;
-	margin-right:0px;
-}
 /*** end of product page**/
 
 
@@ -545,7 +535,17 @@
 }
 /*** end of shopping cart page ***/
 
-
+/*** payment page ***/
+.form-thankyou a{
+	color: #fff;
+}
+.form-thankyou {
+    width: 100%;
+    max-width: 530px;
+    padding: 15px;
+    margin: auto;
+}
+/*** end of payment page **/
 
 
 

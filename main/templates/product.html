@@ -1,142 +1,23 @@
-﻿
-{% extends 'layout.html' %}
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>Home - DecorIt</title>
 
-{% block body %}
+    <link rel="icon" href="assets/dist/images/favicon.png">
 
-<title>Home - DecorIt</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/product/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-
-        .number-input input[type="number"] {
-            -webkit-appearance: textfield;
-            -moz-appearance: textfield;
-            appearance: textfield;
-        }
-
-        .number-input input[type=number]::-webkit-inner-spin-button,
-        .number-input input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-        }
-
-        .number-input {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-            .number-input button {
-                -webkit-appearance: none;
-                background-color: #9b999b;
-                border: none;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                margin: 0;
-                position: relative;
-            }
-
-                .number-input button:before,
-                .number-input button:after {
-                    display: inline-block;
-                    position: absolute;
-                    content: '';
-                    height: 2px;
-                    transform: translate(-50%, -50%);
-                }
-
-                .number-input button.plus:after {
-                    transform: translate(-50%, -50%) rotate(90deg);
-                }
-
-            .number-input input[type=number] {
-                text-align: center;
-            }
-
-            .number-input.number-input {
-                border: 1px solid #9b999b;
-                width: 9rem;
-                border-radius: 0;
-            }
-
-                .number-input.number-input button {
-                    width: 3rem;
-                    height: 2.0rem;
-                }
-
-                    .number-input.number-input button.minus {
-                        padding-left: 10px;
-                    }
-
-                    .number-input.number-input button:before,
-                    .number-input.number-input button:after {
-                        width: .7rem;
-                        background-color: #495057;
-                    }
-
-                .number-input.number-input input[type=number] {
-                    max-width: 3rem;
-                    padding: .5rem;
-                    border: 1px solid #9b999b;
-                    border-width: 0 1px;
-                    font-size: 1rem;
-                    height: 2rem;
-                    color: #495057;
-                }
-
-        @media not all and (min-resolution:.001dpcm) {
-            @supports (-webkit-appearance: none) and (stroke-color:transparent) {
-
-                .number-input.def-number-input.safari_only button:before,
-                .number-input.def-number-input.safari_only button:after {
-                    margin-top: -.3rem;
-                }
-            }
-        }
-
-        #custCarousel .carousel-indicators {
-            position: static;
-            margin-top: 20px
-        }
-
-            #custCarousel .carousel-indicators > li {
-                width: 100px
-            }
-
-            #custCarousel .carousel-indicators li img {
-                display: block;
-                opacity: 0.5
-            }
-
-            #custCarousel .carousel-indicators li.active img {
-                opacity: 1
-            }
-
-            #custCarousel .carousel-indicators li:hover img {
-                opacity: 0.75
-            }
-
-        .carousel-item img {
-            width: 100%
-        }
-
-        .carousel-indicators {
-            margin-left: 0px;
-            margin-right:0px;
-        }
+        
     </style>
     <!-- Custom styles for this template -->
     <link href="assets/dist/custom/custom.css" rel="stylesheet">
@@ -144,35 +25,97 @@
     <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
     <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
-    <div class="container">
-        <br />
-        BACK ( Home Dector /  Dector  /  Vase)
-        <br />
-        <br />
 
-        <div class="row mb-2">
-            <div class="col-md-6">
-                <div id="custCarousel" class="carousel slide" data-ride="carousel" align="center">
-                    <!-- slides -->
-                    <div class="carousel-inner">
-                        <div class="carousel-item active"> <img src="https://i.localised.com/img/cb/product/c37f754d-881e-4e41-b2b4-84aeb3538966_LARGE.jpg" alt="Hills"> </div>
-                        <div class="carousel-item"> <img src="https://i.localised.com/img/cb/product/14e192e9-5348-46eb-b7a2-df188fc02fb0_LARGE.jpg" alt="Hills"> </div>
-                        <div class="carousel-item"> <img src="https://i.localised.com/img/cb/product/14345839-b631-4eed-aec1-f57bdfe2d18d_LARGE.jpg" alt="Hills"> </div>
-                        <div class="carousel-item"> <img src="https://i.localised.com/img/cb/product/96299144-2f3e-4d7e-8688-9c2b117e518f_LARGE.jpg" alt="Hills"> </div>
-                    </div> <!-- Left right --> <a class="carousel-control-prev" href="#custCarousel" data-slide="prev"> <span h.'vclass="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next" href="#custCarousel" data-slide="next"> <span class="carousel-control-next-icon"></span> </a> <!-- Thumbnails -->
-                    <ol class="carousel-indicators list-inline">
-                        <li class="list-inline-item active"> <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#custCarousel"> <img src="https://i.localised.com/img/cb/product/c37f754d-881e-4e41-b2b4-84aeb3538966_LARGE.jpg" class="img-fluid"> </a> </li>
-                        <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="1" data-target="#custCarousel"> <img src="https://i.localised.com/img/cb/product/14e192e9-5348-46eb-b7a2-df188fc02fb0_LARGE.jpg" class="img-fluid"> </a> </li>
-                        <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="2" data-target="#custCarousel"> <img src="https://i.localised.com/img/cb/product/14345839-b631-4eed-aec1-f57bdfe2d18d_LARGE.jpg" class="img-fluid"> </a> </li>
-                        <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="3" data-target="#custCarousel"> <img src="https://i.localised.com/img/cb/product/96299144-2f3e-4d7e-8688-9c2b117e518f_LARGE.jpg" class="img-fluid"> </a> </li>
-                    </ol>
+
+    <!--- begin header-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse flex-column" id="siteNav">
+
+                <!---top nav bar-->
+                <div class="navbar-nav mb-lg-0 container" id="topNav">
+                    <a class="navbar-brand" href="index.html"><img src="assets/dist/images/logo.png" /></a>
+                    <div class="search-box">
+                        <form class="form-inline my-2 my-md-0">
+                            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                        </form>
+                    </div>
+                    <a class="item-right" href="#"><img src="assets/dist/images/cart.png" /></a>
+                    <a class="item-right" href="login.html"><img src="assets/dist/images/account.png" /></a>
                 </div>
 
 
+                <!---category nav bar-->
+                <ul class="navbar-nav mr-auto" id="catNav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="livingRoom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Living Room</a>
+                        <div class="dropdown-menu" aria-labelledby="livingRoom">
+                            <a class="dropdown-item" href="#">Sofa</a>
+                            <a class="dropdown-item" href="#">Carpets & Rugs</a>
+                            <a class="dropdown-item" href="#">Coffee Table</a>
+                            <a class="dropdown-item" href="#">TV Consoles</a>
+                            <a class="dropdown-item" href="#">Arm Chairs</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="bedroom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bedroom</a>
+                        <div class="dropdown-menu" aria-labelledby="bedroom">
+                            <a class="dropdown-item" href="#">Bedsets</a>
+                            <a class="dropdown-item" href="#">Night Stands</a>
+                            <a class="dropdown-item" href="#">Bed Frames</a>
+                            <a class="dropdown-item" href="#">Mattresses</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="bathroom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bathroom</a>
+                        <div class="dropdown-menu" aria-labelledby="bathroom">
+                            <a class="dropdown-item" href="#">Bath Towels</a>
+                            <a class="dropdown-item" href="#">Rugs</a>
+                            <a class="dropdown-item" href="#">Accessories</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="diningRoom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dining Room</a>
+                        <div class="dropdown-menu" aria-labelledby="Dining">
+                            <a class="dropdown-item" href="#">Dining Table</a>
+                            <a class="dropdown-item" href="#">Chairs</a>
+                            <a class="dropdown-item" href="#">Plates</a>
+                            <a class="dropdown-item" href="#">Wine Glasses</a>
+                            <a class="dropdown-item" href="#">Candles</a>
+                            <a class="dropdown-item" href="#">Cutlery</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="homeDecor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home Décor</a>
+                        <div class="dropdown-menu" aria-labelledby="homeDecor">
+                            <a class="dropdown-item" href="#">Blinds & Curtains</a>
+                            <a class="dropdown-item" href="#">Lights & Lamps</a>
+                            <a class="dropdown-item" href="#">Wall Arts</a>
+                            <a class="dropdown-item" href="#">Mirrors</a>
+                            <a class="dropdown-item" href="#">Cushions & Throws</a>
+                            <a class="dropdown-item" href="#">Scent Products</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--- end of header-->
 
 
+    <div class="container">
+        <br />
+        <br />
+
+        <div class="row mb-2 product-detail">
+            <div class="col-md-6">
+			<img class="card-img-top" src="assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg" alt="white-night-stand">
 
             </div>
             <div class="col-md-6">
@@ -182,53 +125,74 @@
                     <p class="text-muted">(GST Incl.)</p>
                 </div>
                 <div>
-                    <p class="font-weight-light">Color: LT GREEN</p>
-                </div>
-                <div>
-                    <p class="font-weight-light">Size: 6.9" dia x 18.7" H</p>
-                </div>
-                <div>
                     <span>Quantity:</span>
                     <div class="mt-1 mb-3">
-                        <div class="def-number-input number-input safari_only">
-                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
-                            <input class="quantity" min="0" name="quantity" value="1" type="number">
-                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-                        </div>
+						<div class="def-number-input number-input safari_only">
+						  <i class="fa fa-minus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></i>
+						  <input class="quantity" min="1" name="quantity" value="1" type="number" Readonly>
+						  <i class="fa fa-plus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></i>
+						</div>
                     </div>
-                </div>
-                <div>
-                    <p class="text-muted">Only a few left!</p>
                 </div>
                 <div>
                     <div class="row">
                         <div class="col">
-                            <button class="btn-lg btn-block btn-primary rounded-0 border-0 bg-dark">Add to cart</button>
+                            <a class="btn btn-lg btn-block mybtn">Add to cart</a>
                         </div>
                         <div class="col-auto">
-                            <button class="btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-dark">♥</button>
+                            <button class="bookmark btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-dark">♥</button>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <ul class="list-group mt-3">
-                        <li class="list-group-item">S$1 delivery fee per order</li>
-                    </ul>
                 </div>
                 <div class="mt-3">
                     <p class="font-weight-bold">Product Description</p>
                     <span>
 
                         Tiered curves articulate a tall vase, creating a playfully exaggerated take on the classic gourd vase. Talented artisans apply glaze by hand, coating the earthenware in matte mint green. Display the sculptural vase on its own, hosting one of our lifelike faux stems, or grouped with the other colorful totem vases. Our Eleonora mint totem vase is a Crate and Barrel exclusive.
-                        <br /><br />
-                        Handcrafted<br />
-                        Glazed earthenware<br />
-                        Not watertight<br />
-                        Wipe clean with damp cloth<br />
                     </span>
                 </div>
             </div>
         </div>
     </div>
 
-{% endblock %}
+
+
+
+    <!--- begin footer-->
+    <br />
+    <br />
+    <br />
+    <br />
+    <footer class="bg-dark py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md text-center">
+                    <a class="navbar-brand" href="index.html"><img src="assets/dist/images/logo-white.png" /></a>
+                    <p class="text-muted">Designed by Tut 4 group 15<br />&copy; 2020</p>
+                    <small class="d-block mb-3 text-muted"></small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--- end of footer-->
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="assets/dist/custom/slugify.js"></script>
+      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+	  <script>		
+		$( document ).ready(function() {
+			$('.bookmark').click(function(){
+				$( "button.bookmark" ).toggleClass( "text-dark" );
+				$( "button.bookmark" ).toggleClass( "text-danger" );
+				
+			});
+		});
+		
+	  </script>	
+</body>
+
+
+
+
+</html>

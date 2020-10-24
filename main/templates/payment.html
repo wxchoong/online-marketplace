@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<title>Payment Success - DecorIt</title>
+
+
+<div class="row justify-content-md-center">
+<div class="container text-center site-slogan">
+<form class="form-thankyou">
+  <img class="mb-4" src="{{url_for('static', filename='assets/dist/images/check.png')}}" alt="" width="120" height="120">
+  <h1 class="h3 mb-3 font-weight-normal">Thank you for shopping with us!</h1>
+  <br/>
+  <h5>Your order number is <b>#000001111</b></h5>
+  <p>Please keep the above number for your reference. Please allow up to 24 hours for us to process your order for shipment.</p>
+  <br/>
+  <a class="btn btn-lg btn-block mybtn" href="/">Back to homepage</a>
+</form>
+</div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
+
+{% endblock %}

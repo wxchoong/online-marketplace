@@ -24,6 +24,7 @@
 				<li class="list-group-item">Change Password</li>
 				<li class="list-group-item">My Orders</li>
 				<li class="list-group-item">My Bookmarks</li>
+				<li class="list-group-item">Log Out</li>
 			</ul>
 		</div>
 	</div>
@@ -33,7 +34,7 @@
 	</div>
 	<!-- edit profile-->
 	<div class="item-div my-profile">
-	<form id="form-edit-profile" class="form-account">
+	<form id="form-edit-profile" class="form-account" action="" method="POST">
 		<div class="row">
 			<div class="col">
 				<label for="inputFName" >First Name <span style="color:red">*</span></label>
@@ -41,7 +42,7 @@
 			</div>
 			<div class="col">
 				<label for="inputLName" >Last Name <span style="color:red">*</span></label>
-				<input type="text" id="inputFName" class="form-control" placeholder="Last Name" disabled>
+				<input type="text" id="inputName" class="form-control" placeholder="Last Name" disabled>
 			</div>
 		  </div>
 		  
@@ -52,36 +53,24 @@
 			</div>
 			<div class="col">
 				<label for="inputPhone" >Phone Number <span style="color:red">*</span></label>
-				<input type="number" id="inputPhone" class="form-control" placeholder="98765432" required>
+				<input type="number" id="inputPhone" name="inputPhone" class="form-control" placeholder="98765432" required value={{request.form.inputPhone}}>
 			</div>
 		  </div>	  
 		  
 		  <div class="row">
 			<div class="col">
 				<label for="inputAddress" >Address <span style="color:red">*</span></label>
-				<textarea rows="2" id="inputAddress" class="form-control" placeholder="e.g. BLK 01, #01-01, Clementi Road..." required></textarea>
+				<textarea rows="2" id="inputAddress" name="inputAddress" class="form-control" placeholder="e.g. BLK 01, #01-01, Clementi Road..." required value={{request.form.inputAddress}}></textarea>
 			</div>
 			<div class="col">
 				<label for="inputPostal" >Postal Code <span style="color:red">*</span></label>
-				<input type="number" id="inputPostal" class="form-control" placeholder="123456" required>
-			</div>
-		  </div> 
-		  
-		  <div class="row">
-			<div class="col">
-				<label for="inputPrefer" >Preferred Payment Method <span style="color:red">*</span></label><br/>
-				<input type="radio" id="visa" name="prefer" value="visa" checked>
-				<label for="visa">Visa</label>
-				<input type="radio" id="mastercard" name="prefer" value="mastercard">
-				<label for="mastercard">Mastercard</label>
-				<input type="radio" id="cash" name="prefer" value="cash">
-				<label for="cash">Cash On Delivery</label><br/><br/>
+				<input type="number" id="inputPostal" name="inputPostal" class="form-control" placeholder="123456" required value={{request.form.inputPostal}}>
 			</div>
 		  </div> 
 		  
 		  <div class="row text-center">
 			<div class="col">
-				<button class="btn btn-lg btn-block mybtn" type="submit">Update Profile</button>
+				<button class="btn btn-lg btn-block mybtn" type="submit" name="update_detail" value="updateProfile">Update Profile</button>
 			</div>
 		  </div>   
 	</form>
@@ -91,11 +80,11 @@
 
 <!--change password-->
 <div class="item-div change-password">
-	<form id="form-change-password" class="form-account">
+	<form id="form-change-password" class="form-account" action="" method="POST">
 		  <div class="row">
 			<div class="col">
 				<label for="inputCurrentPassword" >Current Password <span style="color:red">*</span></label>
-				<input type="password" id="inputCurrentPassword" class="form-control" placeholder="Password" required>
+				<input type="password" name="inputCurrentPassword" class="form-control" placeholder="Password" required value={{request.form.inputCurrentPassword}}>
 			</div>
 			<div class="col">			
 			</div>
@@ -103,16 +92,16 @@
 		  <div class="row">
 			<div class="col">
 				<label for="inputNewPassword" >New Password <span style="color:red">*</span></label>
-				<input type="password" id="inputNewPassword" class="form-control" placeholder="Password" required>
+				<input type="password" name="inputNewPassword" class="form-control" placeholder="Password" required value={{request.form.inputNewPassword}}>
 			</div>
 			<div class="col">	
 				<label for="inputConfirmPassword" >Confirm Password <span style="color:red">*</span></label>
-				<input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required>			
+				<input type="password" name="inputConfirmPassword" class="form-control" placeholder="Password" required value={{request.form.inputConfirmPassword}}>			
 			</div>
 		  </div> 
 		  <div class="row text-center">
 			<div class="col">
-				<button class="btn btn-lg btn-block mybtn" type="submit">Change Password</button>
+				<button class="btn btn-lg btn-block mybtn" type="submit" name="update_detail" value="updatePwd">Change Password</button>
 			</div>
 		  </div>   
 	</form>
@@ -223,9 +212,9 @@
 							<p>Quantity:<br/> <span class="item-qty">1</span></p>
 							<h5>My Review:</h5>
 							  <!--if user has not reviewed-->
-							  <form class="form-review">
-								<textarea rows="2" class="form-control font-weight-light" placeholder="Write your Review..."></textarea>
-								<button class="btn btn-lg mybtn" type="submit">Submit</button>
+							  <form class="form-review" action="" method="POST">
+								<textarea rows="2" class="form-control font-weight-light" name="inputReview" placeholder="Write your Review..." value={{request.form.inputReview}}></textarea>
+								<button class="btn btn-lg mybtn" type="submit" name="update_detail" value="updateReview">Submit</button>
 							  </form>
 							  
 						</div>
@@ -592,6 +581,14 @@
 		  
 </div>
 <!--end of my bookmarks-->
+
+<!--Log out -->
+<div class="item-div log-out">
+	<h5>Are you sure you want to log out?</h5>
+	<br />
+	<a href="/logout"><button class="btn btn-lg mybtn">Log Out</button></a>
+</div>
+<!--Log out -->
 
 </div>
 </div>

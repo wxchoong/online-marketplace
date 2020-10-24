@@ -1,6 +1,3 @@
-.container {
-  max-width: 960px;
-}
 
 /*
  * Custom translucent site header
@@ -291,6 +288,11 @@
 .category_block li a {
     color: #343a40;
 }
+.products .card.product-card {
+    margin: 20px 0;
+	border: none;
+}
+
 .add_to_cart_block .price {
     color: #c01508;
     text-align: center;
@@ -322,9 +324,6 @@
 .reviews_product .fa-star {
     color: gold;
 }
-.pagination {
-    margin-top: 20px;
-}
 
 
 /*** end of category page**/
@@ -334,10 +333,217 @@
 .card.product-card {
     margin: 20px auto;
 }
+
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media (min-width: 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+
+.number-input input[type="number"] {
+	-webkit-appearance: textfield;
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+.number-input input[type=number]::-webkit-inner-spin-button,
+.number-input input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+}
+
+.number-input {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+	.number-input button {
+		-webkit-appearance: none;
+		background-color: #9b999b;
+		border: none;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		margin: 0;
+		position: relative;
+	}
+
+		.number-input button:before,
+		.number-input button:after {
+			display: inline-block;
+			position: absolute;
+			content: '';
+			height: 2px;
+			transform: translate(-50%, -50%);
+		}
+
+		.number-input button.plus:after {
+			transform: translate(-50%, -50%) rotate(90deg);
+		}
+
+	.number-input input[type=number] {
+		text-align: center;
+	}
+
+	.number-input.number-input {
+		border: 1px solid #9b999b;
+		width: 9rem;
+		border-radius: 0;
+	}
+
+		.number-input.number-input button {
+			width: 3rem;
+			height: 2.0rem;
+		}
+
+			.number-input.number-input button.minus {
+				padding-left: 10px;
+			}
+
+			.number-input.number-input button:before,
+			.number-input.number-input button:after {
+				width: .7rem;
+				background-color: #495057;
+			}
+
+		.number-input.number-input input[type=number] {
+			max-width: 3rem;
+			padding: .5rem;
+			border: 1px solid #9b999b;
+			border-width: 0 1px;
+			font-size: 1rem;
+			height: 2rem;
+			color: #495057;
+		}
+
+@media not all and (min-resolution:.001dpcm) {
+	@supports (-webkit-appearance: none) and (stroke-color:transparent) {
+
+		.number-input.def-number-input.safari_only button:before,
+		.number-input.def-number-input.safari_only button:after {
+			margin-top: -.3rem;
+		}
+	}
+}
+
+#custCarousel .carousel-indicators {
+	position: static;
+	margin-top: 20px
+}
+
+	#custCarousel .carousel-indicators > li {
+		width: 100px
+	}
+
+	#custCarousel .carousel-indicators li img {
+		display: block;
+		opacity: 0.5
+	}
+
+	#custCarousel .carousel-indicators li.active img {
+		opacity: 1
+	}
+
+	#custCarousel .carousel-indicators li:hover img {
+		opacity: 0.75
+	}
+
+.carousel-item img {
+	width: 100%
+}
+
+.carousel-indicators {
+	margin-left: 0px;
+	margin-right:0px;
+}
 /*** end of product page**/
 
 
+/*** account page ***/
+.form-account {
+  width: 100%;
+  padding: 15px;
+  margin: auto;
+}
+.form-account .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-account .form-control:focus {
+  z-index: 2;
+}
+.form-account input, .form-account textarea, .form-review textarea {
+  margin-bottom: 20px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.account-menu .list-group-item{
+	cursor:pointer;
+}
+.item-div{
+	margin:10px 0 30px;
+}
+.order-status.confirmed{
+	color: green;
+}
+.order-status.cancelled{
+	color: red;
+}
+.order-summary, .tab, .tab h5{
+	margin: 20px 0;
+}
+.order-summary .row, .tab .row{
+	margin:10px 0;
+}
 
+
+
+
+/*** end of account page ***/
+
+
+/*** shopping card page ***/
+.shopping-cart-container{
+	margin: 30px 0;
+}
+.shopping-cart-container .number-input.number-input {
+    border: 1px solid #ced4da;
+    width: 8.6rem;
+    border-radius: .25rem;
+}
+.shopping-cart-container .fa-minus,.shopping-cart-container .fa-plus {
+    cursor:pointer;
+	padding: 10px;
+}
+
+.shopping-cart-container .number-input.number-input input[type="number"] {
+    max-width: 3rem;
+    padding: .5rem;
+    border: 1px solid #ced4da;
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+    border-width: 0 1px;
+    font-size: 1rem;
+    height: 2rem;
+    color: #495057;
+	appearance: textfield;
+	text-align: center;
+}
+/*** end of shopping cart page ***/
 
 
 

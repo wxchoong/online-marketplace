@@ -44,6 +44,8 @@ def login():
 					# if login_password == pwd:
 						session['logged_in'] = True
 						session['username'] = current_user[0]['firstName']
+						session['user_email'] = login_email
+						session['user_pwd'] = pwd
 						flash('You are now logged in','success')
 						
 						#Redirect based on user role (admin/customer)
@@ -81,9 +83,17 @@ def logout():
 	flash("You are now logged out",'success')
 	return redirect(url_for('login'))
 
-@app.route('/account')
+#User Account
+@app.route('/account', methods=['GET','POST'])
 def account():
-	return render_template('account.html')
+	if request.method == 'POST':
+		if request.form['update_detail'] == 'updatePwd':
+			return redirect(url_for('changePassword'))
+		elif request.form['update_detail'] == 'updateProfile':
+			return redirect(url_for('updateProfile'))
+		elif request.form['update_detail'] == 'updateReview':
+			return redirect(url_for('addReview'))
+	return render_template('account.html', user=session['username'])
 
 #Register Page
 @app.route('/signup', methods=['GET', 'POST'])
@@ -141,26 +151,112 @@ def cart():
 	# authenticator = (session['username'])
 	# cursor = db.cursor()
 	# cursor.callproc('sp_getCurrentUserCart', authenticator)
-	return render_template('cart.html')
+	return render_template('cart.html', user=session['username'])
 
 
 #Checkout
 @app.route('/checkout', methods=['GET','POST'])
 @is_logged_in
 def order():
-	return redirect(url_for('confirmation', id=str_id))
+	return render_template('checkout.html', user=session['username'])
 
 
 #Order Successful Page
 @app.route('/confirmation/<string:id>')
 @is_logged_in
 def confirmation(id):
-	return render_template('confirmation.html', order_id=id)
+	return render_template('confirmation.html', order_id=id, user=session['username'])
 
+
+#Search for Products
 @app.route('/search/<string:item>')
 def search(item):
-	return render_template('search.html', result=item)
+	return render_template('category.html', result=item)
 
+
+#Change Password Function
+@app.route('/changePassword', methods=['GET', 'POST'])
+def changePassword():
+	try:
+		cursor = db.cursor()
+		currentPwd = request.form['inputCurrentPassword']
+
+		#if password entered same as current password stored in database
+		if sha256_crypt.verify(currentPwd, session['user_pwd']):
+
+			newPwd = sha256_crypt.hash(str(request.form['inputNewPassword']))
+			confirmPwd = sha256_crypt.hash(str(request.form['inputConfirmPassword']))
+
+			#if new password and confirm password match
+			if sha256_crypt.verify(newPwd, confirmPwd):
+				parse(newPwd)
+			#new password and confirm password does not match
+			else:
+				flash('New password does not match', 'danger')  
+		#password entered does not match the password in database 
+		else:
+			flash('Old password does not match', 'danger')
+		
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('update_password', parse)
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			db.commit()
+		finally:
+			cursor.close()
+			flash('Password Changed', 'success')  
+	return redirect(url_for('account'))
+
+
+#
+@app.route('/updateProfile', methods=['GET', 'POST'])
+def updateProfile():
+	try:
+		cursor = db.cursor()
+		phone = request.form['inputPhone']
+		address = request.form['inputAddress']
+		postalCode = request.form['inputPostal']
+		parse(phone, address, postalCode)
+		
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('update_profile', parse)
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			db.commit()
+		finally:
+			cursor.close()
+			flash('Profile updated', 'success')  
+	return redirect(url_for('account'))
+
+
+@app.route('/postReview', methods=['GET', 'POST'])
+def postReview():
+	try:
+		cursor = db.cursor()
+		review = request.form['inputReview']
+		parse(review)
+		
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('post_review', parse)
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			db.commit()
+		finally:
+			cursor.close()
+			flash('Thank you for reviewing the product.', 'success')  
+	return redirect(url_for('account'))
 
 #--------------------------------APIs---------------------------------------#
 #APIs for getting data

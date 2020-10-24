@@ -115,7 +115,7 @@ CREATE TABLE `user_comment` (
   `productID` int NOT NULL,
   `adminReply` VARCHAR(100) NOT NULL DEFAULT 'No Reply Yet',
   PRIMARY KEY (`commentID`),
-  CONSTRAINT `user_comment_ref_user_info` FOREIGN KEY (`commentorEmail`) REFERENCES `user_info` (`userEmail`)
+  CONSTRAINT `user_comment_ref_user_info` FOREIGN KEY (`commentorEmail`) REFERENCES `user_info` (`userEmail`),
   CONSTRAINT `user_comment_ref_product_info` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`)
 ) ENGINE=InnoDB;
 

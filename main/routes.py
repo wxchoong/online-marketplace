@@ -268,4 +268,26 @@ def result():
 	data = cursor.fetchall()
 	return jsonify(data)
 
+
+#APIs for getting data
+@app.route('/renderCategories', methods=['GET', 'POST'])
+def renderCategories():
+	try:
+		cursor = db.cursor()
+		subCat = request.form['categorySubTitle']
+		args = (subCat,)
+		itemList = []
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('sp_item_by_categorySub', args)
+			for result in cursor.stored_results():
+				for item in result.fetchall():
+					itemList.append(item)
+					print(item)
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message': str(e)})
+		else:
+			return jsonify({"success":"success", 'itemList':itemList})
 #--------------------------------------------------------------------------#

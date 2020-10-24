@@ -173,8 +173,8 @@
 					</select> 
 				</div>
 			</div>
-            <div class="row products">
-                <div class="col-12 col-md-6 col-lg-4">
+            <div class="row products" id="rowProduct">
+                <!--<div class="col-12 col-md-6 col-lg-4">
                     <div class="card product-card" category="sofa">
                         <a href="/livingRoom/leatherSofa"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/sofa/leather-sofa.jpg')}}" alt="leather-sofa"></a>
                         <div class="card-body">
@@ -257,20 +257,52 @@
 							</div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="{{url_for('static', filename='assets/dist/custom/slugify.js')}}"></script>
-      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+<script type="text/javascript" src="{{ url_for('static', filename='/assets/dist/js/3.4.1_jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='/assets/dist/custom/slugify.js') }}"></script>
+      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="assets/dist/js/bootstrap.bundle.min.js"></script>
 	  <script>
+		var rowProduct = document.getElementById("rowProduct");
 		$( ".sub-cat" ).click(function(){
 			$(this).siblings().removeClass("is-active");
 			$(this).toggleClass('is-active');
+			$("#rowProduct").empty();
+			$.ajax({
+      			data : {'categorySubTitle':slugify($(this).text())},
+      			type : 'POST',
+      			url : '/renderCategories'
+			})
+  			.done(function(data){
+				if(data.success){
+					for(var i=0; i<data.itemList.length; i++){
+						$("#rowProduct").append('<div class="col-12 col-md-6 col-lg-4">'+
+					  '<div class="card product-card" category="sofa">'+
+					  '<a href="/products/leatherSofa">'+
+					  '<img class="card-img-top" src="'+
+					  data.itemList[i][2]+
+					  '" alt="leather-sofa"></a>'+
+                      '<div class="card-body">'+
+					  '<h5 class="product-name"><a href="/products/leatherSofa">'+
+					  data.itemList[i][0]+
+					  '</a></h5>'+
+                      '<div class="row"><div class="col">'+
+					  '<p>S$ <span class="product-price">'+
+					  data.itemList[i][1]+
+					  '</span></p>'+
+					  '<p class="text-muted">(GST Incl.)</p></div></div></div></div></div>');
+					}
+				}
+				else{
+					alert(data.message);
+				}
+			});
 			$(".selected_item").text(jQuery(this).text());
 			//var selectedCat = slugify($(this).text());
 			//showCat(selectedCat);			

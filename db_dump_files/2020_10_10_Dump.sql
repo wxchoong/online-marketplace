@@ -236,7 +236,7 @@ CREATE TABLE `user_info` (
   `userID` bigint NOT NULL AUTO_INCREMENT,
   `email` varchar(45) NOT NULL,
   `phone` int NOT NULL,
-  `password` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `firstName` varchar(64) NOT NULL,
   `lastName` varchar(64) NOT NULL,
   `address` varchar(100) NOT NULL,
@@ -319,7 +319,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_registration`(email VARCHAR(45), fName VARCHAR(64), lName VARCHAR(64), contact INT, pwd VARCHAR(30), addr VARCHAR(100), postal INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_registration`(email VARCHAR(45), fName VARCHAR(64), lName VARCHAR(64), contact INT, pwd VARCHAR(100), addr VARCHAR(100), postal INT)
 BEGIN
 	insert into user_info VALUES (NULL, email, contact, pwd, fName, lName, addr, postal, now(), now(), 1, "CARD", 0);
 END ;;

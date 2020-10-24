@@ -17,6 +17,7 @@ def index():
     else:
     	return render_template('index.html')
 
+
 #Login Page
 @app.route('/login', methods=['GET', 'POST'])
 def login():			
@@ -33,14 +34,14 @@ def login():
 				user_query = "SELECT * FROM user_info WHERE email='" + login_email + "';"
 				cursor.execute(user_query)
 				current_user = cursor.fetchall()
-				print(current_user)
 			
 				#Verify user id and password if user exists
 				if current_user != None:
 					pwd = current_user[0]['password']
 
 					#Login successful
-					if login_password == pwd:
+					if sha256_crypt.verify(login_password, pwd):
+					# if login_password == pwd:
 						session['logged_in'] = True
 						session['username'] = current_user[0]['firstName']
 						flash('You are now logged in','success')
@@ -73,7 +74,7 @@ def is_logged_in(f):
 			return redirect (url_for('login'))
 	return wrap
 
-#log out function and redirect to login page
+#Log out function and redirect to login page
 @app.route('/logout')
 def logout():
 	session.clear()
@@ -94,7 +95,8 @@ def signup():
 			firstName = request.form['cust_firstName']
 			lastName = request.form['cust_lastName']
 			contact = request.form['cust_phone']
-			pwd = request.form['cust_pwd']
+			pwd = sha256_crypt.hash(str(request.form['cust_pwd']))
+			# pwd = request.form['cust_pwd']
 			addr = request.form['cust_addr']
 			postal = request.form['cust_postal']
 			parse = (email, firstName, lastName, contact, pwd, addr, postal)
@@ -113,21 +115,23 @@ def signup():
 				return redirect(url_for('login'))
 	return render_template('signup.html')
 
-#Products (based on Category) Page
-@app.route('/categories/<string:cat>')
-def categories(cat):
+#Category Page - Based on Sub Categories
+@app.route('/categories/<string:main>/<string:sub>')
+def categories(main,sub):
 	if 'logged_in' in session:
 		return render_template('category.html', user=session['username'])
 	else:
 		return render_template('category.html')
 
+
 #Product Details Page
-@app.route('/products/<string:id>')
-def products(id):
+@app.route('/<string:cat>/<string:prod>')
+def products(cat,prod):
 	if 'logged_in' in session:
-		return render_template('product.html', prod_id=id, user=session['username'])
+		return render_template('product.html', prod_id=prod, user=session['username'])
 	else:
-		return render_template('product.html')
+		return render_template('product.html', prod_id=prod)
+
 
 #Cart Page
 @app.route('/cart')
@@ -139,70 +143,23 @@ def cart():
 	cursor.callproc('sp_getCurrentUserCart', authenticator)
 	return render_template('cart.html')
 
+
 #Checkout
 @app.route('/checkout', methods=['GET','POST'])
 @is_logged_in
 def order():
-	session.clear()
-
-	#New Order Submitted
-	if request.method == 'POST':
-
-		#Get field values from form
-		creation = datetime.now()
-		cust_name = request.form['cust-name']
-		cust_addr = '1 Expo Drive, Singapore 486150'
-		cust_phone = '12345678'
-		shipper_name = 'NUS Marketplace'
-		shipper_addr = '21 Lower Kent Ridge Rd, Singapore 119077'
-		shipper_phone = '12345678'
-		message = request.form['message']
-		attribute = ''
-
-		#Insert to table 'tabSales_Order'
-		order_query = """INSERT INTO tabSales_Order(creation_datetime, customer_name,
-		customer_address, customer_phone_no, shipper_name, shipper_address, shipper_phone_no, 
-		personalised_msg, attrib_01) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-
-		order_values = (creation,cust_name,cust_addr,cust_phone,shipper_name,
-		shipper_addr,shipper_phone,message,attribute)
-
-		cursor.execute(order_query, order_values)
-		db.commit()
-
-		#Return the auto-generated ID for latest order
-		cursor.execute("SELECT MAX(id) FROM tabSales_Order;")
-		data = cursor.fetchall()
-		order_id = data[0]['MAX(id)']
-
-		#Insert to table 'tabSales_Order_Item'
-		products = request.form.getlist('checkbox')
-		for product in products:
-			parent_dt = creation
-			parent_id = order_id
-			item_code = product
-			quantity = '1'
-			mfr = ''
-
-			item_query = """INSERT INTO tabSales_Order_Item(creation_datetime, parent_id, 
-			item_code, quantity, mfr) VALUES (%s, %s, %s, %s, %s)"""
-
-			item_values = (parent_dt, parent_id, item_code, quantity, mfr)
-
-			cursor.execute(item_query, item_values)
-			db.commit()
-			cursor.close()
-		str_id = "SO-" + str(order_id).zfill(6)
-		session['cust_name'] = cust_name
-		flash('Your order is successfully submitted.', 'success')	
 	return redirect(url_for('confirmation', id=str_id))
+
 
 #Order Successful Page
 @app.route('/confirmation/<string:id>')
 @is_logged_in
 def confirmation(id):
-	wait_time = 10
-	return render_template('confirmation.html', order_id=id, wait_time=wait_time)
+	return render_template('confirmation.html', order_id=id)
+
+@app.route('/search/<string:item>')
+def search(item):
+	return render_template('search.html', result=item)
 
 
 #--------------------------------APIs---------------------------------------#

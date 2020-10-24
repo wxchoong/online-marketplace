@@ -138,9 +138,9 @@ def products(cat,prod):
 @is_logged_in
 def cart():
 	# for 1 argument, db has to give such syntax
-	#authenticator = (current_user[0]['firstName'],)
-	cursor = db.cursor()
-	cursor.callproc('sp_getCurrentUserCart', authenticator)
+	# authenticator = (session['username'])
+	# cursor = db.cursor()
+	# cursor.callproc('sp_getCurrentUserCart', authenticator)
 	return render_template('cart.html')
 
 

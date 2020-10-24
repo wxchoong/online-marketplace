@@ -1,145 +1,626 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
-    <title>Log In - DecorIt</title>
-	
-	<link rel="icon" href="assets/dist/images/favicon.png">
+{% extends 'layout.html' %}
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/product/">
+{% block body %}
 
-    <!-- Bootstrap core CSS -->
-<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>DecorIt - Account</title>
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-    <!-- Custom styles for this template -->
-    <link href="assets/dist/custom/custom.css" rel="stylesheet">
-  </head>
-  <body>
-
-
-<!--- begin header-->
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">	
-  <div class="container">
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-	
-    <div class="collapse navbar-collapse flex-column" id="siteNav">
-	
-	  <!---top nav bar-->
-	  <div class="navbar-nav mb-lg-0 container" id="topNav">  
-		<a class="navbar-brand" href="index.html"><img src="assets/dist/images/logo.png" /></a>
-		<div class="search-box">
-			<form class="form-inline my-2 my-md-0">
-				<input class="form-control" type="text" placeholder="Search" aria-label="Search">
-			</form>	
-		</div>		  
-		<a class="item-right" href="#"><img src="assets/dist/images/cart.png" /></a>
-		<a class="item-right" href="login.html"><img src="assets/dist/images/account.png" /></a>
-	  </div>
-	  
-	  
-		<!---category nav bar-->
-      <ul class="navbar-nav mr-auto" id="catNav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="livingRoom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Living Room</a>
-          <div class="dropdown-menu" aria-labelledby="livingRoom">
-            <a class="dropdown-item" href="#">Sofa</a>
-            <a class="dropdown-item" href="#">Carpets & Rugs</a>
-            <a class="dropdown-item" href="#">Coffee Table</a>
-            <a class="dropdown-item" href="#">TV Consoles</a>
-            <a class="dropdown-item" href="#">Arm Chairs</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="bedroom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bedroom</a>
-          <div class="dropdown-menu" aria-labelledby="bedroom">
-            <a class="dropdown-item" href="#">Bedsets</a>
-            <a class="dropdown-item" href="#">Night Stands</a>
-            <a class="dropdown-item" href="#">Bed Frames</a>
-            <a class="dropdown-item" href="#">Mattresses</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="bathroom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bathroom</a>
-          <div class="dropdown-menu" aria-labelledby="bathroom">
-            <a class="dropdown-item" href="#">Bath Towels</a>
-            <a class="dropdown-item" href="#">Rugs</a>
-            <a class="dropdown-item" href="#">Accessories</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="diningRoom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dining Room</a>
-          <div class="dropdown-menu" aria-labelledby="Dining">
-            <a class="dropdown-item" href="#">Dining Table</a>
-            <a class="dropdown-item" href="#">Chairs</a>
-            <a class="dropdown-item" href="#">Plates</a>
-            <a class="dropdown-item" href="#">Wine Glasses</a>
-            <a class="dropdown-item" href="#">Candles</a>
-            <a class="dropdown-item" href="#">Cutlery</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="homeDecor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home Décor</a>
-          <div class="dropdown-menu" aria-labelledby="homeDecor">
-            <a class="dropdown-item" href="#">Blinds & Curtains</a>
-            <a class="dropdown-item" href="#">Lights & Lamps</a>
-            <a class="dropdown-item" href="#">Wall Arts</a>
-            <a class="dropdown-item" href="#">Mirrors</a>
-            <a class="dropdown-item" href="#">Cushions & Throws</a>
-            <a class="dropdown-item" href="#">Scent Products</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-
-<!--- end of header-->
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 <!--- account page-->
-
-
-<!--- begin footer-->
-
-<footer class="bg-dark py-5">
-  <div class="container">
-  <div class="row">
-    <div class="col-12 col-md text-center">
-      <a class="navbar-brand" href="index.html"><img src="assets/dist/images/logo-white.png" /></a>
-	  <p class="text-muted">Designed by Tut 4 group 15<br/>&copy; 2020</p>
-      <small class="d-block mb-3 text-muted"></small>
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">My Account</h1>
     </div>
-  </div>
-  </div>
-</footer>
+</section>
+<div class="container">
 
-<!--- end of footer-->
+<div class="row">
+<div class="col-3">
+	<div class="card bg-light mb-3">					
+			<ul class="list-group account-menu category_block">
+				<li class="list-group-item is-active">My Profile</li>
+				<li class="list-group-item">Change Password</li>
+				<li class="list-group-item">My Orders</li>
+				<li class="list-group-item">My Bookmarks</li>
+			</ul>
+		</div>
+	</div>
+<div class="col-9">
+	<div class="row">
+		<div class="col-12"><h1 class="h2 selected_item">My Profile</h1></div>
+	</div>
+	<!-- edit profile-->
+	<div class="item-div my-profile">
+	<form id="form-edit-profile" class="form-account">
+		<div class="row">
+			<div class="col">
+				<label for="inputFName" >First Name <span style="color:red">*</span></label>
+				<input type="text" id="inputFName" class="form-control" placeholder="First Name" disabled>
+			</div>
+			<div class="col">
+				<label for="inputLName" >Last Name <span style="color:red">*</span></label>
+				<input type="text" id="inputFName" class="form-control" placeholder="Last Name" disabled>
+			</div>
+		  </div>
+		  
+		  <div class="row">
+			<div class="col">
+				<label for="inputEmail" >Email address <span style="color:red">*</span></label>
+				<input type="email" id="inputEmail" class="form-control" placeholder="Email address" disabled>
+			</div>
+			<div class="col">
+				<label for="inputPhone" >Phone Number <span style="color:red">*</span></label>
+				<input type="number" id="inputPhone" class="form-control" placeholder="98765432" required>
+			</div>
+		  </div>	  
+		  
+		  <div class="row">
+			<div class="col">
+				<label for="inputAddress" >Address <span style="color:red">*</span></label>
+				<textarea rows="2" id="inputAddress" class="form-control" placeholder="e.g. BLK 01, #01-01, Clementi Road..." required></textarea>
+			</div>
+			<div class="col">
+				<label for="inputPostal" >Postal Code <span style="color:red">*</span></label>
+				<input type="number" id="inputPostal" class="form-control" placeholder="123456" required>
+			</div>
+		  </div> 
+		  
+		  <div class="row">
+			<div class="col">
+				<label for="inputPrefer" >Preferred Payment Method <span style="color:red">*</span></label><br/>
+				<input type="radio" id="visa" name="prefer" value="visa" checked>
+				<label for="visa">Visa</label>
+				<input type="radio" id="mastercard" name="prefer" value="mastercard">
+				<label for="mastercard">Mastercard</label>
+				<input type="radio" id="cash" name="prefer" value="cash">
+				<label for="cash">Cash On Delivery</label><br/><br/>
+			</div>
+		  </div> 
+		  
+		  <div class="row text-center">
+			<div class="col">
+				<button class="btn btn-lg btn-block mybtn" type="submit">Update Profile</button>
+			</div>
+		  </div>   
+	</form>
+</div>
+<!--end of edit profile-->
 
+
+<!--change password-->
+<div class="item-div change-password">
+	<form id="form-change-password" class="form-account">
+		  <div class="row">
+			<div class="col">
+				<label for="inputCurrentPassword" >Current Password <span style="color:red">*</span></label>
+				<input type="password" id="inputCurrentPassword" class="form-control" placeholder="Password" required>
+			</div>
+			<div class="col">			
+			</div>
+		  </div> 
+		  <div class="row">
+			<div class="col">
+				<label for="inputNewPassword" >New Password <span style="color:red">*</span></label>
+				<input type="password" id="inputNewPassword" class="form-control" placeholder="Password" required>
+			</div>
+			<div class="col">	
+				<label for="inputConfirmPassword" >Confirm Password <span style="color:red">*</span></label>
+				<input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required>			
+			</div>
+		  </div> 
+		  <div class="row text-center">
+			<div class="col">
+				<button class="btn btn-lg btn-block mybtn" type="submit">Change Password</button>
+			</div>
+		  </div>   
+	</form>
+</div>
+<!--end of change password-->
+
+
+<!--my orders-->
+
+<div class="item-div my-orders">
+
+
+<!--Accordion wrapper-->
+<div class="my-orders accordion md-accordion" id="orderAccordion" role="tablist" aria-multiselectable="true">
+
+  <!-- Accordion card -->
+  <div class="card">
+    <!-- Card header -->
+    <div class="card-header" role="tab" id="orderNo1">
+      <a class="collapsed" data-toggle="collapse" data-parent="#orderAccordion" href="#collapse1"
+        aria-expanded="true" aria-controls="collapse1">
+        <h5 class="mb-0">
+          # <span class="order-number">01234567</span> - <span class="text-muted order-total">S$ 477.00</span> <span class="order-status confirmed" style="float:right;">Confirmed</span><i style="clear:both;float:right;" class="fa fa-angle-down"></i>
+        </h5>
+      </a>
+    </div>
+
+    <!-- Card body -->
+    <div id="collapse1" class="collapse show" role="tabpanel" aria-labelledby="headingTwo1"
+      data-parent="#orderAccordion">
+      <div class="card-body"> 
+	  
+		<div class="col-12">
+		  <h4>Order Summary</h4>
+		  <div class="order-summary">			
+			  <div class="row">
+				<div class="col">
+					<span><b>Order ID:</b></span>
+				</div>
+				<div class="col">	
+					# <span id="orderID">01234567</span>
+				</div>
+				<div class="col">
+					<span><b>Order Status:</b></span>
+				</div>
+				<div class="col">	
+					<span id="orderStatus">Confirmed</span>
+				</div>
+			  </div> 			
+			  <div class="row">
+				<div class="col">
+					<span><b>No. of Items:</b></span>
+				</div>
+				<div class="col">	
+					<span id="orderQty">3</span>
+				</div>
+				<div class="col">
+					<span><b>Order Total:</b></span>
+				</div>
+				<div class="col">	
+					S$ <span id="orderTotal">477.00</span>
+				</div>
+			  </div> 			
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Date Ordered:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="orderDate">01 Oct 2020 9:00:00 AM</span>
+				</div>
+			  </div> 			
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Date Delivered:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="deliveryDate">10 Oct 2020 12:00:00 PM</span>
+				</div>
+			  </div> 
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Remark:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="orderRemark">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</span>
+				</div>
+			  </div>		
+		  
+		  </div>
+		</div>
+		
+		<nav>
+		  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<a class="nav-item nav-link active" id="nav-order-01234567-tab" data-toggle="tab" href="#nav-order-01234567" role="tab" aria-controls="nav-order-01234567" aria-selected="true">Order Details</a>
+			<a class="nav-item nav-link" id="nav-shipping-01234567-tab" data-toggle="tab" href="#nav-shipping-01234567" role="tab" aria-controls="nav-shipping-01234567" aria-selected="false">Shipping &amp; Payment</a>
+		  </div>
+		</nav>
+		<div class="tab-content" id="nav-tabContent">
+		  <div class="tab-pane fade show active" id="nav-order-01234567" role="tabpanel" aria-labelledby="nav-order-01234567-tab">
+			<div class="row products">
+				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
+					<a href="/livingRoom/leatherSofa"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/sofa/leather-sofa.jpg')}}" alt="leather-sofa"></a>
+					<div class="card-body">
+						<h5 class="product-name"><a href="/livingRoom/leatherSofa">Leather Sofa</a></h5>
+						<div class="row">
+						<div class="col">
+							<p>Item price:<br/> S$ <span class="item-price">299.00</span> <span class="text-muted">(GST Incl.)</span></p>
+							<p>Quantity:<br/> <span class="item-qty">1</span></p>
+							<h5>My Review:</h5>
+							  <!--if user has not reviewed-->
+							  <form class="form-review">
+								<textarea rows="2" class="form-control font-weight-light" placeholder="Write your Review..."></textarea>
+								<button class="btn btn-lg mybtn" type="submit">Submit</button>
+							  </form>
+							  
+						</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
+					<a href="/livingRoom/persianCarpet"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/carpets-and-rugs/persian-carpet.jpg')}}" alt="persian-carpet"></a>
+					<div class="card-body">
+						<h5 class="product-name"><a href="/livingRoom/persianCarpet">Persian Carpet</a></h5>
+						<div class="row">
+						<div class="col">
+							<p>Item price:<br/> S$ <span class="item-price">79.00</span> <span class="text-muted">(GST Incl.)</span></p>
+							<p>Quantity:<br/> <span class="item-qty">1</span></p>
+							<h5>My Review:</h5>	
+							  <!--if user has reviewed-->
+								<span class="text-muted small">12/10/2020 14:59</span>
+							  <p>Received with good condition. Will come back and buy again.</p>
+							 <!--if seller has replied-->
+							<h5>Reply by Seller:</h5>
+								<span class="text-muted small">22/10/2020 14:59</span>
+							  <p>Thank you for your order. We hope to see you again!</p>
+						</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4 card product-card">
+					<a href="/livingRoom/woodenCafeTable"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/coffee-table/wooden-coffee-table.jpg')}}" alt="wooden-coffee-table"></a>
+					<div class="card-body">
+						<h5 class="product-name"><a href="/livingRoom/woodenCafeTable">Wooden Coffee Table</a></h5>
+						<div class="row">
+						<div class="col">
+							<p>Item price:<br/> S$ <span class="item-price">99.00</span> <span class="text-muted">(GST Incl.)</span></p>
+							<p>Quantity:<br/> <span class="item-qty">1</span></p>
+							<h5>My Review:</h5>	
+							  <!--if user has reviewed-->
+								<span class="text-muted small">12/10/2020 14:59</span>
+							  <p>Received with good condition. Will come back and buy again.</p>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		  </div>
+		  <div class="tab-pane fade" id="nav-shipping-01234567" role="tabpanel" aria-labelledby="nav-shipping-01234567-tab">
+			<div class="col-12 tab">
+				<h5>Shipping Details</h5>
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Recipient Name:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="reciName">James Tan</span>
+				</div>
+			  </div>		
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Contact Number:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="reciPhone">98765432</span>
+				</div>
+			  </div> 				
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Delivery Address:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="reciAddress">#01-01, BLK 123 Kent Ridge Road</span>
+				</div>
+			  </div>		
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Postal Code:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="reciPostal">98765432</span>
+				</div>
+			  </div> 
+
+				
+				<h5>Payment Details</h5>
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Payment Method:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="paymentMethod">Visa</span>
+				</div>
+			  </div>		
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Card Number:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="cardNo">xxxx xxxx xxxx 1234</span>
+				</div>
+			  </div> 			
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Cardholder Name:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="cardName">James Tan</span>
+				</div>
+			  </div>			
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Expiry Date:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="cardExpiry">06/23</span>
+				</div>
+			  </div> 		
+
+			  
+			</div>
+		  </div>
+		  
+		</div>		
+      </div>
+    </div>
+
+  </div>
+  <!-- Accordion card -->
+
+  <!-- Accordion card -->
+  <div class="card">
+
+    <!-- Card header -->
+    <div class="card-header" role="tab" id="orderNo2">
+      <a class="collapsed" data-toggle="collapse" data-parent="#orderAccordion" href="#collapse2"
+        aria-expanded="false" aria-controls="collapse2">
+        <h5 class="mb-0">
+          # <span class="order-number">02222222</span> - <span class="text-muted order-total">S$ 79.00</span> <span class="order-status cancelled" style="float:right;">Cancelled</span><i style="clear:both;float:right;" class="fa fa-angle-down"></i>
+        </h5>
+      </a>
+    </div>
+
+    <!-- Card body -->
+    <div id="collapse2" class="collapse" role="tabpanel" aria-labelledby="headingTwo21"
+      data-parent="#orderAccordion">
+      <div class="card-body">
+        <div class="col-12">
+		  <h4>Order Summary</h4>
+		  <div class="order-summary">			
+			  <div class="row">
+				<div class="col">
+					<span><b>Order ID:</b></span>
+				</div>
+				<div class="col">	
+					# <span id="orderID">02222222</span>
+				</div>
+				<div class="col">
+					<span><b>Order Status:</b></span>
+				</div>
+				<div class="col">	
+					<span id="orderStatus">Cancelled</span>
+				</div>
+			  </div> 			
+			  <div class="row">
+				<div class="col">
+					<span><b>No. of Items:</b></span>
+				</div>
+				<div class="col">	
+					<span id="orderQty">1</span>
+				</div>
+				<div class="col">
+					<span><b>Order Total:</b></span>
+				</div>
+				<div class="col">	
+					S$ <span id="orderTotal">79.00</span>
+				</div>
+			  </div> 			
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Date Ordered:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="orderDate">01 Oct 2020 9:00:00 AM</span>
+				</div>
+			  </div> 			
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Date Delivered:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="deliveryDate">10 Oct 2020 12:00:00 PM</span>
+				</div>
+			  </div> 
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Remark:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="orderRemark">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</span>
+				</div>
+			  </div>		
+		  
+		  </div>
+		</div>
+		
+		<nav>
+		  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<a class="nav-item nav-link active" id="nav-order-02222222-tab" data-toggle="tab" href="#nav-order-02222222" role="tab" aria-controls="nav-order-02222222" aria-selected="true">Order Details</a>
+			<a class="nav-item nav-link" id="nav-shipping-02222222-tab" data-toggle="tab" href="#nav-shipping-02222222" role="tab" aria-controls="nav-shipping" aria-selected="false">Shipping &amp; Payment</a>
+		  </div>
+		</nav>
+		<div class="tab-content" id="nav-tabContent">
+		  <div class="tab-pane fade show active" id="nav-order-02222222" role="tabpanel" aria-labelledby="nav-order-02222222-tab">
+			<div class="row products">
+				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
+					<a href="/livingRoom/persianCarpet"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/carpets-and-rugs/persian-carpet.jpg')}}" alt="persian-carpet"></a>
+					<div class="card-body">
+						<h5 class="product-name"><a href="/livingRoom/persianCarpet">Persian Carpet</a></h5>
+						<div class="row">
+						<div class="col">
+							<p>Item price:<br/> S$ <span class="item-price">79.00</span> <span class="text-muted">(GST Incl.)</span></p>
+							<p>Quantity:<br/> <span class="item-qty">1</span></p>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		  </div>
+		  <div class="tab-pane fade" id="nav-shipping-02222222" role="tabpanel" aria-labelledby="nav-shipping-02222222-tab">
+			<div class="col-12 tab">
+				<h5>Shipping Details</h5>
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Recipient Name:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="reciName">James Tan</span>
+				</div>
+			  </div>		
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Contact Number:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="reciPhone">98765432</span>
+				</div>
+			  </div> 				
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Delivery Address:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="reciAddress">#01-01, BLK 123 Kent Ridge Road</span>
+				</div>
+			  </div>		
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Postal Code:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="reciPostal">98765432</span>
+				</div>
+			  </div> 
+
+				
+				<h5>Payment Details</h5>
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Payment Method:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="paymentMethod">Visa</span>
+				</div>
+			  </div>		
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Card Number:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="cardNo">xxxx xxxx xxxx 1234</span>
+				</div>
+			  </div> 			
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Cardholder Name:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="cardName">James Tan</span>
+				</div>
+			  </div>			
+			  <div class="row">
+				<div class="col-3">
+					<span><b>Expiry Date:</b></span>
+				</div>
+				<div class="col-9">	
+					<span id="cardExpiry">06/23</span>
+				</div>
+			  </div> 		
+
+			  
+			</div>
+		  </div>
+		  
+		</div>		
+      
+		
+      </div>
+    </div>
+
+  </div>
+  <!-- Accordion card -->
+
+</div>
+<!-- Accordion wrapper -->
+
+
+</div>
+        
+<!--end of my orders-->
+
+<!--my bookmarks-->
+<div class="item-div my-bookmarks">
+<div class="row products">
+				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
+					<a href="/livingRoom/leatherSofa"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/sofa/leather-sofa.jpg')}}" alt="leather-sofa"></a>
+					<div class="card-body">
+						<h5 class="product-name"><a href="/livingRoom/leatherSofa">Leather Sofa</a></h5>
+						<div class="row">
+						<div class="col">
+							<p>Item price:<br/> S$ <span class="item-price">299.00</span> <span class="text-muted">(GST Incl.)</span></p>
+						</div>
+                        <div class="col-auto">
+                            <button class="btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-danger">♥</button>
+                        </div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
+					<a href="/livingRoom/persianCarpet"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/carpets-and-rugs/persian-carpet.jpg')}}" alt="persian-carpet"></a>
+					<div class="card-body">
+						<h5 class="product-name"><a href="/livingRoom/persianCarpet">Persian Carpet</a></h5>
+						<div class="row">
+						<div class="col">
+							<p>Item price:<br/> S$ <span class="item-price">79.00</span> <span class="text-muted">(GST Incl.)</span></p>							
+						</div>
+                        <div class="col-auto">
+                            <button class="btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-danger">♥</button>
+                        </div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4 card product-card">
+					<a href="/livingRoom/woodenCoffeeTable"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/coffee-table/wooden-coffee-table.jpg')}}" alt="wooden-coffee-table"></a>
+					<div class="card-body">
+						<h5 class="product-name"><a href="/livingRoom/woodenCoffeeTable">Wooden Coffee Table</a></h5>
+						<div class="row">
+						<div class="col">
+							<p>Item price:<br/> S$ <span class="item-price">99.00</span> <span class="text-muted">(GST Incl.)</span></p>
+						</div>
+                        <div class="col-auto">
+                            <button class="btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-danger">♥</button>
+                        </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		  
+</div>
+<!--end of my bookmarks-->
+
+</div>
+</div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="assets/dist/js/bootstrap.bundle.min.js"></script>
-</html>
+<script src="{{url_for('static', filename='assets/dist/custom/slugify.js')}}"></script>
+      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
+	  <script>
+		
+		$( document ).ready(function() {
+			$('.item-div').css("display", "none");
+			$('.my-profile').show();
+		});
+		
+		$( ".account-menu .list-group-item" ).click(function(){
+			$(this).siblings().removeClass("is-active");
+			$(this).toggleClass('is-active');
+			$(".selected_item").text(jQuery(this).text());
+			var selectedItem = slugify($(this).text());
+			showItem(selectedItem);			
+		});
+		
+		function showItem(selectedItem){
+			//$('.product-card').hide();
+			$('.item-div').css("display", "none");
+			$('.'+selectedItem).show();
+			
+		}
+	  </script>
+
+{% endblock %}

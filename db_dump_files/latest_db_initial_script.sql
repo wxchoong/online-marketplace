@@ -21,29 +21,9 @@ CREATE TABLE `user_info` (
   `userPostalCode` int NOT NULL,
   `dateJoined` DATETIME NOT NULL,
   `lastLogin` DATETIME NOT NULL,
-  `isActive` bit(1) NOT NULL,
-  `preferPayment` varchar(10) NOT NULL,
   `isAdmin` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`userEmail`)
 ) ENGINE=InnoDB;
-
---
--- Table structure for table `audit_log`
---
-
-DROP TABLE IF EXISTS `audit_log`;
-CREATE TABLE `audit_log` (
-  `auditID` int NOT NULL AUTO_INCREMENT,
-  `auditorEmail` VARCHAR(45) NOT NULL,
-  `actionDate` DATETIME NOT NULL,
-  `actionDetail` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`auditID`),
-  CONSTRAINT `audit_log_ref_user_info`
-  FOREIGN KEY (`auditorEmail`)
-  REFERENCES `user_info` (`userEmail`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE)
-  ENGINE=InnoDB;
 
 --
 -- Table structure for table `category`
@@ -74,6 +54,10 @@ CREATE TABLE `order_info` (
   `deliveryDate` DATETIME NOT NULL,
   `remark` VARCHAR(255) NULL DEFAULT NULL,
   `totalItemQuantity` int NOT NULL,
+  `cardHolder` VARCHAR(100) DEFAULT 'EMPTY',
+  `cardNumber` INT DEFAULT '0',
+  `paymentMethod` INT NOT NULL DEFAULT '1',
+  `cardExpiryDate` DATE,
   PRIMARY KEY (`orderID`),
   CONSTRAINT `order_info_ref_user_info`
     FOREIGN KEY (`orderedCustomer`)
@@ -94,9 +78,9 @@ CREATE TABLE `product_info` (
   `availableQuantity` int NOT NULL DEFAULT '0',
   `lastUpdated` datetime DEFAULT NULL,
   `price` float NOT NULL DEFAULT '0',
-  `soldQuantity` INT NOT NULL DEFAULT `0`,
-  `baseQuantity` INT NOT NULL DEFAULT `0`,
+  `soldQuantity` INT NOT NULL DEFAULT '0',
   `imagePath` varchar(255) DEFAULT NULL,
+  `isShow` bit(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`productID`),
   CONSTRAINT `product_info_ref_category` FOREIGN KEY (`categoryID`) REFERENCES `category` (`categoryID`)
 ) ENGINE=InnoDB;
@@ -111,7 +95,6 @@ CREATE TABLE `user_comment` (
   `commentorEmail` varchar(45) NOT NULL,
   `comment` varchar(100) NOT NULL,
   `commentDate` datetime DEFAULT NULL,
-  `rate` int NOT NULL,
   `productID` int NOT NULL,
   `adminReply` VARCHAR(100) NOT NULL DEFAULT 'No Reply Yet',
   PRIMARY KEY (`commentID`),
@@ -136,8 +119,9 @@ CREATE TABLE `order_detail` (
 DROP TABLE IF EXISTS `bookmark`;
 CREATE TABLE `bookmark` (
   `bookMarkID` int NOT NULL AUTO_INCREMENT,
-   `productID` int NOT NULL,
-   `userEmail` varchar(45) NOT NULL,
+  `productID` int NOT NULL,
+  `userEmail` varchar(45) NOT NULL,
+  `isMarked`  bit(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`bookMarkID`),
   CONSTRAINT `bookmark_ref_productInfo` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`),
   CONSTRAINT `bookmark_ref_userInfo` FOREIGN KEY (`userEmail`) REFERENCES `user_info` (`userEmail`)

@@ -137,14 +137,14 @@ def signup():
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			try:
-				cursor.callproc('sp_registration', parse)
+				cursor.callproc('new_registeration', parse)
 			except Exception as e:
 				return jsonify({'status': 'failed', 'message' : str(e)})
 			else:
 				db.commit()
+				flash('You are now registered and can login', 'success')  
 			finally:
 				cursor.close()
-				flash('You are now registered and can login', 'success')  
 				return redirect(url_for('login'))
 	return render_template('signup.html')
 

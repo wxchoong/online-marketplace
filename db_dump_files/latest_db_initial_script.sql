@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
   `userEmail` varchar(45) NOT NULL,
   `userPhone` int NOT NULL,
-  `userPassword` varchar(255) NOT NULL,
+  `userPassword` varchar(100) NOT NULL,
   `userFirstName` varchar(45) NOT NULL,
   `userLastName` varchar(45) NOT NULL,
   `userAddress` varchar(100) NOT NULL,

@@ -6,21 +6,34 @@ from functools import wraps
 from datetime import datetime
 from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordField, validators
 
+###  Functions Checklist and ToDos (Remove Later) ###
+# 1. Index Page -  Pending function for Render Top Picks
+# 2. Category Page - Done with Python and AJAX
+# 3. Product Page - Pending AJAX
+# 4. Login Page - Done with Python, need to update stored procedure
+# 5. Signup Page - Done with Python side, need to update stored procedure
+# 6. Admin Page - Pending, refer to "Admin CRUD" section
+# 7. Account Page - Functions added, pending test with stored procedure
+# 8. Cart Page - Pending function for creating view
+# 9. Checkout Page - Function added, pending test with stored procedure
+# 10. Payment Page - Pending funtion for retrieval of order ID (assume payment is always successful)
+# 11. Search - Pending
+
 #--------------------------------Routes---------------------------------------#
 
 #Index Page
 @app.route('/')
 def index():
-    ### check for Session.
+    ### Check for Session
     if 'logged_in' in session:
     	return render_template('index.html', user=session['username'])
     else:
     	return render_template('index.html')
 
-
 #Login Page
 @app.route('/login', methods=['GET', 'POST'])
-def login():			
+def login():	
+	# If logged in, redirect to user account page	
 	if 'logged_in' in session:
 		return redirect(url_for('account'))
 	else:
@@ -30,27 +43,27 @@ def login():
 				login_email = request.form['input_email']
 				login_password = request.form['input_pwd']
 			
-				# Query relevant user from database 
-				user_query = "SELECT * FROM user_info WHERE email='" + login_email + "';"
+				# Query relevant user information from database 
+				user_query = "SELECT * FROM user_info WHERE userEmail='" + login_email + "';"
 				cursor.execute(user_query)
 				current_user = cursor.fetchall()
 			
 				#Verify user id and password if user exists
 				if current_user != None:
-					pwd = current_user[0]['password']
+					pwd = current_user[0]['userPassword']
+					isAdmin = current_user[0]['isAdmin']
 
 					#Login successful
 					if sha256_crypt.verify(login_password, pwd):
-					# if login_password == pwd:
 						session['logged_in'] = True
-						session['username'] = current_user[0]['firstName']
-						session['user_email'] = login_email
+						session['username'] = current_user[0]['userFirstName']
 						session['user_pwd'] = pwd
 						flash('You are now logged in','success')
 						
 						#Redirect based on user role (admin/customer)
-						if(session['username'] == 'admin'):
-							return redirect(url_for('index'))
+						if(isAdmin == True):
+							session['is_admin'] = True
+							return redirect(url_for('admin'))
 						else:
 							return redirect(url_for('index'))	
 					#Login invalid			
@@ -65,7 +78,7 @@ def login():
 				print(e)
 		return render_template('login.html')
 
-# disallows access to pages if user is not logged in
+# Disallow access to pages if user is not logged in
 def is_logged_in(f):
 	@wraps(f)
 	def wrap(*args, **kwargs):
@@ -76,12 +89,22 @@ def is_logged_in(f):
 			return redirect (url_for('login'))
 	return wrap
 
-#Log out function and redirect to login page
-@app.route('/logout')
-def logout():
-	session.clear()
-	flash("You are now logged out",'success')
-	return redirect(url_for('login'))
+# Disallows access to admin pages if current user is not admin
+def is_admin(f):
+	@wraps(f)
+	def wrap(*args, **kwargs):
+		if 'is_admin' in session:
+			return f(*args, **kwargs)
+		else:
+			flash('Unauthorized, Please log in using admin account','danger')
+			return redirect (url_for('/'))
+	return wrap
+
+#Admin Page
+@app.route('/admin')
+@is_admin
+def admin():
+	return render_template('admin_main.html')
 
 #User Account
 @app.route('/account', methods=['GET','POST'])
@@ -125,6 +148,7 @@ def signup():
 				return redirect(url_for('login'))
 	return render_template('signup.html')
 
+
 #Category Page - Based on Sub Categories
 @app.route('/categories/<string:main>/<string:sub>')
 def categories(main,sub):
@@ -133,7 +157,6 @@ def categories(main,sub):
 	else:
 		return render_template('category.html')
 
-
 #Product Details Page
 @app.route('/<string:cat>/<string:prod>')
 def products(cat,prod):
@@ -141,7 +164,6 @@ def products(cat,prod):
 		return render_template('product.html', prod_id=prod, user=session['username'])
 	else:
 		return render_template('product.html', prod_id=prod)
-
 
 #Cart Page
 @app.route('/cart')
@@ -153,13 +175,37 @@ def cart():
 	# cursor.callproc('sp_getCurrentUserCart', authenticator)
 	return render_template('cart.html', user=session['username'])
 
-
 #Checkout
 @app.route('/checkout', methods=['GET','POST'])
 @is_logged_in
-def order():
+def checkout():
 	if request.method == 'POST':
-		return redirect(url_for('payment'))
+		try:
+			cursor = db.cursor()
+			name = request.form['reciName']
+			phone = request.form['reciPhone']
+			address = request.form['reciAddress']
+			postalCode = request.form['reciPostal']
+			paymentMethod = request.form['payment']
+			cardName = request.form['cc_name']
+			cardNum = request.form['cc_number']
+			cardExpiry = request.form['cc_expiration']
+			cardCvv = request.form['cc_cvv']
+			parse(name, phone, address, postalCode, paymentMethod, cardName, cardNum, cardExpiry, cardCvv)
+			
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			try:
+				cursor.callproc('add_payment', parse)
+			except Exception as e:
+				return jsonify({'status': 'failed', 'message' : str(e)})
+			else:
+				db.commit()
+			finally:
+				cursor.close()
+				flash('Payment successful', 'success')  
+				return redirect(url_for('payment'))
 	return render_template('checkout.html', user=session['username'])
 
 #Order Successful Page
@@ -168,12 +214,36 @@ def order():
 def payment():
 	return render_template('payment.html', user=session['username'])
 
-
 #Search for Products
 @app.route('/search/<string:item>')
 def search(item):
 	return render_template('category.html', result=item)
 
+#--------------------------------Functions for User Account---------------------------------------#
+
+#Update Profile Function
+@app.route('/updateProfile', methods=['GET', 'POST'])
+def updateProfile():
+	try:
+		cursor = db.cursor()
+		phone = request.form['inputPhone']
+		address = request.form['inputAddress']
+		postalCode = request.form['inputPostal']
+		parse(phone, address, postalCode)
+		
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('update_profile', parse)
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			db.commit()
+		finally:
+			cursor.close()
+			flash('Profile updated', 'success')  
+	return redirect(url_for('account'))
 
 #Change Password Function
 @app.route('/changePassword', methods=['GET', 'POST'])
@@ -212,31 +282,6 @@ def changePassword():
 			flash('Password Changed', 'success')  
 	return redirect(url_for('account'))
 
-
-#Update Profile Function
-@app.route('/updateProfile', methods=['GET', 'POST'])
-def updateProfile():
-	try:
-		cursor = db.cursor()
-		phone = request.form['inputPhone']
-		address = request.form['inputAddress']
-		postalCode = request.form['inputPostal']
-		parse(phone, address, postalCode)
-		
-	except Exception as e:
-		return jsonify({'status': 'failed', 'message' : str(e)})
-	else:
-		try:
-			cursor.callproc('update_profile', parse)
-		except Exception as e:
-			return jsonify({'status': 'failed', 'message' : str(e)})
-		else:
-			db.commit()
-		finally:
-			cursor.close()
-			flash('Profile updated', 'success')  
-	return redirect(url_for('account'))
-
 #Post Review Function
 @app.route('/postReview', methods=['GET', 'POST'])
 def postReview():
@@ -259,8 +304,32 @@ def postReview():
 			flash('Thank you for reviewing the product.', 'success')  
 	return redirect(url_for('account'))
 
+#Log out and redirect to login page
+@app.route('/logout')
+def logout():
+	session.clear()
+	flash("You are now logged out",'success')
+	return redirect(url_for('login'))
+
+#--------------------------------Functions for Admin CRUD---------------------------------------#
+
+# ----- Product -----
+# 1. Update Existing Product Info
+# 2. Delete Existing Product
+# 3. Add New Product
+
+# ----- Order -----
+# 4. Change Status of Order
+
+# ----- Comment -----
+# 5. Reply to Customer Comment
+# 6. Delete User Comment
+
+# ----- Statistics -----
+# 7. Render Revenues, Top Sales and Top Customers data
+
 #--------------------------------APIs---------------------------------------#
-#APIs for getting data
+#APIs for getting all order data
 @app.route('/get-all-orders', methods=['GET', 'POST'])
 def result():
 	cursor.execute("SELECT * FROM tabSales_Order")
@@ -269,8 +338,7 @@ def result():
 	data = cursor.fetchall()
 	return jsonify(data)
 
-
-#APIs for getting data
+#APIs for getting categories data
 @app.route('/renderCategories', methods=['GET', 'POST'])
 def renderCategories():
 	try:
@@ -294,4 +362,30 @@ def renderCategories():
 		else:
 			cursor.close()
 			return jsonify({"success":"success", 'itemList':itemList})
+
+#API for getting product data
+@app.route('/renderProduct', methods=['GET', 'POST'])
+def renderProduct():
+	try:
+		cursor = db.cursor()
+		prod = request.form['product']
+		args = (prod,)
+		itemList = []
+	except Exception as e:
+		cursor.close()
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('sp_item_by_productname', args)
+			for result in cursor.stored_results():
+				for item in result.fetchall():
+					itemList.append(item)
+					print(item)
+		except Exception as e:
+			cursor.close()
+			return jsonify({'status': 'failed', 'message': str(e)})
+		else:
+			cursor.close()
+			return jsonify({"success":"success", 'itemList':itemList})
+			
 #--------------------------------------------------------------------------#

@@ -3,8 +3,6 @@
 {% block body %}
 
 <title>DecorIt - Checkout</title>
-
-
     <div class="container">       
         <br/>
         <br/>
@@ -54,14 +52,14 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="reciName">Recipient name</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                            <input type="text" class="form-control" name="reciName" placeholder="" required="" value={{request.form.reciName}}>
                             <div class="invalid-feedback">
                                 Valid recipient name is required.
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="reciPhone">Recipient Phone</label>
-                            <input type="text" class="form-control" id="reciPhone" placeholder="" value="" required="">
+                            <input type="text" class="form-control" name="reciPhone" placeholder="" required="" value={{request.form.reciPhone}}>
                             <div class="invalid-feedback">
                                 Valid recipient phone is required.
                             </div>
@@ -71,14 +69,14 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="reciAddress">Recipient Address</label>
-                            <textarea rows="2" class="form-control" id="reciAddress" placeholder="" value="" required=""></textarea>
+                            <textarea rows="2" class="form-control" name="reciAddress" placeholder="" required="" value={{request.form.reciAddress}}></textarea>
                             <div class="invalid-feedback">
                                 Valid recipient address is required.
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="reciPostal">Postal Code</label>
-                            <input type="text" class="form-control" id="reciPostal" placeholder="" value="" required="">
+                            <input type="text" class="form-control" name="reciPostal" placeholder="" required="" value={{request.form.reciPostal}}>
                             <div class="invalid-feedback">
                                 Valid postal code is required.
                             </div>
@@ -108,7 +106,7 @@
                     <div class="row cc-div">
                         <div class="col-md-6 mb-3">
                             <label for="cc-name">Name on card</label>
-                            <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                            <input type="text" class="form-control" name="cc_name" placeholder="" required="" value={{request.form.cc_name}}>
                             <small class="text-muted">Full name as displayed on card</small>
                             <div class="invalid-feedback">
                                 Name on card is required
@@ -116,7 +114,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="cc-number">Credit card number</label>
-                            <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+                            <input type="text" class="form-control" name="cc_number" placeholder="" required="" value={{request.form.cc_number}}>
                             <div class="invalid-feedback">
                                 Credit card number is required
                             </div>
@@ -125,14 +123,14 @@
                     <div class="row cc-div">
                         <div class="col-md-3 mb-3">
                             <label for="cc-expiration">Expiry</label>
-                            <input type="text" class="form-control" id="cc-expiry" placeholder="" required="">
+                            <input type="text" class="form-control" name="cc_expiry" placeholder="" required="" value={{request.form.cc_expiry}}>
                             <div class="invalid-feedback">
                                 Expiry date required
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="cc-cvv">CVV</label>
-                            <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+                            <input type="text" class="form-control" name="cc_cvv" placeholder="" required="" value={{request.form.cc_cvv}}>
                             <div class="invalid-feedback">
                                 Security code required
                             </div>

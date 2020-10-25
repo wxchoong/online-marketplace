@@ -1,0 +1,686 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title> DecorIt - Admin Control Page </title>
+	
+	<link rel="icon" href="{{url_for('static', filename='assets/dist/images/favicon.png')}}">
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/product/">
+
+    <!-- Bootstrap core CSS -->
+	<link href="{{url_for('static', filename='assets/dist/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{{url_for('static', filename='assets/dist/custom/custom.css')}}" rel="stylesheet">
+  </head>
+  <body>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">DecorIt</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+	  <span class="navbar-toggler-icon"></span>
+  </button>
+  <ul class="navbar-nav px-3">
+	  <li class="nav-item text-nowrap">
+		  <a class="nav-link" href="#">Sign out</a>
+	  </li>
+  </ul>
+</nav>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-3">
+			<div class="card bg-light mb-3">
+				<br />
+				<ul class="list-group admin-menu category_block">
+					<li class="list-group-item is-active">Manage Products</li>
+					<li class="list-group-item">Manage Orders</li>
+					<li class="list-group-item">View Statistics</li>
+					<li class="list-group-item">Manage Comment</li>
+				</ul>
+			</div>
+		</div>
+		<div class="admin-div manage-products col-9">
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+				<h1 class="h2">Products</h1>
+				<div class="btn-toolbar mb-2 mb-md-0">
+					<div class="btn-group mr-2">
+						<button type="button" class="btn btn-outline-success btn-sm">Active</button>
+						<button type="button" class="btn btn-outline-danger btn-sm">Inactive</button>
+						<button type="button" class="btn btn-outline-info btn-sm">Add</button>
+					</div>
+
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-striped table-sm">
+					<thead>
+						<tr>
+							<th>Product Name</th>
+							<th>Sub Category</th>
+							<th>Price</th>
+							<th>Quantity</th>
+							<th>Status</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1,001</td>
+							<td>Lorem</td>
+							<td>$200</td>
+							<td class="text-center">10</td>
+							<td>Show</td>
+							<td>
+
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,002</td>
+							<td>amet</td>
+							<td>$800</td>
+							<td class="text-center">70</td>
+							<td>Hide</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,003</td>
+							<td>Integer</td>
+							<td>$800</td>
+							<td class="text-center">70</td>
+							<td>Show</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,003</td>
+							<td>libero</td>
+							<td>$800</td>
+							<td class="text-center">70</td>
+							<td>Hide</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,004</td>
+							<td>dapibus</td>
+							<td>$600</td>
+							<td class="text-center">70</td>
+							<td>Hide</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,005</td>
+							<td>Nulla</td>
+							<td>$600</td>
+							<td class="text-center">70</td>
+							<td>Hide</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,006</td>
+							<td>nibh</td>
+							<td>$400</td>
+							<td class="text-center">80</td>
+							<td>Hide</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,007</td>
+							<td>sagittis</td>
+							<td>$600</td>
+							<td class="text-center">70</td>
+							<td>Show</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,008</td>
+							<td>Fusce</td>
+							<td>$500</td>
+							<td class="text-center">70</td>
+							<td>Show</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,009</td>
+							<td>augue</td>
+							<td>$500</td>
+							<td class="text-center">70</td>
+							<td>Show</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,010</td>
+							<td>massa</td>
+							<td>$400</td>
+							<td class="text-center">70</td>
+							<td>Show</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,011</td>
+							<td>eget</td>
+							<td>$400</td>
+							<td class="text-center">70</td>
+							<td>Show</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,012</td>
+							<td>taciti</td>
+							<td>$400</td>
+							<td class="text-center">70</td>
+							<td>Show</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,013</td>
+							<td>torquent</td>
+							<td>$400</td>
+							<td class="text-center">80</td>
+							<td>Show</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,014</td>
+							<td>per</td>
+							<td>$400</td>
+							<td class="text-center">80</td>
+							<td>Show</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,015</td>
+							<td>sodales</td>
+							<td>$400</td>
+							<td class="text-center">80</td>
+							<td>Show</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="admin-div manage-orders col-9">
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+				<h1 class="h2">Orders</h1>
+				<div class="btn-toolbar mb-2 mb-md-0">
+					<div class="btn-group mr-2">
+						<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+						<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+						<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+					</div>
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-striped table-sm">
+					<thead>
+						<tr>
+							<th style="width:20%">Order ID</th>
+							<th style="width:20%">Price</th>
+							<th style="width:20%">Status</th>
+							<th style="width:40%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Delivered</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Cancelled</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Cancelled</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Delivered</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Confirmed</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+						<tr>
+							<td>1,001</td>
+							<td>$200</td>
+							<td>Cancelled</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Confirmed</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Cancelled</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">Delivered</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="admin-div view-statistics col-9">
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+				<h1 class="h2">Statistics</h1>
+			</div>
+			<div class="container table-responsive">
+				<div class="row">
+					<div class="col">
+						<div class="card-body">
+							<h5 class="product-name">Total Revenue</h5>
+							<table class="table table-striped table-sm">
+								<thead>
+									<tr>
+										<th>Period</th>
+										<th>Amount</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Daily</td>
+										<td>$300</td>
+									</tr>
+									<tr>
+										<td>Weekly</td>
+										<td>$1000</td>
+									</tr>
+									<tr>
+										<td>Monthly</td>
+										<td>$2000</td>
+									</tr>
+									<tr>
+										<td>Yealy</td>
+										<td>$9999</td>
+									</tr>
+									<tr>
+										<td>Overall</td>
+										<td>$8889999</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col">
+						<div class="col">
+							<div class="card-body">
+								<h5 class="product-name">Top Sales Product</h5>
+								<table class="table table-striped table-sm">
+									<thead>
+										<tr>
+											<th>Rank</th>
+											<th>Price</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1st</td>
+											<td>Sofa</td>
+										</tr>
+										<tr>
+											<td>2nd</td>
+											<td>Cup</td>
+										</tr>
+										<tr>
+											<td>3rd</td>
+											<td>Chair</td>
+										</tr>
+										<tr>
+											<td>4th</td>
+											<td>Pillow</td>
+										</tr>
+										<tr>
+											<td>5th</td>
+											<td>Sofa</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="col">
+							<div class="row">
+								<div class="col">
+									<div class="col">
+										<div class="card-body">
+											<h5 class="product-name">Top VIP Users</h5>
+											<table class="table table-striped table-sm">
+												<thead>
+													<tr>
+														<th>Rank</th>
+														<th>User ID</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>1st</td>
+														<td>LingDage@gamil.com</td>
+													</tr>
+													<tr>
+														<td>2nd</td>
+														<td>PuLaoBan@gmail.com</td>
+													</tr>
+													<tr>
+														<td>3rd</td>
+														<td>YongDajie@gmail.com</td>
+													</tr>
+													<tr>
+														<td>4th</td>
+														<td>XiaoJiayi@gmail.com</td>
+													</tr>
+													<tr>
+														<td>5th</td>
+														<td>WoshiZJ@gmail.com</td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="admin-div manage-comment col-9">
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+				<h1 class="h2">Comments</h1>
+				<div class="btn-toolbar mb-2 mb-md-0">
+					<div class="btn-group mr-2">
+						<button type="button" class="btn btn-outline-success btn-sm">Replied</button>
+						<button type="button" class="btn btn-outline-danger btn-sm">Not Reply</button>						
+					</div>
+				</div>
+			</div>		
+				<table class="table table-striped table-sm">
+					<thead>
+						<tr>
+							<th style="width:10%">Order ID</th>
+							<th style="width:10%">Date</th>
+							<th style="width:10%">User ID</th>
+							<th style="width:30%">User Comment</th>
+							<th style="width:30%">Admin Reply</th>
+							<th style="width:10%"">Action</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>01</td>
+							<td>9:00</td>
+							<td>Zj@gmail.com</td>
+							<td>Hi this is a comment</td>
+							<td>
+								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Please reply Comment here"></textarea>
+							</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Reply</button>
+							</td>
+						</tr>
+						<tr>
+							<td>01</td>
+							<td>9:00</td>
+							<td>Zj@gmail.com</td>
+							<td>Hi this is a comment</td>
+							<td>Admin reply here: This is a test.Admin reply here: This is a test,Admin reply here: This is a test.Admin reply here: This is a test</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+							</td>
+						</tr>
+						<tr>
+							<td>01</td>
+							<td>9:00</td>
+							<td>Zj@gmail.com</td>
+							<td>Hi this is a comment</td>
+							<td>Admin reply here: This is a test.Admin reply here: This is a test,Admin reply here: This is a test.Admin reply here: This is a test</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	</div>		  
+		  <br/>		  
+<!--- begin footer-->
+
+<footer class="bg-dark py-5">
+  <div class="container">
+	  <div class="row">
+		  <div class="col-12 col-md text-center">
+			  <a class="navbar-brand" href="index.html"><img src="{{url_for('static', filename='assets/dist/images/logo-white.png')}}" /></a>
+			  <p class="text-muted">Designed by Tut 4 group 15<br />&copy; 2020</p>
+			  <small class="d-block mb-3 text-muted"></small>
+		  </div>
+	  </div>
+  </div>
+</footer>
+
+<!--- end of footer-->
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+<script src="{{url_for('static', filename='assets/dist/custom/slugify.js')}}"></script>
+<script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
+<script>
+  $(document).ready(function () {
+	  $('.admin-div').css("display", "none");
+	  $('.manage-products').show();
+  });
+
+  $(".admin-menu .list-group-item").click(function () {
+	  $(this).siblings().removeClass("is-active");
+	  $(this).toggleClass('is-active');
+	  var selectedItem = slugify($(this).text());
+	  showItem(selectedItem);
+  });
+
+  function showItem(selectedItem) {
+	  //$('.product-card').hide();
+	  $('.admin-div').css("display", "none");
+	  $('.' + selectedItem).show();
+
+  }
+</script>
+		  
+	</body>
+</html>

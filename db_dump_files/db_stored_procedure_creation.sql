@@ -154,13 +154,6 @@ BEGIN
 END //
 DELIMITER ;
 
-DELIMITER //
-CREATE PROCEDURE `sp_check_availability`(productIdentifier int)
-BEGIN
-	Select availableQuantity from product_info where productIdentifier = productID;
-END //
-DELIMITER ;
-
 -- 2. Order Table
 DELIMITER //
 CREATE PROCEDURE `add_order`(custEmail VARCHAR(45), orderDate DATETIME, receiveName VARCHAR(100), receiveAddr VARCHAR(100), receivePostal INT, 
@@ -248,12 +241,6 @@ BEGIN
 END //
 DELIMITER ;
 
-DELIMITER //
-CREATE PROCEDURE `add_bookmark`(productId int, email VARCHAR(45), marked BIT(1))
-BEGIN
-    INSERT INTO bookmark VALUES(NULL, productId, email, marked);
-END //
-DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE `update_bookmark`(bookmarkId int)

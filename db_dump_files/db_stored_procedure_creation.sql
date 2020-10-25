@@ -11,7 +11,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `sp_item_by_categorySub`(categorySubTitle varchar(45))
 BEGIN
-	Select * from product_info 
+	Select productName,price,imagePath from product_info 
     where categoryID = 
     (Select categoryID from category where categorySub = categorySubTitle);
 END //

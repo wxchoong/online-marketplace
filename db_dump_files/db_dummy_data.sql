@@ -160,6 +160,8 @@ INSERT INTO product_info VALUES(NULL,24,'scent_products_115','Description_115',7
 INSERT INTO product_info VALUES(NULL,24,'scent_products_116','Description_116',45,now(),17.69,20,NULL,1);
 update product_info
 set soldQuantity = 100 - availableQuantity;
+update product_info
+set imagePath = '/static/assets/dist/images/Products/living-room/coffee-table/wooden-coffee-table.jpg'
 
 INSERT INTO user_comment VALUES (NULL, 'augustine@inserted.com', 'product was nice!',now(),9,1);
 INSERT INTO user_comment VALUES (NULL, 'cwx@inserted.com', 'delivery was fast!',now(),8,1);

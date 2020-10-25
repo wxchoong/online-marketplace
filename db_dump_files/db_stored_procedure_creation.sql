@@ -79,7 +79,10 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `update_password`(email VARCHAR(45), pwd VARCHAR(100))
 BEGIN
-    UPDATE user_info SET userPassword = pwd;
+    UPDATE user_info 
+    SET 
+        userPassword = pwd 
+    WHERE userEmail = email;
 END //
 DELIMITER ;
 

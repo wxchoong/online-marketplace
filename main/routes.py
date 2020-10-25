@@ -7,16 +7,16 @@ from datetime import datetime
 from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordField, validators
 
 ###  Functions Checklist and ToDos (Remove Later) ###
-# 1. Index Page -  Pending function for Render Top Picks
-# 2. Category Page - Done with Python and AJAX
+# 1. Index Page -  Render top picks
+# 2. Category Page - Done with Python, need AJAX bug fix
 # 3. Product Page - Pending AJAX
-# 4. Login Page - Done with Python, need to update stored procedure
-# 5. Signup Page - Done with Python side, need to update stored procedure
+# 4. Login Page - Done
+# 5. Signup Page - Done
 # 6. Admin Page - Pending, refer to "Admin CRUD" section
-# 7. Account Page - Functions added, pending test with stored procedure
+# 7. Account Page - Functions(submit) added, pending test with stored procedure. Pending Render user info.
 # 8. Cart Page - Pending function for creating view
-# 9. Checkout Page - Function added, pending test with stored procedure
-# 10. Payment Page - Pending funtion for retrieval of order ID (assume payment is always successful)
+# 9. Checkout Page - Function added, pending test with stored procedure.
+# 10. Payment Page - Pending function for retrieval of order ID (assume payment is always successful)
 # 11. Search - Pending
 
 #--------------------------------Routes---------------------------------------#
@@ -57,6 +57,7 @@ def login():
 					if sha256_crypt.verify(login_password, pwd):
 						session['logged_in'] = True
 						session['username'] = current_user[0]['userFirstName']
+						session['useremail'] = current_user[0]['userEmail']
 						session['user_pwd'] = pwd
 						flash('You are now logged in','success')
 						
@@ -97,7 +98,7 @@ def is_admin(f):
 			return f(*args, **kwargs)
 		else:
 			flash('Unauthorized, Please log in using admin account','danger')
-			return redirect (url_for('/'))
+			return redirect (url_for('index'))
 	return wrap
 
 #Admin Page
@@ -129,7 +130,6 @@ def signup():
 			lastName = request.form['cust_lastName']
 			contact = request.form['cust_phone']
 			pwd = sha256_crypt.hash(str(request.form['cust_pwd']))
-			# pwd = request.form['cust_pwd']
 			addr = request.form['cust_addr']
 			postal = request.form['cust_postal']
 			parse = (email, firstName, lastName, contact, pwd, addr, postal)
@@ -212,7 +212,8 @@ def checkout():
 @app.route('/payment')
 @is_logged_in
 def payment():
-	return render_template('payment.html', user=session['username'])
+	order_no = 'SO-00001'
+	return render_template('payment.html', user=session['username'], orderId=order_no)
 
 #Search for Products
 @app.route('/search/<string:item>')
@@ -246,7 +247,7 @@ def updateProfile():
 	return redirect(url_for('account'))
 
 #Change Password Function
-@app.route('/changePassword', methods=['GET', 'POST'])
+@app.route('/changePassword')
 def changePassword():
 	try:
 		cursor = db.cursor()
@@ -254,16 +255,15 @@ def changePassword():
 
 		#if password entered same as current password stored in database
 		if sha256_crypt.verify(currentPwd, session['user_pwd']):
-
-			newPwd = sha256_crypt.hash(str(request.form['inputNewPassword']))
+			newPwd = request.form['inputNewPassword']
 			confirmPwd = sha256_crypt.hash(str(request.form['inputConfirmPassword']))
 
 			#if new password and confirm password match
 			if sha256_crypt.verify(newPwd, confirmPwd):
-				parse(newPwd)
+				parse(session['useremail'], confirmPwd)
 			#new password and confirm password does not match
 			else:
-				flash('New password does not match', 'danger')  
+				flash('New password does not match', 'danger') 
 		#password entered does not match the password in database 
 		else:
 			flash('Old password does not match', 'danger')
@@ -277,9 +277,10 @@ def changePassword():
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			db.commit()
+			flash('Password Changed', 'success')
 		finally:
 			cursor.close()
-			flash('Password Changed', 'success')  
+			return redirect(url_for('account'))
 	return redirect(url_for('account'))
 
 #Post Review Function

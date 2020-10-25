@@ -1,113 +1,14 @@
-﻿<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
-    <title>Home - DecorIt</title>
+﻿{% extends 'layout.html' %}
 
-    <link rel="icon" href="assets/dist/images/favicon.png">
+{% block body %}
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/product/">
-
-    <!-- Bootstrap core CSS -->
-    <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <style>
-        
-    </style>
-    <!-- Custom styles for this template -->
-    <link href="assets/dist/custom/custom.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
-    <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
+<title>DecorIt - Product</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-    <!--- begin header-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse flex-column" id="siteNav">
-
-                <!---top nav bar-->
-                <div class="navbar-nav mb-lg-0 container" id="topNav">
-                    <a class="navbar-brand" href="index.html"><img src="assets/dist/images/logo.png" /></a>
-                    <div class="search-box">
-                        <form class="form-inline my-2 my-md-0">
-                            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                        </form>
-                    </div>
-                    <a class="item-right" href="#"><img src="assets/dist/images/cart.png" /></a>
-                    <a class="item-right" href="login.html"><img src="assets/dist/images/account.png" /></a>
-                </div>
-
-
-                <!---category nav bar-->
-                <ul class="navbar-nav mr-auto" id="catNav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="livingRoom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Living Room</a>
-                        <div class="dropdown-menu" aria-labelledby="livingRoom">
-                            <a class="dropdown-item" href="#">Sofa</a>
-                            <a class="dropdown-item" href="#">Carpets & Rugs</a>
-                            <a class="dropdown-item" href="#">Coffee Table</a>
-                            <a class="dropdown-item" href="#">TV Consoles</a>
-                            <a class="dropdown-item" href="#">Arm Chairs</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="bedroom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bedroom</a>
-                        <div class="dropdown-menu" aria-labelledby="bedroom">
-                            <a class="dropdown-item" href="#">Bedsets</a>
-                            <a class="dropdown-item" href="#">Night Stands</a>
-                            <a class="dropdown-item" href="#">Bed Frames</a>
-                            <a class="dropdown-item" href="#">Mattresses</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="bathroom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bathroom</a>
-                        <div class="dropdown-menu" aria-labelledby="bathroom">
-                            <a class="dropdown-item" href="#">Bath Towels</a>
-                            <a class="dropdown-item" href="#">Rugs</a>
-                            <a class="dropdown-item" href="#">Accessories</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="diningRoom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dining Room</a>
-                        <div class="dropdown-menu" aria-labelledby="Dining">
-                            <a class="dropdown-item" href="#">Dining Table</a>
-                            <a class="dropdown-item" href="#">Chairs</a>
-                            <a class="dropdown-item" href="#">Plates</a>
-                            <a class="dropdown-item" href="#">Wine Glasses</a>
-                            <a class="dropdown-item" href="#">Candles</a>
-                            <a class="dropdown-item" href="#">Cutlery</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="homeDecor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home Décor</a>
-                        <div class="dropdown-menu" aria-labelledby="homeDecor">
-                            <a class="dropdown-item" href="#">Blinds & Curtains</a>
-                            <a class="dropdown-item" href="#">Lights & Lamps</a>
-                            <a class="dropdown-item" href="#">Wall Arts</a>
-                            <a class="dropdown-item" href="#">Mirrors</a>
-                            <a class="dropdown-item" href="#">Cushions & Throws</a>
-                            <a class="dropdown-item" href="#">Scent Products</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!--- end of header-->
-
+<!-- Custom styles for this template -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
 
     <div class="container">
         <br />
@@ -115,7 +16,7 @@
 
         <div class="row mb-2 product-detail">
             <div class="col-md-6">
-			<img class="card-img-top" src="assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg" alt="white-night-stand">
+			<img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg')}}" alt="white-night-stand">
 
             </div>
             <div class="col-md-6">
@@ -155,31 +56,9 @@
         </div>
     </div>
 
-
-
-
-    <!--- begin footer-->
-    <br />
-    <br />
-    <br />
-    <br />
-    <footer class="bg-dark py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md text-center">
-                    <a class="navbar-brand" href="index.html"><img src="assets/dist/images/logo-white.png" /></a>
-                    <p class="text-muted">Designed by Tut 4 group 15<br />&copy; 2020</p>
-                    <small class="d-block mb-3 text-muted"></small>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!--- end of footer-->
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="assets/dist/custom/slugify.js"></script>
-      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{url_for('static', filename='assets/dist/custom/slugify.js')}}"></script>
+      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
 	  <script>		
 		$( document ).ready(function() {
 			$('.bookmark').click(function(){
@@ -190,9 +69,5 @@
 		});
 		
 	  </script>	
-</body>
 
-
-
-
-</html>
+{% endblock %}

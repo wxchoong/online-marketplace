@@ -11,7 +11,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `sp_item_by_categorySub`(categorySubTitle varchar(45))
 BEGIN
-	Select productName,price,imagePath from product_info 
+	Select productName,price,imagePath, productID from product_info 
     where categoryID = 
     (Select categoryID from category where categorySub = categorySubTitle);
 END //
@@ -61,6 +61,14 @@ CREATE PROCEDURE `add_order_detail`(productID INT, orderID INT, numOfItems INT)
 BEGIN
 	SET @subTotal = get_sub_total(productID,numOfItems);
 	insert into order_detail VALUES(productID, orderID, numOfItems, @subTotal);
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `display_product_by_ID`(productIdentifier INT)
+BEGIN
+	Select productName, price, productDescription, availableQuantity, imagePath from product_info
+    where productIdentifier = productID;
 END//
 DELIMITER ;
 ----------------

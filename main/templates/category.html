@@ -174,90 +174,6 @@
 				</div>
 			</div>
             <div class="row products" id="rowProduct">
-                <!--<div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card" category="sofa">
-                        <a href="/livingRoom/leatherSofa"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/sofa/leather-sofa.jpg')}}" alt="leather-sofa"></a>
-                        <div class="card-body">
-                            <h5 class="product-name"><a href="/livingRoom/leatherSofa">Leather Sofa</a></h5>
-                            <div class="row">
-							<div class="col">
-								<p>S$ <span class="product-price">299.00</span></p>
-								<p class="text-muted">(GST Incl.)</p>
-                            </div>
-							</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card" category="carpets-and-rugs">
-                        <a href="/livingRoom/persianCarpet"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/carpets-and-rugs/persian-carpet.jpg')}}" alt="persian-carpet"></a>
-                        <div class="card-body">
-                            <h5 class="product-name"><a href="/livingRoon/persianCarpet">Persian Carpet</a></h5>
-                            <div class="row">
-							<div class="col">
-								<p>S$ <span class="product-price">79.00</span></p>
-								<p class="text-muted">(GST Incl.)</p>
-                            </div>
-							</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card" category="coffee-table">
-                        <a href="/livingRoom/woodenCoffeeTable"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/coffee-table/wooden-coffee-table.jpg')}}" alt="wooden-coffee-table"></a>
-                        <div class="card-body">
-                            <h5 class="product-name"><a href="/livingRoom/woodenCoffeeTable">Wooden Coffee Table</a></h5>
-                            <div class="row">
-							<div class="col">
-								<p>S$ <span class="product-name">99.00</span></p>
-								<p class="text-muted">(GST Incl.)</p>
-                            </div>
-							</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card" category="coffee-table">
-                        <a href="/livingRoom/blackCoffeeTable"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/coffee-table/black-coffee-table.jpg')}}" alt="black-coffee-table"></a>
-                        <div class="card-body">
-                            <h5 class="product-name"><a href="/livingRoom/blackCoffeeTable">Black Coffee Table</a></h5>
-                            <div class="row">
-							<div class="col">
-								<p>S$ <span class="product-name">49.00</span></p>
-								<p class="text-muted">(GST Incl.)</p>
-                            </div>
-							</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card" category="night-stands">
-                        <a href="/bedroom/whiteNightStand"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg')}}" alt="white-night-stand"></a>
-                        <div class="card-body">
-                            <h5 class="product-name"><a href="/bedroom/whiteNightStand">White Night Stand</a></h5>
-                            <div class="row">
-							<div class="col">
-								<p>S$ <span class="product-name">89.00</span></p>
-								<p class="text-muted">(GST Incl.)</p>
-                            </div>
-							</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card product-card" category="bath-towels">
-                        <a href="/bathroom/cottonBathTowel"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/bathroom/bath-towels/cotton-bath-towel.jpg')}}" alt="cotton-bath-towel"></a>
-                        <div class="card-body">
-                            <h5 class="product-name"><a href="/bathroom/cottonBathTowel">Cotton Bath Towel</a></h5>
-                            <div class="row">
-							<div class="col">
-								<p>S$ <span class="product-name">29.00</span></p>
-								<p class="text-muted">(GST Incl.)</p>
-                            </div>
-							</div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
 
@@ -281,7 +197,11 @@
 					for(var i=0; i<data.prodList.length; i++){
 						$("#rowProduct").append('<div class="col-12 col-md-6 col-lg-4">'+
 					  '<div class="card product-card" category="sofa">'+
-					  '<a href="/products/leatherSofa">'+
+					  '<a href="/products/'+
+					  data.prodList[i][0]+
+					  '?'+
+					  data.prodList[i][3]+
+					  '">'+
 					  '<img class="card-img-top" src="'+
 					  data.prodList[i][2]+
 					  '" alt="leather-sofa"></a>'+
@@ -316,7 +236,11 @@
 					for(var i=0; i<data.itemList.length; i++){
 						$("#rowProduct").append('<div class="col-12 col-md-6 col-lg-4">'+
 					  '<div class="card product-card" category="sofa">'+
-					  '<a href="/products/leatherSofa">'+
+					  '<a href="/products/'+
+					  data.itemList[i][0]+
+					  '?'+
+					  data.itemList[i][3]+
+					  '">'+
 					  '<img class="card-img-top" src="'+
 					  data.itemList[i][2]+
 					  '" alt="leather-sofa"></a>'+

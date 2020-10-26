@@ -16,17 +16,17 @@
 
         <div class="row mb-2 product-detail">
             <div class="col-md-6">
-			<img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg')}}" alt="white-night-stand">
+			<img class="card-img-top" id="prodImg" src="{{url_for('static', filename='assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg')}}" alt="white-night-stand">
 
             </div>
             <div class="col-md-6">
-                <h3><b>Eleonora Mint Totem Vase</b></h3>
+                <h3 id="prodName"><b>Eleonora Mint Totem Vase</b></h3>
                 <div>
-                    <p class="mb-0">S$149.99</p>
+                    <p class="mb-0" id="prodPrice">S$149.99</p>
                     <p class="text-muted">(GST Incl.)</p>
                 </div>
                 <div>
-                    <span>Quantity:</span>
+                    <span id="prodQuantity">Available Quantity:</span>
                     <div class="mt-1 mb-3">
 						<div class="def-number-input number-input safari_only">
 						  <i class="fa fa-minus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></i>
@@ -47,8 +47,7 @@
                 </div>
                 <div class="mt-3">
                     <p class="font-weight-bold">Product Description</p>
-                    <span>
-
+                    <span id="prodDescription">
                         Tiered curves articulate a tall vase, creating a playfully exaggerated take on the classic gourd vase. Talented artisans apply glaze by hand, coating the earthenware in matte mint green. Display the sculptural vase on its own, hosting one of our lifelike faux stems, or grouped with the other colorful totem vases. Our Eleonora mint totem vase is a Crate and Barrel exclusive.
                     </span>
                 </div>
@@ -56,47 +55,41 @@
         </div>
     </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<script type="text/javascript" src="{{ url_for('static', filename='/assets/dist/js/3.4.1_jquery.min.js') }}"></script>
 <script src="{{url_for('static', filename='assets/dist/custom/slugify.js')}}"></script>
       <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
 	  <script>		
 		$( document ).ready(function() {
-            /*$.ajax({
-      			data : {},
+            var productID = location.toString().substring(location.toString().indexOf('?')+1,location.toString().length);
+            var prodName = document.getElementById('prodName');
+            var prodPrice = document.getElementById('prodPrice');
+            var prodDescription = document.getElementById('prodDescription');
+            var prodQuantity = document.getElementById('prodQuantity');
+            var prodImg = document.getElementById('prodImg');
+            $.ajax({
+      			data : {'prodID':productID},
       			type : 'POST',
-      			url : '/renderProduct'
+      			url : '/renderSingleProduct'
 			})
   			.done(function(data){
 				if(data.status = 'success'){
-					for(var i=0; i<data.prodList.length; i++){
-						$("#rowProduct").append('<div class="col-12 col-md-6 col-lg-4">'+
-					  '<div class="card product-card" category="sofa">'+
-					  '<a href="/products/leatherSofa">'+
-					  '<img class="card-img-top" src="'+
-					  data.prodList[i][2]+
-					  '" alt="leather-sofa"></a>'+
-                      '<div class="card-body">'+
-					  '<h5 class="product-name"><a href="/products/leatherSofa">'+
-					  data.prodList[i][0]+
-					  '</a></h5>'+
-                      '<div class="row"><div class="col">'+
-					  '<p>S$ <span class="product-price">'+
-					  data.prodList[i][1]+
-					  '</span></p>'+
-					  '<p class="text-muted">(GST Incl.)</p></div></div></div></div></div>');
-					}
+                    prodName.innerText = data.itemList[0][0];
+                    prodPrice.innerText = '$'+data.itemList[0][1];
+                    prodDescription.innerText = data.itemList[0][2];
+                    prodQuantity.innerText = 'Available Quantity: '+data.itemList[0][3];
+                    prodImg.src = data.itemList[0][4];
 				}
 				else{
 					alert(data.message);
 				}
-			});*/
+			});
 			$('.bookmark').click(function(){
 				$( "button.bookmark" ).toggleClass( "text-dark" );
 				$( "button.bookmark" ).toggleClass( "text-danger" );
 				
 			});
 		});
-		
 	  </script>	
 
 {% endblock %}

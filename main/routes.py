@@ -78,7 +78,7 @@ def login():
 					error = 'Username not found'
 					return render_template('login.html',error=error)
 			except Exception as e:
-				print(e)
+				return redirect (url_for('login'))
 		return render_template('login.html')
 
 # Disallow access to pages if user is not logged in
@@ -376,12 +376,12 @@ def renderCategories():
 			cursor.close()
 			return jsonify({"success":"success", 'itemList':itemList})
 
-#API for getting product data
-@app.route('/renderProduct', methods=['GET', 'POST'])
-def renderProduct():
+#API for getting ONE product data
+@app.route('/renderSingleProduct', methods=['GET', 'POST'])
+def renderSingleProduct():
 	try:
 		cursor = db.cursor()
-		prod = request.form['product']
+		prod = int(request.form['prodID'])
 		args = (prod,)
 		itemList = []
 	except Exception as e:
@@ -389,11 +389,10 @@ def renderProduct():
 		return jsonify({'status': 'failed', 'message' : str(e)})
 	else:
 		try:
-			cursor.callproc('sp_item_by_categorySub', args)
+			cursor.callproc('display_product_by_ID', args)
 			for result in cursor.stored_results():
 				for item in result.fetchall():
 					itemList.append(item)
-					print(item)
 		except Exception as e:
 			cursor.close()
 			return jsonify({'status': 'failed', 'message': str(e)})

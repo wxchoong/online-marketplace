@@ -65,7 +65,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE `update_userInfo`(email VARCHAR(45), phone int, addresses varchar(100), postCode int, payment int)
+CREATE PROCEDURE `update_userInfo`(email VARCHAR(45), phone int, addresses varchar(100), postCode int)
 BEGIN
     UPDATE user_info 
     SET 
@@ -158,7 +158,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `add_order`(custEmail VARCHAR(45), orderDate DATETIME, receiveName VARCHAR(100), receiveAddr VARCHAR(100), receivePostal INT, 
     receivePhone INT, orderStatus VARCHAR(20), totalPrice FLOAT, deliverDate DATETIME, remark VARCHAR(255), totalQuantity INT,
-    cardLordName VARCHAR(100), cardNo INT, paymentIndex INT, expiryDate DATE)
+    cardLordName VARCHAR(100), cardNo BIGINT, paymentIndex INT, expiryDate DATE)
 BEGIN
 	INSERT INTO order_info VALUES(NULL, custEmail,orderDate,receiveName,receiveAddr,receivePostal,
     receivePhone, orderStatus, totalPrice, deliverDate,remark, totalQuantity, cardLordName, cardNo, paymentIndex, expiryDate);

@@ -196,3 +196,15 @@ INSERT INTO user_comment VALUES (NULL, 'sebestian@inserted.com', 'not what I exp
 update user_comment
 set adminReply = "No Reply Yet";
 
+
+
+insert into bookmark VALUES (NULL, 1, 'tpu@inserted.com', 1);
+insert into bookmark VALUES (NULL, 1, 'ZhouJL@inserted.com', 1);
+insert into bookmark VALUES (NULL, 1, 'ling@inserted.com', 0);
+insert into bookmark VALUES (NULL, 2, 'JMary@inserted.com', 1);
+insert into bookmark VALUES (NULL, 2, 'sebestian@inserted.com', 1);
+insert into bookmark VALUES (NULL, 3, 'sebestian@inserted.com', 1);
+insert into bookmark VALUES (NULL, 3, 'tpu@inserted.com', 1);
+insert into bookmark VALUES (NULL, 4, 'tpu@inserted.com', 0);
+insert into bookmark VALUES (NULL, 4, 'JMary@inserted.com', 0);
+insert into bookmark VALUES (NULL, 5, 'augustine@inserted.com', 1);

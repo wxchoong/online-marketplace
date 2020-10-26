@@ -314,7 +314,7 @@ def logout():
 #--------------------------------Functions for Admin CRUD---------------------------------------#
 
 # ----- Product -----
-# 1. Render All Existing Products in the List
+# 1. Render All Existing Products in the List  (reference @ line 334 see if its correct)
 # 2. Update Existing Product Info
 # 3. Delete Existing Product
 # 4. Add New Product
@@ -331,14 +331,26 @@ def logout():
 # 9. Render Revenues, Top Sales and Top Customers data
 
 #--------------------------------APIs---------------------------------------#
-#APIs for getting all order data
-@app.route('/get-all-orders', methods=['GET', 'POST'])
-def result():
-	cursor.execute("SELECT * FROM tabSales_Order")
+#APIs for getting all product data
+@app.route('/getAllProducts', methods=['GET', 'POST'])
+def getAllProducts():
+	try:
+		cursor = db.cursor()
+		fullProductList = []
+		cursor.callproc('display_product_all')
+	except Exception as e:
+		status = 'failed'
+		message = str(e)
+	else:
+		status = 'success'
+		message = 'success'
+		for result in cursor.stored_results():
+			for prod in result.fetchall():
+				fullProductList.append(prod)
+	finally:
+		cursor.close()
+		return jsonify({'status': status, 'message':message, 'prodList': fullProductList})
 
-	# fetching all records from the 'cursor' object
-	data = cursor.fetchall()
-	return jsonify(data)
 
 #APIs for getting categories data
 @app.route('/renderCategories', methods=['GET', 'POST'])
@@ -357,7 +369,6 @@ def renderCategories():
 			for result in cursor.stored_results():
 				for item in result.fetchall():
 					itemList.append(item)
-					print(item)
 		except Exception as e:
 			cursor.close()
 			return jsonify({'status': 'failed', 'message': str(e)})

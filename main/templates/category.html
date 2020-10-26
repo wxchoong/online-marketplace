@@ -270,6 +270,38 @@
       <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
 	  <script>
 		var rowProduct = document.getElementById("rowProduct");
+		$(document).ready(function(){
+			$.ajax({
+      			data : {},
+      			type : 'POST',
+      			url : '/getAllProducts'
+			})
+  			.done(function(data){
+				if(data.status = 'success'){
+					for(var i=0; i<data.prodList.length; i++){
+						$("#rowProduct").append('<div class="col-12 col-md-6 col-lg-4">'+
+					  '<div class="card product-card" category="sofa">'+
+					  '<a href="/products/leatherSofa">'+
+					  '<img class="card-img-top" src="'+
+					  data.prodList[i][2]+
+					  '" alt="leather-sofa"></a>'+
+                      '<div class="card-body">'+
+					  '<h5 class="product-name"><a href="/products/leatherSofa">'+
+					  data.prodList[i][0]+
+					  '</a></h5>'+
+                      '<div class="row"><div class="col">'+
+					  '<p>S$ <span class="product-price">'+
+					  data.prodList[i][1]+
+					  '</span></p>'+
+					  '<p class="text-muted">(GST Incl.)</p></div></div></div></div></div>');
+					}
+				}
+				else{
+					alert(data.message);
+				}
+			});
+		});
+
 		$( ".sub-cat" ).click(function(){
 			$(this).siblings().removeClass("is-active");
 			$(this).toggleClass('is-active');

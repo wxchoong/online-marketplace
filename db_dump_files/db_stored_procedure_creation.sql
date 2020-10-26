@@ -45,6 +45,24 @@ BEGIN
 END //
 DELIMITER ;
 
+
+DELIMITER //
+CREATE FUNCTION `get_sub_total`(productIdentifier INT, itemQuantity INT) RETURNS float
+    DETERMINISTIC
+BEGIN
+	DECLARE subTotal FLOAT;
+    select price from product_info where productID = productIdentifier INTO subTotal;
+RETURN subTotal*itemQuantity;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE `add_order_detail`(productID INT, orderID INT, numOfItems INT)
+BEGIN
+	SET @subTotal = get_sub_total(productID,numOfItems);
+	insert into order_detail VALUES(productID, orderID, numOfItems, @subTotal);
+END//
+DELIMITER ;
 ----------------
 -- Start userInfo table
 
@@ -117,11 +135,11 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE `display_product_all`(categoryID INT(11))
+CREATE PROCEDURE `display_product_all`()
 BEGIN
-    select productID, productName,category.categorySub, price, availableQuantity, isShow
-    from product_info join category
-    on product_info.categoryID = category.categoryID;
+    select productName, price, imagePath
+    from product_info where availableQuantity > 0;
+
 END //
 DELIMITER ;
 
@@ -161,7 +179,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `add_order`(custEmail VARCHAR(45), orderDate DATETIME, receiveName VARCHAR(100), receiveAddr VARCHAR(100), receivePostal INT, 
     receivePhone INT, orderStatus VARCHAR(20), totalPrice FLOAT, deliverDate DATETIME, remark VARCHAR(255), totalQuantity INT,
-    cardLordName VARCHAR(100), cardNo BIGINT, paymentIndex INT, expiryDate DATE)
+    cardLordName VARCHAR(100), cardNo INT, paymentIndex INT, expiryDate DATE)
 BEGIN
 	INSERT INTO order_info VALUES(NULL, custEmail,orderDate,receiveName,receiveAddr,receivePostal,
     receivePhone, orderStatus, totalPrice, deliverDate,remark, totalQuantity, cardLordName, cardNo, paymentIndex, expiryDate);

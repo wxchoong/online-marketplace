@@ -55,7 +55,7 @@ CREATE TABLE `order_info` (
   `remark` VARCHAR(255) NULL DEFAULT NULL,
   `totalItemQuantity` int NOT NULL,
   `cardHolder` VARCHAR(100) DEFAULT 'EMPTY',
-  `cardNumber` BIGINT DEFAULT '0',
+  `cardNumber` INT DEFAULT '0',
   `paymentMethod` INT NOT NULL DEFAULT '1',
   `cardExpiryDate` DATE,
   PRIMARY KEY (`orderID`),

@@ -145,7 +145,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `display_product_all`()
 BEGIN
-    select productName, price, imagePath
+    select productName, price, imagePath, productID
     from product_info where availableQuantity > 0;
 
 END //

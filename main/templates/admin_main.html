@@ -67,7 +67,7 @@
 					<div class="btn-group mr-2">
 						<button type="button" class="btn btn-outline-success btn-sm">Active</button>
 						<button type="button" class="btn btn-outline-danger btn-sm">Inactive</button>
-						<button type="button" class="btn btn-outline-info btn-sm">Add</button>
+						<a href='/admin/addProduct'><button type="button" class="btn btn-outline-info btn-sm">Add</button></a>
 					</div>
 
 				</div>
@@ -588,6 +588,30 @@
 					</div>
 				</div>
 			</div>		
+			<!-- Button trigger modal -->
+			
+			<!-- Modal -->
+			<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Reply comments</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<textarea class="form-control" rows="10"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End button trigger modal -->
 				<table class="table table-striped table-sm">
 					<thead>
 						<tr>
@@ -596,7 +620,7 @@
 							<th style="width:10%">User ID</th>
 							<th style="width:30%">User Comment</th>
 							<th style="width:30%">Admin Reply</th>
-							<th style="width:10%"">Action</th>
+							<th style="width:10%">Action</th>
 
 						</tr>
 					</thead>
@@ -610,7 +634,7 @@
 								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Please reply Comment here"></textarea>
 							</td>
 							<td>
-								<button type="button" class="btn btn-outline-success btn-sm">Reply</button>
+								<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#basicExampleModal"> Reply </button>
 							</td>
 						</tr>
 						<tr>

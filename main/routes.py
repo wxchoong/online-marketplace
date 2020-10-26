@@ -7,16 +7,16 @@ from datetime import datetime
 from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordField, validators
 
 ###  Functions Checklist and ToDos (Remove Later) ###
-# 1. Index Page -  Pending function for Render Top Picks
-# 2. Category Page - Done with Python and AJAX
+# 1. Index Page -  Pending function for render top picks
+# 2. Category Page - Partially done, need to render when click on navbar routes
 # 3. Product Page - Pending AJAX
-# 4. Login Page - Done with Python, need to update stored procedure
-# 5. Signup Page - Done with Python side, need to update stored procedure
-# 6. Admin Page - Pending, refer to "Admin CRUD" section
-# 7. Account Page - Functions added, pending test with stored procedure
-# 8. Cart Page - Pending function for creating view
-# 9. Checkout Page - Function added, pending test with stored procedure
-# 10. Payment Page - Pending funtion for retrieval of order ID (assume payment is always successful)
+# 4. Login Page - Done*
+# 5. Signup Page - Done*
+# 6. Admin Page - Pending, refer to "Admin CRUD" section (also pending UI for item editing)
+# 7. Account Page - Pending stored procedure for user to post review, and render all orders of the customer
+# 8. Cart Page - Pending 'add to cart' function and function for creating view
+# 9. Checkout Page - Pending function for inserting order and returning order ID
+# 10. Payment Page - Done* (but need to parse in order number)
 # 11. Search - Pending
 
 #--------------------------------Routes---------------------------------------#
@@ -31,6 +31,7 @@ def index():
     	return render_template('index.html')
 
 #Login Page
+#ToDo: optimize session storage
 @app.route('/login', methods=['GET', 'POST'])
 def login():	
 	# If logged in, redirect to user account page	
@@ -57,6 +58,8 @@ def login():
 					if sha256_crypt.verify(login_password, pwd):
 						session['logged_in'] = True
 						session['username'] = current_user[0]['userFirstName']
+						session['lastname'] = current_user[0]['userLastName']
+						session['useremail'] = current_user[0]['userEmail']
 						session['user_pwd'] = pwd
 						flash('You are now logged in','success')
 						
@@ -97,7 +100,7 @@ def is_admin(f):
 			return f(*args, **kwargs)
 		else:
 			flash('Unauthorized, Please log in using admin account','danger')
-			return redirect (url_for('/'))
+			return redirect (url_for('index'))
 	return wrap
 
 #Admin Page
@@ -110,13 +113,14 @@ def admin():
 @app.route('/account', methods=['GET','POST'])
 def account():
 	if request.method == 'POST':
-		if request.form['update_detail'] == 'updatePwd':
-			return redirect(url_for('changePassword'))
+		# changePassword()
+		if request.form['update_detail'] == 'updatePwd':	
+			changePassword()
 		elif request.form['update_detail'] == 'updateProfile':
-			return redirect(url_for('updateProfile'))
+			updateProfile()
 		elif request.form['update_detail'] == 'updateReview':
-			return redirect(url_for('addReview'))
-	return render_template('account.html', user=session['username'])
+			postReview()
+	return render_template('account.html', user=session['username'], lastname=session['lastname'], mail=session['useremail'])
 
 #Register Page
 @app.route('/signup', methods=['GET', 'POST'])
@@ -129,7 +133,6 @@ def signup():
 			lastName = request.form['cust_lastName']
 			contact = request.form['cust_phone']
 			pwd = sha256_crypt.hash(str(request.form['cust_pwd']))
-			# pwd = request.form['cust_pwd']
 			addr = request.form['cust_addr']
 			postal = request.form['cust_postal']
 			parse = (email, firstName, lastName, contact, pwd, addr, postal)
@@ -137,7 +140,7 @@ def signup():
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			try:
-				cursor.callproc('new_registeration', parse)
+				cursor.callproc('new_registration', parse)
 			except Exception as e:
 				return jsonify({'status': 'failed', 'message' : str(e)})
 			else:
@@ -212,7 +215,8 @@ def checkout():
 @app.route('/payment')
 @is_logged_in
 def payment():
-	return render_template('payment.html', user=session['username'])
+	order_no = 'SO-00001'
+	return render_template('payment.html', user=session['username'], orderId=order_no)
 
 #Search for Products
 @app.route('/search/<string:item>')
@@ -222,31 +226,29 @@ def search(item):
 #--------------------------------Functions for User Account---------------------------------------#
 
 #Update Profile Function
-@app.route('/updateProfile', methods=['GET', 'POST'])
 def updateProfile():
 	try:
 		cursor = db.cursor()
 		phone = request.form['inputPhone']
 		address = request.form['inputAddress']
 		postalCode = request.form['inputPostal']
-		parse(phone, address, postalCode)
+		parse = (session['useremail'], phone, address, postalCode)
 		
 	except Exception as e:
 		return jsonify({'status': 'failed', 'message' : str(e)})
 	else:
 		try:
-			cursor.callproc('update_profile', parse)
+			cursor.callproc('update_userInfo', parse)
 		except Exception as e:
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			db.commit()
+			flash('Profile updated', 'success')
 		finally:
 			cursor.close()
-			flash('Profile updated', 'success')  
-	return redirect(url_for('account'))
+			return redirect(url_for('account'))
 
 #Change Password Function
-@app.route('/changePassword', methods=['GET', 'POST'])
 def changePassword():
 	try:
 		cursor = db.cursor()
@@ -254,16 +256,15 @@ def changePassword():
 
 		#if password entered same as current password stored in database
 		if sha256_crypt.verify(currentPwd, session['user_pwd']):
-
-			newPwd = sha256_crypt.hash(str(request.form['inputNewPassword']))
+			newPwd = request.form['inputNewPassword']
 			confirmPwd = sha256_crypt.hash(str(request.form['inputConfirmPassword']))
 
 			#if new password and confirm password match
 			if sha256_crypt.verify(newPwd, confirmPwd):
-				parse(newPwd)
+				parse = (session['useremail'], confirmPwd)
 			#new password and confirm password does not match
 			else:
-				flash('New password does not match', 'danger')  
+				flash('New password does not match', 'danger') 
 		#password entered does not match the password in database 
 		else:
 			flash('Old password does not match', 'danger')
@@ -277,18 +278,17 @@ def changePassword():
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			db.commit()
+			flash('Password Changed', 'success')
 		finally:
 			cursor.close()
-			flash('Password Changed', 'success')  
-	return redirect(url_for('account'))
+			return redirect(url_for('account'))
 
 #Post Review Function
-@app.route('/postReview', methods=['GET', 'POST'])
 def postReview():
 	try:
 		cursor = db.cursor()
 		review = request.form['inputReview']
-		parse(review)
+		parse = (session['useremail'], review)
 		
 	except Exception as e:
 		return jsonify({'status': 'failed', 'message' : str(e)})
@@ -299,10 +299,10 @@ def postReview():
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			db.commit()
+			flash('Thank you for reviewing the product.', 'success')  
 		finally:
 			cursor.close()
-			flash('Thank you for reviewing the product.', 'success')  
-	return redirect(url_for('account'))
+			return redirect(url_for('account'))
 
 #Log out and redirect to login page
 @app.route('/logout')
@@ -314,19 +314,21 @@ def logout():
 #--------------------------------Functions for Admin CRUD---------------------------------------#
 
 # ----- Product -----
-# 1. Update Existing Product Info
-# 2. Delete Existing Product
-# 3. Add New Product
+# 1. Render All Existing Products in the List
+# 2. Update Existing Product Info
+# 3. Delete Existing Product
+# 4. Add New Product
 
 # ----- Order -----
-# 4. Change Status of Order
+# 5. Render All Existing Orders in the List
+# 6. Change Status of Order
 
 # ----- Comment -----
-# 5. Reply to Customer Comment
-# 6. Delete User Comment
+# 7. Reply to Customer Comment
+# 8. Delete User Comment
 
 # ----- Statistics -----
-# 7. Render Revenues, Top Sales and Top Customers data
+# 9. Render Revenues, Top Sales and Top Customers data
 
 #--------------------------------APIs---------------------------------------#
 #APIs for getting all order data
@@ -376,7 +378,7 @@ def renderProduct():
 		return jsonify({'status': 'failed', 'message' : str(e)})
 	else:
 		try:
-			cursor.callproc('sp_item_by_productname', args)
+			cursor.callproc('sp_item_by_categorySub', args)
 			for result in cursor.stored_results():
 				for item in result.fetchall():
 					itemList.append(item)

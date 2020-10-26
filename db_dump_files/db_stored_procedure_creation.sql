@@ -49,7 +49,7 @@ DELIMITER ;
 -- Start userInfo table
 
 DELIMITER //
-CREATE PROCEDURE `new_registeration`(email VARCHAR(45), fName VARCHAR(64), lName VARCHAR(64), contact INT, pwd VARCHAR(100), addr VARCHAR(100), postal INT)
+CREATE PROCEDURE `new_registration`(email VARCHAR(45), fName VARCHAR(64), lName VARCHAR(64), contact INT, pwd VARCHAR(100), addr VARCHAR(100), postal INT)
 BEGIN
 	insert into user_info 
     VALUES (email, contact, pwd, fName, lName, addr, postal, now(), now(), 0);
@@ -79,7 +79,10 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `update_password`(email VARCHAR(45), pwd VARCHAR(100))
 BEGIN
-    UPDATE user_info SET userPassword = pwd;
+    UPDATE user_info 
+    SET 
+        userPassword = pwd 
+    WHERE userEmail = email;
 END //
 DELIMITER ;
 

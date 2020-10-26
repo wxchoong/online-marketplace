@@ -1,8 +1,8 @@
 DELIMITER //
 CREATE PROCEDURE `sp_item_by_categoryMain`(categoryTitle varchar(45))
 BEGIN
-	Select * from product_info 
-    where categoryID = 
+	Select productName,price,imagePath, productID from product_info 
+    where categoryID IN
     (Select categoryID from category where categoryMain = categoryTitle);
 END //
 DELIMITER ;
@@ -65,12 +65,39 @@ END//
 DELIMITER ;
 
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `display_product_by_ID`(productIdentifier INT)
+CREATE PROCEDURE `display_product_by_ID`(productIdentifier INT)
 BEGIN
 	Select productName, price, productDescription, availableQuantity, imagePath from product_info
     where productIdentifier = productID;
 END//
 DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE `sort_product_by_ordering`(categorySubTitle varchar(45), ordering varchar(6))
+BEGIN
+	set @specifiedOrder = ordering;
+    IF @specifiedOrder = 'latest' THEN
+		Select productName,price,imagePath, productID from product_info 
+		where categoryID = 
+		(Select categoryID from category where categorySub = categorySubTitle)
+		order by lastUpdated desc;
+	END IF;
+	IF @specifiedOrder = 'asc' THEN
+		Select productName,price,imagePath, productID from product_info 
+		where categoryID = 
+		(Select categoryID from category where categorySub = categorySubTitle)
+		order by price asc;
+	END IF;
+	IF @specifiedOrder = 'desc' THEN
+		Select productName,price,imagePath, productID from product_info 
+		where categoryID = 
+		(Select categoryID from category where categorySub = categorySubTitle)
+		order by price desc;
+	END IF;
+END//
+DELIMITER ;
+
 ----------------
 -- Start userInfo table
 

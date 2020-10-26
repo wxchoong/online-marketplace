@@ -56,7 +56,7 @@
 					  data-parent="#accordionCat">
 						<ul class="list-group category_block">
 							<li class="list-group-item sub-cat">Sofa</li>
-							<li class="list-group-item sub-cat">Carpets &amp; Rugs</li>
+							<li class="list-group-item sub-cat">Carpets & Rugs</li>
 							<li class="list-group-item sub-cat">Coffee Table</li>
 							<li class="list-group-item sub-cat">TV Consoles</li>
 							<li class="list-group-item sub-cat">Arm Chairs</li>
@@ -144,11 +144,11 @@
 					<div id="collapseDecor" class="collapse" role="tabpanel" aria-labelledby="headingDecor"
 					  data-parent="#accordionCat">
 						<ul class="list-group category_block">
-							<li class="list-group-item sub-cat">Blinds &amp; Curtains</li>
-							<li class="list-group-item sub-cat">LIghts &amp; Lamps</li>
+							<li class="list-group-item sub-cat">Blinds & Curtains</li>
+							<li class="list-group-item sub-cat">Lights & Lamps</li>
 							<li class="list-group-item sub-cat">Wall Arts</li>
 							<li class="list-group-item sub-cat">Mirrors</li>
-							<li class="list-group-item sub-cat">Cushions &amp; Throws</li>
+							<li class="list-group-item sub-cat">Cushions & Throws</li>
 							<li class="list-group-item sub-cat">Scent Products</li>
 						</ul>
 					</div>
@@ -163,10 +163,11 @@
         </div>
         <div class="col">
             <div class="row">
-				<div class="col-12"><h1 class="selected_item">selected</h1></div>
+				<div class="col-12"><h1 class="selected_item"></h1></div>
 				<div class="col-12"> 
 					<label for="sortby">Sort by:</label>
 					<select name="sortby" id="sortby">
+					  <option value="Default" selected disabled>Sort</option>
 					  <option value="Newest">Newest</option>
 					  <option value="price_low">Price: Low to High</option>
 					  <option value="price_high">Price: High to Low</option>
@@ -183,14 +184,66 @@
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
 <script type="text/javascript" src="{{ url_for('static', filename='/assets/dist/js/3.4.1_jquery.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='/assets/dist/custom/slugify.js') }}"></script>
-      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
-	  <script>
-		var rowProduct = document.getElementById("rowProduct");
-		$(document).ready(function(){
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
+<script>
+	var rowProduct = document.getElementById("rowProduct");
+	var sortby = document.getElementById("sortby");
+	$(document).ready(function(){
+		var subCatChosen = location.toString().split('/');
+		var preChoose = subCatChosen[5];
+		if(preChoose != 'all'){
+			if(preChoose.search('_and_') > 0){
+				preChoose = preChoose.replace('_and_', ' & ');
+			}
+			else if(preChoose.search('_') > 0){
+				preChoose = preChoose.replace('_', ' ')
+			}
+			document.querySelectorAll('li').forEach(s=>{
+				if(s.innerText == preChoose){
+					s.click();
+				}
+			})
+		}
+		else if(preChoose = 'all'){
 			$.ajax({
-      			data : {},
-      			type : 'POST',
-      			url : '/getAllProducts'
+    		data : {'categoryMainTitle': subCatChosen[4].replace('_', ' ')},
+    		type : 'POST',
+    		url : '/getProductByMainCategory'
+			})
+  			.done(function(data){
+				if(data.status = 'success'){
+					for(var i=0; i<data.itemList.length; i++){
+						$("#rowProduct").append('<div class="col-12 col-md-6 col-lg-4">'+
+					  '<div class="card product-card" category="sofa">'+
+					  '<a href="/products/'+
+					  data.itemList[i][0]+
+					  '?'+
+					  data.itemList[i][3]+
+					  '">'+
+					  '<img class="card-img-top" src="'+
+					  data.itemList[i][2]+
+					  '" alt="leather-sofa"></a>'+
+        	          '<div class="card-body">'+
+					  '<h5 class="product-name"><a href="/products/leatherSofa">'+
+					  data.itemList[i][0]+
+					  '</a></h5>'+
+        	          '<div class="row"><div class="col">'+
+					  '<p>S$ <span class="product-price">'+
+					  data.itemList[i][1]+
+					  '</span></p>'+
+					  '<p class="text-muted">(GST Incl.)</p></div></div></div></div></div>');
+					}
+				}
+				else{
+					alert(data.message);
+				}
+			});
+		}
+		else{
+			$.ajax({
+    		data : {},
+    		type : 'POST',
+    		url : '/getAllProducts'
 			})
   			.done(function(data){
 				if(data.status = 'success'){
@@ -205,11 +258,11 @@
 					  '<img class="card-img-top" src="'+
 					  data.prodList[i][2]+
 					  '" alt="leather-sofa"></a>'+
-                      '<div class="card-body">'+
+        	          '<div class="card-body">'+
 					  '<h5 class="product-name"><a href="/products/leatherSofa">'+
 					  data.prodList[i][0]+
 					  '</a></h5>'+
-                      '<div class="row"><div class="col">'+
+        	          '<div class="row"><div class="col">'+
 					  '<p>S$ <span class="product-price">'+
 					  data.prodList[i][1]+
 					  '</span></p>'+
@@ -220,55 +273,89 @@
 					alert(data.message);
 				}
 			});
-		});
-
-		$( ".sub-cat" ).click(function(){
-			$(this).siblings().removeClass("is-active");
-			$(this).toggleClass('is-active');
-			$("#rowProduct").empty();
-			$.ajax({
-      			data : {'categorySubTitle':slugify($(this).text())},
-      			type : 'POST',
-      			url : '/renderCategories'
-			})
-  			.done(function(data){
-				if(data.success){
-					for(var i=0; i<data.itemList.length; i++){
-						$("#rowProduct").append('<div class="col-12 col-md-6 col-lg-4">'+
-					  '<div class="card product-card" category="sofa">'+
-					  '<a href="/products/'+
-					  data.itemList[i][0]+
-					  '?'+
-					  data.itemList[i][3]+
-					  '">'+
-					  '<img class="card-img-top" src="'+
-					  data.itemList[i][2]+
-					  '" alt="leather-sofa"></a>'+
-                      '<div class="card-body">'+
-					  '<h5 class="product-name"><a href="/products/leatherSofa">'+
-					  data.itemList[i][0]+
-					  '</a></h5>'+
-                      '<div class="row"><div class="col">'+
-					  '<p>S$ <span class="product-price">'+
-					  data.itemList[i][1]+
-					  '</span></p>'+
-					  '<p class="text-muted">(GST Incl.)</p></div></div></div></div></div>');
-					}
-				}
-				else{
-					alert(data.message);
-				}
-			});
-			$(".selected_item").text(jQuery(this).text());
-			//var selectedCat = slugify($(this).text());
-			//showCat(selectedCat);			
-		});
-		
-		function showCat(selectedCat){
-			//$('.product-card').hide();
-			
-			//$('[category='+selectedCat+']').show();
-			
 		}
-	  </script>
+	});
+	$( ".sub-cat" ).click(function(){
+		$(this).siblings().removeClass("is-active");
+		$(this).toggleClass('is-active');
+		$("#rowProduct").empty();
+		$.ajax({
+    		data : {'categorySubTitle':slugify($(this).text())},
+    		type : 'POST',
+    		url : '/renderCategories'
+		})
+  		.done(function(data){
+			if(data.success){
+				for(var i=0; i<data.itemList.length; i++){
+					$("#rowProduct").append('<div class="col-12 col-md-6 col-lg-4">'+
+				  '<div class="card product-card" category="sofa">'+
+				  '<a href="/products/'+
+				  data.itemList[i][0]+
+				  '?'+
+				  data.itemList[i][3]+
+				  '">'+
+				  '<img class="card-img-top" src="'+
+				  data.itemList[i][2]+
+				  '" alt="leather-sofa"></a>'+
+                  '<div class="card-body">'+
+				  '<h5 class="product-name"><a href="/products/leatherSofa">'+
+				  data.itemList[i][0]+
+				  '</a></h5>'+
+                  '<div class="row"><div class="col">'+
+				  '<p>S$ <span class="product-price">'+
+				  data.itemList[i][1]+
+				  '</span></p>'+
+				  '<p class="text-muted">(GST Incl.)</p></div></div></div></div></div>');
+				}
+			}
+			else{
+				alert(data.message);
+			}
+		});
+		$(".selected_item").text(jQuery(this).text());
+		//var selectedCat = slugify($(this).text());
+		//showCat(selectedCat);			
+	});
+	function showCat(selectedCat){
+		//$('.product-card').hide();
+		//$('[category='+selectedCat+']').show();
+	}
+
+	sortby.onchange = function(){	
+   		$.ajax({
+			data : {'sort' : sortby.value, 'categorySubTitle': slugify($(".selected_item").text())},
+        	type : 'POST',
+			url : '/sortByInput'
+		})
+		.done(function(data){
+			if (data.status = 'success'){
+				$("#rowProduct").empty();
+				for(var i=0; i<data.sortedList.length; i++){
+				  $("#rowProduct").append('<div class="col-12 col-md-6 col-lg-4">'+
+				  '<div class="card product-card" category="sofa">'+
+				  '<a href="/products/'+
+				  data.sortedList[i][0]+
+				  '?'+
+				  data.sortedList[i][3]+
+				  '">'+
+				  '<img class="card-img-top" src="'+
+				  data.sortedList[i][2]+
+				  '" alt="leather-sofa"></a>'+
+                  '<div class="card-body">'+
+				  '<h5 class="product-name"><a href="/products/leatherSofa">'+
+				  data.sortedList[i][0]+
+				  '</a></h5>'+
+                  '<div class="row"><div class="col">'+
+				  '<p>S$ <span class="product-price">'+
+				  data.sortedList[i][1]+
+				  '</span></p>'+
+				  '<p class="text-muted">(GST Incl.)</p></div></div></div></div></div>');
+				}
+			}
+        	else{
+        	    alert(data.message);
+        	}
+		});
+	}	
+</script>
 {% endblock %}

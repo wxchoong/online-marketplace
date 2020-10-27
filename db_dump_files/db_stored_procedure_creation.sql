@@ -19,6 +19,15 @@ DELIMITER ;
 
 
 DELIMITER //
+CREATE PROCEDURE `search_product`(searchStr VARCHAR(45))
+BEGIN
+    Select productName,price,imagePath, productID from product_info 
+    where productName LIKE searchStr;
+END //
+DELIMITER ;
+
+
+DELIMITER //
 CREATE PROCEDURE `sp_check_availability`(productIdentifier int)
 BEGIN
 	Select availableQuantity from product_info 
@@ -317,6 +326,6 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `display_bookmark_user`(email VARCHAR(45))
 BEGIN
-    select pi.productName, pi.price, pi.imagePath, , pi.productID, bm.isMarked, bm.bookmarkID from product_info pi, bookmark bm where pi.productID = bm.productID and bm.isMarked = 1 and bm.userEmail = email; 
+    select pi.productName, pi.price, pi.imagePath, pi.productID, bm.isMarked, bm.bookmarkID from product_info pi, bookmark bm where pi.productID = bm.productID and bm.isMarked = 1 and bm.userEmail = email; 
 END //
 DELIMITER ;

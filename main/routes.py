@@ -17,7 +17,7 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordFiel
 # 8. Cart Page - Pending 'add to cart' function and function for creating view
 # 9. Checkout Page - Pending function for inserting order and returning order ID
 # 10. Payment Page - Done* (but need to parse in order number)
-# 11. Search - Pending
+# 11. Search - Pending AJAX
 
 #--------------------------------Routes---------------------------------------#
 
@@ -219,9 +219,29 @@ def payment():
 	return render_template('payment.html', user=session['username'], orderId=order_no)
 
 #Search for Products
-@app.route('/search/<string:item>')
-def search(item):
-	return render_template('category.html', result=item)
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+	try:
+		cursor = db.cursor()
+		searchStr = '%' + request.form['searchBox'] + '%'
+		args = (searchStr,)
+		itemList = []
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('search_product', args)
+			for result in cursor.stored_results():
+				for item in result.fetchall():
+					itemList.append(item)
+		except Exception as e:
+			cursor.close()
+			return jsonify({'status': 'failed', 'message': str(e)})
+		else:
+			cursor.close()
+			return jsonify({"success":"success", 'itemList':itemList})
+	finally:
+		cursor.close()
 
 #--------------------------------Functions for User Account---------------------------------------#
 

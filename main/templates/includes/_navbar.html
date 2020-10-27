@@ -12,8 +12,8 @@
                 <a class="navbar-brand" href="/"><img
                         src="{{url_for('static', filename='assets/dist/images/logo.png')}}" /></a>
                 <div class="search-box">
-                    <form class="form-inline my-2 my-md-0">
-                        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                    <form class="form-inline my-2 my-md-0" action="{{ url_for('search') }}" method="POST">
+                        <input class="form-control" type="text" name="searchBox" placeholder="Search" aria-label="Search" value={{request.form.searchBox}}>
                     </form>
                 </div>
                 <a class="item-right" href="/cart"><img

@@ -47,6 +47,15 @@ DELIMITER ;
 
 
 DELIMITER //
+CREATE PROCEDURE `get_top_picks`()
+BEGIN
+	SELECT productName, imagePath, productID FROM product_info
+    where soldQuantity < 100
+    ORDER BY soldQuantity desc limit 5;
+END//
+DELIMITER ;
+
+DELIMITER //
 CREATE FUNCTION `get_sub_total`(productIdentifier INT, itemQuantity INT) RETURNS float
     DETERMINISTIC
 BEGIN
@@ -301,13 +310,13 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `update_bookmark`(bookmarkId int)
 BEGIN
-    UPDATE bookmark SET isMarked = 0 WHERE bookMarkID = bookmark;
+    UPDATE bookmark SET isMarked = 0 WHERE bookMarkID = bookmarkId;
 END //
 DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE `display_bookmark_user`(email VARCHAR(45))
 BEGIN
-    select pi.productName, pi.price, pi.imagePath from product_info pi, bookmark bm where pi.productID = bm.productID and bm.isMarked = 1 and bm.userEmail = email; 
+    select pi.productName, pi.price, pi.imagePath, , pi.productID, bm.isMarked, bm.bookmarkID from product_info pi, bookmark bm where pi.productID = bm.productID and bm.isMarked = 1 and bm.userEmail = email; 
 END //
 DELIMITER ;

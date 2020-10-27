@@ -208,3 +208,8 @@ insert into bookmark VALUES (NULL, 3, 'tpu@inserted.com', 1);
 insert into bookmark VALUES (NULL, 4, 'tpu@inserted.com', 0);
 insert into bookmark VALUES (NULL, 4, 'JMary@inserted.com', 0);
 insert into bookmark VALUES (NULL, 5, 'augustine@inserted.com', 1);
+insert into bookmark VALUES (NULL, 1, 'stanley@gmail.com', 0);
+insert into bookmark VALUES (NULL, 2, 'stanley@gmail.com', 1);
+insert into bookmark VALUES (NULL, 3, 'stanley@gmail.com', 1);
+insert into bookmark VALUES (NULL, 4, 'stanley@gmail.com', 0);
+insert into bookmark VALUES (NULL, 5, 'stanley@gmail.com', 1);

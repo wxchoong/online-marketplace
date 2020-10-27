@@ -7,7 +7,7 @@ from datetime import datetime
 from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordField, validators
 
 ###  Functions Checklist and ToDos (Remove Later) ###
-# 1. Index Page -  Pending function for render top picks
+# 1. Index Page -  Done*
 # 2. Category Page - Done*
 # 3. Product Page - Pending bookmarking function
 # 4. Login Page - Done*
@@ -376,6 +376,7 @@ def renderCategories():
 			return jsonify({"success":"success", 'itemList':itemList})
 	finally:
 		cursor.close()
+
 #API for getting ONE product data
 @app.route('/renderSingleProduct', methods=['GET', 'POST'])
 def renderSingleProduct():
@@ -458,4 +459,79 @@ def sortByInput():
 	finally:
 		cursor.close()
 	return jsonify({"status":"success", 'sortedList':sortedList})
+
+
+#APIs for getting top picks
+@app.route('/getTopPicks', methods=['GET', 'POST'])
+def getTopPicks():
+	try:
+		cursor = db.cursor()
+		itemList = []
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('get_top_picks')
+			for result in cursor.stored_results():
+				for item in result.fetchall():
+					itemList.append(item)
+		except Exception as e:
+			cursor.close()
+			return jsonify({'status': 'failed', 'message': str(e)})
+		else:
+			cursor.close()
+			return jsonify({"success":"success", 'itemList':itemList})
+	finally:
+		cursor.close()
+
+
+
+#APIs for getting all bookmarks made by user
+@app.route('/displayBookmarkOfUser', methods=['GET', 'POST'])
+def displayBookmarkOfUser():
+	try:
+		cursor = db.cursor()
+		userIdentifier = request.form['userIdentifier']
+		itemList = []
+		args = (userIdentifier, )
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('display_bookmark_user', args)
+			for result in cursor.stored_results():
+				for item in result.fetchall():
+					itemList.append(item)
+		except Exception as e:
+			cursor.close()
+			return jsonify({'status': 'failed', 'message': str(e)})
+		else:
+			cursor.close()
+			return jsonify({"success":"success", 'itemList':itemList})
+	finally:
+		cursor.close()
+
+
+	dislikeProduct
+#APIs for deselecting bookmarks made by user
+@app.route('/dislikeProduct', methods=['GET', 'POST'])
+def dislikeProduct():
+	try:
+		cursor = db.cursor()
+		bookmarkID = request.form['bookmarkID']
+		args = (bookmarkID, )
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('update_bookmark', args)
+		except Exception as e:
+			cursor.close()
+			return jsonify({'status': 'failed', 'message': str(e)})
+		else:
+			cursor.close()
+			return jsonify({"success":"success"})
+	finally:
+		cursor.close()
+
 #--------------------------------------------------------------------------#

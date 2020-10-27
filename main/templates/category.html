@@ -52,7 +52,7 @@
 					</div>
 
 					<!-- Card body -->
-					<div id="collapseLR" class="collapse show" role="tabpanel" aria-labelledby="headingLR"
+					<div id="collapseLR" class="collapse" role="tabpanel" aria-labelledby="headingLR"
 					  data-parent="#accordionCat">
 						<ul class="list-group category_block">
 							<li class="list-group-item sub-cat">Sofa</li>
@@ -200,6 +200,7 @@
 			}
 			document.querySelectorAll('li').forEach(s=>{
 				if(s.innerText == preChoose){
+					s.parentElement.parentElement.classList.add('show')
 					s.click();
 				}
 			})
@@ -224,7 +225,11 @@
 					  data.itemList[i][2]+
 					  '" alt="leather-sofa"></a>'+
         	          '<div class="card-body">'+
-					  '<h5 class="product-name"><a href="/products/leatherSofa">'+
+					  '<h5 class="product-name"><a href="/products/'+
+					  data.itemList[i][0]+
+					  '?'+
+					  data.itemList[i][3]+
+					  '">'+
 					  data.itemList[i][0]+
 					  '</a></h5>'+
         	          '<div class="row"><div class="col">'+
@@ -259,8 +264,12 @@
 					  data.prodList[i][2]+
 					  '" alt="leather-sofa"></a>'+
         	          '<div class="card-body">'+
-					  '<h5 class="product-name"><a href="/products/leatherSofa">'+
-					  data.prodList[i][0]+
+						'<h5 class="product-name"><a href="/products/'+
+					  data.itemList[i][0]+
+					  '?'+
+					  data.itemList[i][3]+
+					  '">'+
+					  data.itemList[i][0]+
 					  '</a></h5>'+
         	          '<div class="row"><div class="col">'+
 					  '<p>S$ <span class="product-price">'+
@@ -298,8 +307,12 @@
 				  data.itemList[i][2]+
 				  '" alt="leather-sofa"></a>'+
                   '<div class="card-body">'+
-				  '<h5 class="product-name"><a href="/products/leatherSofa">'+
-				  data.itemList[i][0]+
+					'<h5 class="product-name"><a href="/products/'+
+					  data.itemList[i][0]+
+					  '?'+
+					  data.itemList[i][3]+
+					  '">'+
+					  data.itemList[i][0]+
 				  '</a></h5>'+
                   '<div class="row"><div class="col">'+
 				  '<p>S$ <span class="product-price">'+
@@ -342,8 +355,12 @@
 				  data.sortedList[i][2]+
 				  '" alt="leather-sofa"></a>'+
                   '<div class="card-body">'+
-				  '<h5 class="product-name"><a href="/products/leatherSofa">'+
-				  data.sortedList[i][0]+
+					'<h5 class="product-name"><a href="/products/'+
+					  data.itemList[i][0]+
+					  '?'+
+					  data.itemList[i][3]+
+					  '">'+
+					  data.itemList[i][0]+
 				  '</a></h5>'+
                   '<div class="row"><div class="col">'+
 				  '<p>S$ <span class="product-price">'+

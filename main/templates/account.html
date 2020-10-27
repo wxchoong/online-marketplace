@@ -534,51 +534,8 @@
 
 <!--my bookmarks-->
 <div class="item-div my-bookmarks">
-<div class="row products">
-				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
-					<a href="/livingRoom/leatherSofa"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/sofa/leather-sofa.jpg')}}" alt="leather-sofa"></a>
-					<div class="card-body">
-						<h5 class="product-name"><a href="/livingRoom/leatherSofa">Leather Sofa</a></h5>
-						<div class="row">
-						<div class="col">
-							<p>Item price:<br/> S$ <span class="item-price">299.00</span> <span class="text-muted">(GST Incl.)</span></p>
-						</div>
-                        <div class="col-auto">
-                            <button class="btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-danger">♥</button>
-                        </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
-					<a href="/livingRoom/persianCarpet"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/carpets-and-rugs/persian-carpet.jpg')}}" alt="persian-carpet"></a>
-					<div class="card-body">
-						<h5 class="product-name"><a href="/livingRoom/persianCarpet">Persian Carpet</a></h5>
-						<div class="row">
-						<div class="col">
-							<p>Item price:<br/> S$ <span class="item-price">79.00</span> <span class="text-muted">(GST Incl.)</span></p>							
-						</div>
-                        <div class="col-auto">
-                            <button class="btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-danger">♥</button>
-                        </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4 card product-card">
-					<a href="/livingRoom/woodenCoffeeTable"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/coffee-table/wooden-coffee-table.jpg')}}" alt="wooden-coffee-table"></a>
-					<div class="card-body">
-						<h5 class="product-name"><a href="/livingRoom/woodenCoffeeTable">Wooden Coffee Table</a></h5>
-						<div class="row">
-						<div class="col">
-							<p>Item price:<br/> S$ <span class="item-price">99.00</span> <span class="text-muted">(GST Incl.)</span></p>
-						</div>
-                        <div class="col-auto">
-                            <button class="btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-danger">♥</button>
-                        </div>
-						</div>
-					</div>
-				</div>
-			</div>
-		  
+<div class="row products" id="rowProduct">
+</div>	  
 </div>
 <!--end of my bookmarks-->
 
@@ -594,30 +551,82 @@
 </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+<script type="text/javascript" src="{{ url_for('static', filename='/assets/dist/js/3.4.1_jquery.min.js') }}"></script>
 <script src="{{url_for('static', filename='assets/dist/custom/slugify.js')}}"></script>
-      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
-	  <script>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
+<script>
+var rowProduct = document.getElementById("rowProduct");
+$( document ).ready(function() {
+	$("#rowProduct").empty();
+	$('.item-div').css("display", "none");
+	$('.my-profile').show();
+});
 		
-		$( document ).ready(function() {
-			$('.item-div').css("display", "none");
-			$('.my-profile').show();
-		});
-		
-		$( ".account-menu .list-group-item" ).click(function(){
-			$(this).siblings().removeClass("is-active");
-			$(this).toggleClass('is-active');
-			$(".selected_item").text(jQuery(this).text());
-			var selectedItem = slugify($(this).text());
-			showItem(selectedItem);			
-		});
-		
-		function showItem(selectedItem){
-			//$('.product-card').hide();
-			$('.item-div').css("display", "none");
-			$('.'+selectedItem).show();
-			
+$( ".account-menu .list-group-item" ).click(function(){
+	$(this).siblings().removeClass("is-active");
+	$(this).toggleClass('is-active');
+	$(".selected_item").text(jQuery(this).text());
+	var selectedItem = slugify($(this).text());
+	showItem(selectedItem);
+	//$("#rowProduct").empty();
+	$.ajax({
+    data : {'userIdentifier':'{{mail}}'},
+    type : 'POST',
+    url : '/displayBookmarkOfUser'
+	})
+  	.done(function(data){
+		if(data.success){
+			for(var i=0; i<data.itemList.length; i++){
+				$("#rowProduct").append(
+				'<div class="col-sm-12 col-md-6 col-lg-4 card product-card"><a href="/products/'+
+				data.itemList[i][0]+
+				'?'+
+				data.itemList[i][3]+
+				'"><img class="card-img-top" src="'+
+				data.itemList[i][2]+
+				'" alt="leather-sofa"></a><div class="card-body"><h5 class="product-name"><a href="/products/'+
+				data.itemList[i][0]+
+				'?'+
+				data.itemList[i][3]+
+				'">'+
+				data.itemList[i][0]+
+				'</a></h5><div class="row"><div class="col"><p>Item price:<br/> S$ <span class="item-price">'+
+				data.itemList[i][1]+
+				'</span> <span class="text-muted">(GST Incl.)</span></p></div><div class="col-auto">'+
+				'<button class="btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-danger" value='+
+				data.itemList[i][5]+
+				' onclick="dislike(value);">♥</button>'+
+				'</div></div></div></div>');
+			}
 		}
-	  </script>
+		else{
+			alert(data.message);
+		}
+	});
+});
+	function showItem(selectedItem){
+		//$('.product-card').hide();
+		$('.item-div').css("display", "none");
+		$('.'+selectedItem).show();
+		
+	}
+	function dislike(bookmarkID) {
+		$.ajax({
+    	data : {'bookmarkID':bookmarkID},
+    	type : 'POST',
+    	url : '/dislikeProduct'
+		})
+		.done(function(data){
+			if(data.success){
+				$(this).removeClass('text-danger');
+				$(this).addClass('text-dark');
+			}
+			else{
+				alert(data.message);
+			}
+		});
+	}
+</script>
 
 {% endblock %}

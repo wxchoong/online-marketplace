@@ -123,7 +123,7 @@
                     <div class="row cc-div">
                         <div class="col-md-3 mb-3">
                             <label for="cc-expiration">Expiry</label>
-                            <input type="text" class="form-control" name="cc_expiry" placeholder="" required="" value={{request.form.cc_expiry}}>
+                            <input type="date" class="form-control" name="cc_expiry" placeholder="" required="" value={{request.form.cc_expiry}}>
                             <div class="invalid-feedback">
                                 Expiry date required
                             </div>
@@ -137,7 +137,7 @@
                         </div>
                     </div>
                     <hr class="mb-4">
-                    <a href="/payment"><button class="btn btn-lg btn-block mybtn" type="submit">Proceed to payment</button></a>
+                    <a href="/checkout"><button class="btn btn-lg btn-block mybtn" type="submit">Proceed to payment</button></a>
                 </form>
             </div>
         </div>

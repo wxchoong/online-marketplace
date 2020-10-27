@@ -3,7 +3,7 @@ from functools import wraps
 from flask import render_template, request, json, jsonify, flash, redirect, url_for, session
 from passlib.hash import sha256_crypt
 from functools import wraps
-from datetime import datetime
+from datetime import datetime, timedelta
 from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordField, validators
 
 ###  Functions Checklist and ToDos (Remove Later) ###
@@ -15,7 +15,7 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordFiel
 # 6. Admin Page - Pending, refer to "Admin CRUD" section (also pending UI for item editing)
 # 7. Account Page - Pending stored procedure for user to post review, and render all orders of the customer
 # 8. Cart Page - Pending 'add to cart' function and function for creating view
-# 9. Checkout Page - Pending function for inserting order and returning order ID
+# 9. Checkout Page - Pending function for inserting order details and returning order ID
 # 10. Payment Page - Done* (but need to parse in order number)
 # 11. Search - Pending AJAX
 
@@ -185,23 +185,33 @@ def checkout():
 	if request.method == 'POST':
 		try:
 			cursor = db.cursor()
+			email = session['useremail']
+			orderDate = datetime.now()
 			name = request.form['reciName']
-			phone = request.form['reciPhone']
 			address = request.form['reciAddress']
 			postalCode = request.form['reciPostal']
-			paymentMethod = request.form['payment']
+			phone = request.form['reciPhone']
+			orderStat = 'confirmed'
+			totalPrice = 666
+			deliverDate = datetime.now() + timedelta(days=3)
+			remark = 'call me when delivering'
+			totalQty = 6
 			cardName = request.form['cc_name']
 			cardNum = request.form['cc_number']
-			cardExpiry = request.form['cc_expiration']
-			cardCvv = request.form['cc_cvv']
-			parse(name, phone, address, postalCode, paymentMethod, cardName, cardNum, cardExpiry, cardCvv)
-			
+			paymentMethod = request.form['payment']
+			cardExpiry = datetime.now() + timedelta(days=365)
+			#cardCvv = request.form['cc_cvv']
+			parse = (email, orderDate, name, address, postalCode, phone, orderStat, totalPrice, 
+			deliverDate, remark, totalQty, cardName, cardNum, paymentMethod, cardExpiry)
+
 		except Exception as e:
+			print(str(e))
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			try:
-				cursor.callproc('add_payment', parse)
+				cursor.callproc('add_order', parse)
 			except Exception as e:
+				print(str(e))
 				return jsonify({'status': 'failed', 'message' : str(e)})
 			else:
 				db.commit()
@@ -325,6 +335,7 @@ def postReview():
 			return redirect(url_for('account'))
 
 #Log out and redirect to login page
+@app.route('/')
 @app.route('/logout')
 def logout():
 	session.clear()
@@ -335,20 +346,31 @@ def logout():
 
 # ----- Product -----
 # 1. Render All Existing Products in the List  (reference @ line 334 see if its correct)
+@app.route('/admin/viewProducts')
 # 2. Update Existing Product Info
+@app.route('/admin/updateProduct')
 # 3. Delete Existing Product
+@app.route('/admin/deleteProduct')
 # 4. Add New Product
+@app.route('/admin/addProduct')
+def addProduct():
+	return render_template('admin_update.html')
 
 # ----- Order -----
 # 5. Render All Existing Orders in the List
+@app.route('/admin/viewOrders')
 # 6. Change Status of Order
+@app.route('/admin/updateOrder')
 
 # ----- Comment -----
 # 7. Reply to Customer Comment
+@app.route('/admin/replyComment')
 # 8. Delete User Comment
+@app.route('/admin/deleteComment')
 
 # ----- Statistics -----
 # 9. Render Revenues, Top Sales and Top Customers data
+@app.route('/admin/viewStatistics')
 
 #--------------------------------APIs---------------------------------------#
 #APIs for getting all product data

@@ -215,9 +215,9 @@ def checkout():
 				return jsonify({'status': 'failed', 'message' : str(e)})
 			else:
 				db.commit()
+				flash('Payment successful', 'success')  
 			finally:
 				cursor.close()
-				flash('Payment successful', 'success')  
 				return redirect(url_for('payment'))
 	return render_template('checkout.html', user=session['username'])
 

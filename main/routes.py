@@ -271,11 +271,10 @@ def search():
 			return jsonify({'status': 'failed', 'message': str(e)})
 		else:
 			cursor.close()
-			#return jsonify({"success":"success", 'itemList':itemList})
-			print(itemList)
+			return jsonify({"success":"success", 'itemList':itemList})
 	finally:
 		cursor.close()
-	return render_template('category.html', searchlist=itemList)
+	#return render_template('category.html', searchlist=itemList)
 
 #--------------------------------Functions for User Account---------------------------------------#
 
@@ -584,14 +583,37 @@ def displayBookmarkOfUser():
 		return jsonify({"success":status, 'itemList':itemList, 'message':message})
 
 
+#APIs for deselecting bookmarks made by user 
+@app.route('/likeOrDislikeProduct', methods=['GET', 'POST']) 
+def dislikeProduct(): 
+	try: 
+		cursor = db.cursor() 
+		userIdentifier = request.form['userIdentifier']
+		likeOrNo = int(request.form['likeOrNo'])
+		prodID = int(request.form['prodID'])
+		args = (prodID,userIdentifier,likeOrNo)
+		print(userIdentifier)
+		print(type(likeOrNo))
+		print(type(prodID))
+	except Exception as e:
+		status = 'failed'
+		print(str(e))
+		message = str(e)
+	else: 
+		try: 
+   			cursor.callproc('update_bookmark', args) 
+		except Exception as e: 
+   			cursor.close() 
+   			print(str(e))
+   			status = 'failed'
+   			message = str(e)
+		else:
+   			db.commit()
+   			cursor.close() 
+   			status = 'success'
+   			message = 'success'
+	finally: 
+   		cursor.close()
+   		return jsonify({'status':status, 'message':message})
 
-#APIs for deselecting bookmarks made by user
-@app.route('/likeOrDislikeProduct', methods=['GET', 'POST'])
-def likeOrDislikeProduct():
-	#try:
-	#	cursor = db.cursor()
-	#	bookmarkID = request.form['bookmarkID']
-	#	likeOrNo = request.form['likeOrNo']
-	#	args = (bookmarkID, likeOrNo)
-	return jsonify({"status": "status"})
 #--------------------------------------------------------------------------#

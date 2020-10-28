@@ -61,6 +61,8 @@
       <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
 	  <script>		
 		$( document ).ready(function() {
+            var currentBookmark;
+            var currentBookmarkID;
             var productID = location.toString().substring(location.toString().indexOf('?')+1,location.toString().length);
             var prodName = document.getElementById('prodName');
             var prodPrice = document.getElementById('prodPrice');
@@ -87,27 +89,32 @@
 			});
 			$('.bookmark').click(function(){
                 if($( "button.bookmark" ).hasClass("text-dark")){
-                    likeOrDislike()
-                    console.log("dark");
+                    likeOrDislike(productID, 1);
+                    $( "button.bookmark" ).removeClass("text-dark");
+                    $( "button.bookmark" ).addClass("text-danger");
                 }
                 else{
-                    console.log("danger");
+                    likeOrDislike(productID, 0);
+                    $( "button.bookmark" ).removeClass("text-danger");
+                    $( "button.bookmark" ).addClass("text-dark");
                 }
 				//$( "button.bookmark" ).toggleClass( "text-dark" );
 				//$( "button.bookmark" ).toggleClass( "text-danger" );
 				
 			});
 		});
-    function likeOrDislike(bookmarkID, likeOrNo) {
+    function likeOrDislike(productID, likeOrNo) {
+        console.log(productID);
+        console.log('{{mail}}');
+        console.log(likeOrNo);
 		$.ajax({
-    	data : {'bookmarkID':bookmarkID, 'likeOrNo': likeOrNo},
+    	data : {'prodID':productID,'userIdentifier':'{{mail}}', 'likeOrNo': likeOrNo},
     	type : 'POST',
     	url : '/likeOrDislikeProduct'
 		})
 		.done(function(data){
-			if(data.success){
-				$(this).removeClass('text-danger');
-				$(this).addClass('text-dark');
+			if(data.status == 'success'){
+                console.log(data.message);
 			}
 			else{
 				alert(data.message);
@@ -115,8 +122,6 @@
 		});
 	}
     function checkBookMarked(productName){
-        console.log("checkBookMarked");
-        console.log("{{mail}}");
         $.ajax({
         data : {'userIdentifier':'{{mail}}'},
         type : 'POST',
@@ -129,13 +134,14 @@
                     console.log(data.itemList[i][0]);
                     console.log(productName);
                     if(data.itemList[i][4] == 1){
-                        console.log(data.itemList[i][4]);
-                        console.log("1");
+                        currentBookmark = 1;
+                        currentBookmarkID = data.itemList[i][5];
                         $( "button.bookmark" ).removeClass("text-dark");
                         $( "button.bookmark" ).addClass("text-danger");
                     }
                     else{
-                        console.log(data.itemList[i][4]);
+                        currentBookmark = 0;
+                        currentBookmarkID = data.itemList[i][5];
                         $( "button.bookmark" ).removeClass("text-danger");
                         $( "button.bookmark" ).addClass("text-dark");
                     }

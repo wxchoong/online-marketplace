@@ -54,6 +54,15 @@ BEGIN
 END //
 DELIMITER ;
 
+DELIMITER //
+CREATE FUNCTION `check_bookmark_exist`(bProductId int, bEmail VARCHAR(45)) RETURNS INT 
+DETERMINISTIC
+BEGIN
+DECLARE bookmarkCount INT;
+SELECT COUNT(bookMarkID) FROM bookmark WHERE productID = bProductId AND userEmail = bEmail INTO bookmarkCount;
+RETURN bookmarkCount;
+END //
+DELIMITER;
 
 DELIMITER //
 CREATE PROCEDURE `get_top_picks`()
@@ -315,12 +324,21 @@ BEGIN
 END //
 DELIMITER ;
 
-
 DELIMITER //
-CREATE PROCEDURE `update_bookmark`(bookmarkId int)
+CREATE PROCEDURE `update_bookmark`(prodID int,userIdentifier varchar(45), likeOrNo int)
 BEGIN
-    UPDATE bookmark SET isMarked = 0 WHERE bookMarkID = bookmarkId;
-END //
+	IF likeOrNo != 0 THEN
+		SET @exist = check_bookmark_exist(prodID, userIdentifier);
+        IF @exist = 1 THEN
+			UPDATE bookmark SET isMarked = 1 WHERE  productID = prodID and userEmail = userIdentifier;
+		ELSE 
+			CALL add_bookmark(prodID, userIdentifier, likeOrNo);
+		END IF;
+	END IF; 
+    IF likeOrNo = 0 THEN 
+		UPDATE bookmark SET isMarked = 0 WHERE productID = prodID and userEmail = userIdentifier;
+	END IF;
+END//
 DELIMITER ;
 
 DELIMITER //

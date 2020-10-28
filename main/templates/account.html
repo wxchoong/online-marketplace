@@ -569,7 +569,6 @@ $( ".account-menu .list-group-item" ).click(function(){
 	$(".selected_item").text(jQuery(this).text());
 	var selectedItem = slugify($(this).text());
 	showItem(selectedItem);
-	//$("#rowProduct").empty();
 	$.ajax({
     data : {'userIdentifier':'{{mail}}'},
     type : 'POST',
@@ -577,6 +576,7 @@ $( ".account-menu .list-group-item" ).click(function(){
 	})
   	.done(function(data){
 		if(data.success){
+			$("#rowProduct").empty();
 			for(var i=0; i<data.itemList.length; i++){
 				$("#rowProduct").append(
 				'<div class="col-sm-12 col-md-6 col-lg-4 card product-card"><a href="/products/'+
@@ -594,9 +594,9 @@ $( ".account-menu .list-group-item" ).click(function(){
 				'</a></h5><div class="row"><div class="col"><p>Item price:<br/> S$ <span class="item-price">'+
 				data.itemList[i][1]+
 				'</span> <span class="text-muted">(GST Incl.)</span></p></div><div class="col-auto">'+
-				'<button class="btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-danger" value='+
-				data.itemList[i][5]+
-				' onclick="dislike(value);">♥</button>'+
+				//'<button class="btn-lg btn-block btn-primary rounded-circle border-0 bg-light text-danger" value='+
+				//data.itemList[i][5]+
+				//' onclick="dislike(value);">♥</button>'+
 				'</div></div></div></div>');
 			}
 		}
@@ -611,22 +611,22 @@ $( ".account-menu .list-group-item" ).click(function(){
 		$('.'+selectedItem).show();
 		
 	}
-	function dislike(bookmarkID) {
-		$.ajax({
-    	data : {'bookmarkID':bookmarkID},
-    	type : 'POST',
-    	url : '/likeOrDislikeProduct'
-		})
-		.done(function(data){
-			if(data.success){
-				//$(this).removeClass('text-danger');
-				//$(this).addClass('text-dark');
-			}
-			else{
-				alert(data.message);
-			}
-		});
-	}
+	//function dislike(bookmarkID) {
+	//	$.ajax({
+    //	data : {'bookmarkID':bookmarkID},
+    //	type : 'POST',
+    //	url : '/likeOrDislikeProduct'
+	//	})
+	//	.done(function(data){
+	//		if(data.success){
+	//			//$(this).removeClass('text-danger');
+	//			//$(this).addClass('text-dark');
+	//		}
+	//		else{
+	//			alert(data.message);
+	//		}
+	//	});
+	//}
 
 </script>
 

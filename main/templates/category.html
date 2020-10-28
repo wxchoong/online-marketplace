@@ -190,8 +190,56 @@
 	var sortby = document.getElementById("sortby");
 	$(document).ready(function(){
 		var subCatChosen = location.toString().split('/');
+		console.log(subCatChosen);
+		var searchListTemp = '{{searchlist}}'.split('), (');
+		searchListTemp.toString().replace('[', '');	
+		searchListTemp.toString().replace(']', '');
+		searchListTemp.toString().split(',');
+		console.log(searchListTemp);
 		var preChoose = subCatChosen[5];
-		if(preChoose != 'all'){
+		if(subCatChosen[4] == 'search'){
+			console.log("search");
+			$("#rowProduct").empty();
+			$.ajax({
+    		data : {'searchBox': subCatChosen[5]},
+    		type : 'POST',
+    		url : '/search'
+			})
+  			.done(function(data){
+				if(data.status = 'success'){
+					for(var i=0; i<data.itemList.length; i++){
+						$("#rowProduct").append('<div class="col-12 col-md-6 col-lg-4">'+
+					  '<div class="card product-card" category="sofa">'+
+					  '<a href="/products/'+
+					  data.itemList[i][0]+
+					  '?'+
+					  data.itemList[i][3]+
+					  '">'+
+					  '<img class="card-img-top" src="'+
+					  data.itemList[i][2]+
+					  '" alt="leather-sofa"></a>'+
+        	          '<div class="card-body">'+
+					  '<h5 class="product-name"><a href="/products/'+
+					  data.itemList[i][0]+
+					  '?'+
+					  data.itemList[i][3]+
+					  '">'+
+					  data.itemList[i][0]+
+					  '</a></h5>'+
+        	          '<div class="row"><div class="col">'+
+					  '<p>S$ <span class="product-price">'+
+					  data.itemList[i][1]+
+					  '</span></p>'+
+					  '<p class="text-muted">(GST Incl.)</p></div></div></div></div></div>');
+					}
+				}
+				else{
+					alert(data.message);
+				}
+			});
+
+		}
+		else if(preChoose != 'all'){
 			if(preChoose.search('_and_') > 0){
 				preChoose = preChoose.replace('_and_', ' & ');
 			}
@@ -334,7 +382,7 @@
 		//$('[category='+selectedCat+']').show();
 	}
 
-	sortby.onchange = function(){	
+	sortby.onchange = function(){
    		$.ajax({
 			data : {'sort' : sortby.value, 'categorySubTitle': slugify($(".selected_item").text())},
         	type : 'POST',

@@ -10,3 +10,4 @@ call add_order_detail(1,3,2);
 call sort_product_by_ordering('Rugs', 'asc');
 call sort_product_by_ordering('Rugs', 'desc');
 call sp_item_by_categoryMain('Living Room');
+select check_bookmark_exist(6, 'stanley@gmail.com');

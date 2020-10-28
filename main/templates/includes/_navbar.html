@@ -12,8 +12,8 @@
                 <a class="navbar-brand" href="/"><img
                         src="{{url_for('static', filename='assets/dist/images/logo.png')}}" /></a>
                 <div class="search-box">
-                    <form class="form-inline my-2 my-md-0" action="{{ url_for('search') }}" method="POST">
-                        <input class="form-control" type="text" name="searchBox" placeholder="Search" aria-label="Search" value={{request.form.searchBox}}>
+                    <!-- <form class="form-inline my-2 my-md-0" action="{{ url_for('search') }}" method="POST"> -->
+                        <input class="form-control" type="search" id="searchBox" name="searchBox" placeholder="Search" aria-label="Search" value={{request.form.searchBox}}>
                     </form>
                 </div>
                 <a class="item-right" href="/cart"><img
@@ -84,3 +84,12 @@
         </div>
     </div>
 </nav>
+<script type="text/javascript" src="{{ url_for('static', filename='/assets/dist/js/3.4.1_jquery.min.js') }}"></script>
+
+<script>
+    $("#searchBox").on('keyup', function (e) {
+    if (e.key === 'Enter' || e.keyCode === 13) {
+        location.replace(location.origin+"/categories/search/"+$("#searchBox").val());
+    }
+});
+</script>

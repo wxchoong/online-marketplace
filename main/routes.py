@@ -543,12 +543,15 @@ def getTopPicks():
 					itemList.append(item)
 		except Exception as e:
 			cursor.close()
-			return jsonify({'status': 'failed', 'message': str(e)})
+			status = 'failed'
+			message = str(e)
 		else:
 			cursor.close()
-			return jsonify({"success":"success", 'itemList':itemList})
+			status = 'success'
+			message = 'success'
 	finally:
 		cursor.close()
+		return jsonify({"success":status, 'itemList':itemList, 'message':message})
 
 
 
@@ -570,36 +573,16 @@ def displayBookmarkOfUser():
 					itemList.append(item)
 		except Exception as e:
 			cursor.close()
-			return jsonify({'status': 'failed', 'message': str(e)})
+			status = 'failed'
+			message = str(e)
 		else:
 			cursor.close()
-			return jsonify({"success":"success", 'itemList':itemList})
+			status = 'success'
+			message = 'success'
 	finally:
 		cursor.close()
+		return jsonify({"success":status, 'itemList':itemList, 'message':message})
 
-
-#APIs for getting all bookmarks made by user
-@app.route('/displayBookmarkOfUser', methods=['GET', 'POST'])
-def displayBookmarkOfUser():
-	try:
-		cursor = db.cursor()
-		userIdentifier = request.form['userIdentifier']
-		itemList = []
-		args = (userIdentifier, )
-	except Exception as e:
-		cursor.close()
-		return jsonify({'status': 'failed', 'message' : str(e)})
-	else:
-		try:
-			cursor.callproc('update_bookmark', args)
-		except Exception as e:
-			cursor.close()
-			return jsonify({'status': 'failed', 'message': str(e)})
-		else:
-			cursor.close()
-			return jsonify({"success":"success"})
-	finally:
-		cursor.close()
 
 
 #APIs for deselecting bookmarks made by user
@@ -610,5 +593,5 @@ def likeOrDislikeProduct():
 	#	bookmarkID = request.form['bookmarkID']
 	#	likeOrNo = request.form['likeOrNo']
 	#	args = (bookmarkID, likeOrNo)
-	return jsonify({"status":, "status"})
+	return jsonify({"status": "status"})
 #--------------------------------------------------------------------------#

@@ -15,8 +15,8 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordFiel
 # 6. Admin Page - Pending, refer to "Admin CRUD" section (also pending UI for item editing)
 # 7. Account Page - Pending stored procedure for user to post review, and render all orders of the customer
 # 8. Cart Page - Pending 'add to cart' function and function for creating view
-# 9. Checkout Page - Pending function for inserting order details and returning order ID
-# 10. Payment Page - Done* (but need to parse in order number)
+# 9. Checkout Page - Pending function for inserting order details
+# 10. Payment Page - Done*
 # 11. Search - Pending AJAX
 
 #--------------------------------Routes---------------------------------------#
@@ -62,6 +62,7 @@ def login():
 						session['useremail'] = current_user[0]['userEmail']
 						session['user_pwd'] = pwd
 						flash('You are now logged in','success')
+						cursor.close()
 						
 						#Redirect based on user role (admin/customer)
 						if(isAdmin == True):
@@ -200,9 +201,17 @@ def checkout():
 			cardNum = request.form['cc_number']
 			paymentMethod = request.form['payment']
 			cardExpiry = datetime.now() + timedelta(days=365)
+
+			if(paymentMethod == 'visa'):
+				payIdx = 1
+			elif(paymentMethod == 'mastercard'):
+				payIdx = 2
+			else:
+				payIdx = 3
+
 			#cardCvv = request.form['cc_cvv']
 			parse = (email, orderDate, name, address, postalCode, phone, orderStat, totalPrice, 
-			deliverDate, remark, totalQty, cardName, cardNum, paymentMethod, cardExpiry)
+			deliverDate, remark, totalQty, cardName, cardNum, payIdx, cardExpiry)
 
 		except Exception as e:
 			print(str(e))
@@ -225,7 +234,19 @@ def checkout():
 @app.route('/payment')
 @is_logged_in
 def payment():
-	order_no = 'SO-00001'
+	cursor = db.cursor()
+	order_no = 'SO-00000'
+	order_query = "SELECT orderID FROM order_info WHERE orderedCustomer='" + session['useremail'] + \
+		"' ORDER BY orderedDate DESC LIMIT 1;"
+	cursor.execute(order_query)
+	current_order = cursor.fetchall()
+			
+	#Verify user id and password if user exists
+	if current_order != None:
+		order_no = current_order[0][0]
+	
+	cursor.close()
+
 	return render_template('payment.html', user=session['username'], orderId=order_no)
 
 #Search for Products
@@ -249,9 +270,11 @@ def search():
 			return jsonify({'status': 'failed', 'message': str(e)})
 		else:
 			cursor.close()
-			return jsonify({"success":"success", 'itemList':itemList})
+			#return jsonify({"success":"success", 'itemList':itemList})
+			print(itemList)
 	finally:
 		cursor.close()
+	return render_template('category.html', searchlist=itemList)
 
 #--------------------------------Functions for User Account---------------------------------------#
 

@@ -615,18 +615,19 @@ $( ".account-menu .list-group-item" ).click(function(){
 		$.ajax({
     	data : {'bookmarkID':bookmarkID},
     	type : 'POST',
-    	url : '/dislikeProduct'
+    	url : '/likeOrDislikeProduct'
 		})
 		.done(function(data){
 			if(data.success){
-				$(this).removeClass('text-danger');
-				$(this).addClass('text-dark');
+				//$(this).removeClass('text-danger');
+				//$(this).addClass('text-dark');
 			}
 			else{
 				alert(data.message);
 			}
 		});
 	}
+
 </script>
 
 {% endblock %}

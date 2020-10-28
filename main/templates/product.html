@@ -79,17 +79,74 @@
                     prodDescription.innerText = data.itemList[0][2];
                     prodQuantity.innerText = 'Available Quantity: '+data.itemList[0][3];
                     prodImg.src = data.itemList[0][4];
+                    checkBookMarked(data.itemList[0][0]);
 				}
 				else{
 					alert(data.message);
 				}
 			});
 			$('.bookmark').click(function(){
-				$( "button.bookmark" ).toggleClass( "text-dark" );
-				$( "button.bookmark" ).toggleClass( "text-danger" );
+                if($( "button.bookmark" ).hasClass("text-dark")){
+                    likeOrDislike()
+                    console.log("dark");
+                }
+                else{
+                    console.log("danger");
+                }
+				//$( "button.bookmark" ).toggleClass( "text-dark" );
+				//$( "button.bookmark" ).toggleClass( "text-danger" );
 				
 			});
 		});
+    function likeOrDislike(bookmarkID, likeOrNo) {
+		$.ajax({
+    	data : {'bookmarkID':bookmarkID, 'likeOrNo': likeOrNo},
+    	type : 'POST',
+    	url : '/likeOrDislikeProduct'
+		})
+		.done(function(data){
+			if(data.success){
+				$(this).removeClass('text-danger');
+				$(this).addClass('text-dark');
+			}
+			else{
+				alert(data.message);
+			}
+		});
+	}
+    function checkBookMarked(productName){
+        console.log("checkBookMarked");
+        console.log("{{mail}}");
+        $.ajax({
+        data : {'userIdentifier':'{{mail}}'},
+        type : 'POST',
+        url : '/displayBookmarkOfUser'
+	    })
+  	.done(function(data){
+		if(data.success){
+			for(var i=0; i<data.itemList.length; i++){
+                if(data.itemList[i][0] == productName){
+                    console.log(data.itemList[i][0]);
+                    console.log(productName);
+                    if(data.itemList[i][4] == 1){
+                        console.log(data.itemList[i][4]);
+                        console.log("1");
+                        $( "button.bookmark" ).removeClass("text-dark");
+                        $( "button.bookmark" ).addClass("text-danger");
+                    }
+                    else{
+                        console.log(data.itemList[i][4]);
+                        $( "button.bookmark" ).removeClass("text-danger");
+                        $( "button.bookmark" ).addClass("text-dark");
+                    }
+                }
+			}
+		}
+		else{
+			alert(data.message);
+		}
+	});
+        }
 	  </script>	
 
 {% endblock %}

@@ -213,3 +213,14 @@ insert into bookmark VALUES (NULL, 2, 'stanley@gmail.com', 1);
 insert into bookmark VALUES (NULL, 3, 'stanley@gmail.com', 1);
 insert into bookmark VALUES (NULL, 4, 'stanley@gmail.com', 0);
 insert into bookmark VALUES (NULL, 5, 'stanley@gmail.com', 1);
+
+INSERT INTO order_info VALUES(NULL,'JohnDoe@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Doe','Blk 32C Jigsaw Ave #07-03','579032',90885878,0,18.54,DATE_ADD( DATE_ADD(now(), INTERVAL 3 DAY), INTERVAL 3 DAY),'Test tes',3,'John',3211,1, DATE_ADD(now(), INTERVAL 60 DAY));
+INSERT INTO order_info VALUES(NULL,'JMary@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Mary','Blk 655 Jigsaw Ave #05-0','579655',93225231,0,100.38, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test mary',3,'Mary',1100,1, DATE_ADD(now(), INTERVAL 60 DAY));
+INSERT INTO order_info VALUES(NULL,'ZhouJL@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Jie Lun','Blk 621 Hollywood Ave #22-11','385621',98775903,0,76.66, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test zhou tes',3,'Jie Lun',9999,1, DATE_ADD(now(), INTERVAL 60 DAY));
+INSERT INTO order_info VALUES(NULL,'augustine@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Augustine','Blk 638 Hollywood Ave #17-53','385638',96524788,0,499.25, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test August~',3,'Augustine',1314,1,DATE_ADD(now(), INTERVAL 60 DAY));
+INSERT INTO order_info VALUES(NULL,'sebestian@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Sebestian','Blk 800 Casear Palace Garden #33-42','355800',93397071,0,138.24, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test seb web',3,'Sebestian',5201,1, DATE_ADD(now(), INTERVAL 60 DAY));
+INSERT INTO order_detail VALUES(1,1,3,18.54);
+INSERT INTO order_detail VALUES(2,2,6,100.38);
+INSERT INTO order_detail VALUES(3,3,1,76.66);
+INSERT INTO order_detail VALUES(4,4,5,499.25);
+INSERT INTO order_detail VALUES(5,5,4,138.24);

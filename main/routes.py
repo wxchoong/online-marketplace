@@ -165,9 +165,10 @@ def categories(main,sub):
 @app.route('/<string:cat>/<string:prod>')
 def products(cat,prod):
 	if 'logged_in' in session:
-		return render_template('product.html', prod_id=prod, user=session['username'])
+		return render_template('product.html', prod_id=prod, user=session['username'], mail=session['useremail'])
 	else:
 		return render_template('product.html', prod_id=prod)
+
 
 #Cart Page
 @app.route('/cart')
@@ -577,15 +578,16 @@ def displayBookmarkOfUser():
 		cursor.close()
 
 
-	dislikeProduct
-#APIs for deselecting bookmarks made by user
-@app.route('/dislikeProduct', methods=['GET', 'POST'])
-def dislikeProduct():
+#APIs for getting all bookmarks made by user
+@app.route('/displayBookmarkOfUser', methods=['GET', 'POST'])
+def displayBookmarkOfUser():
 	try:
 		cursor = db.cursor()
-		bookmarkID = request.form['bookmarkID']
-		args = (bookmarkID, )
+		userIdentifier = request.form['userIdentifier']
+		itemList = []
+		args = (userIdentifier, )
 	except Exception as e:
+		cursor.close()
 		return jsonify({'status': 'failed', 'message' : str(e)})
 	else:
 		try:
@@ -599,4 +601,14 @@ def dislikeProduct():
 	finally:
 		cursor.close()
 
+
+#APIs for deselecting bookmarks made by user
+@app.route('/likeOrDislikeProduct', methods=['GET', 'POST'])
+def likeOrDislikeProduct():
+	#try:
+	#	cursor = db.cursor()
+	#	bookmarkID = request.form['bookmarkID']
+	#	likeOrNo = request.form['likeOrNo']
+	#	args = (bookmarkID, likeOrNo)
+	return jsonify({"status":, "status"})
 #--------------------------------------------------------------------------#

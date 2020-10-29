@@ -224,3 +224,17 @@ INSERT INTO order_detail VALUES(2,2,6,100.38);
 INSERT INTO order_detail VALUES(3,3,1,76.66);
 INSERT INTO order_detail VALUES(4,4,5,499.25);
 INSERT INTO order_detail VALUES(5,5,4,138.24);
+
+
+INSERT INTO order_info VALUES（NULL, 'tpu@inserted.com', now(), 'tian', 'Blk 139A Lorong 1A #19-88', '313139',82317582, 0, 18.54, now()+3, 'Test tp', 4, 'tpu', 3676, 1, now());
+INSERT INTO order_info VALUES（NULL, 'ling@inserted.com', now(), 'gang', 'Blk 13 Toh Yi Drive #04-12', '590013',95631821, 0, 100.38, now()+3, 'Test lg', 8, 'ling', 0000, 2, now());
+INSERT INTO order_info VALUES（NULL, 'cwx@inserted.com', now(), 'Xian', '672 Woodlands Drive 71 #21-11', '730672',23211523, 0, 76.66, now()+3, 'Test yx', 6, 'cwx', 1234, 2, now());
+INSERT INTO order_info VALUES（NULL, 'yangzj@inserted.com', now(), 'yang', '316A Ang Mo Kio Street 31 #15-32', '562316',90479123, 0, 499.25, now()+3, 'Test zj~', 2, NULL, NULL, 3, now());
+INSERT INTO order_info VALUES（NULL, 'fengjy@inserted.com', now(), 'feng', '182 Jln Jurong Kechil #17-53', '596145',96524788, 0, 138.24, now()+3, 'Test dailao', 10, NULL, NULL, 3, now());
+INSERT INTO order_info VALUES（NULL, 'mystery@inserted.com', now(), 'mr', 'NullSpace in LinearAlgebra', '100000',93397071, 0, 138.24, now()+3, 'NO TEST', 1, 'mystery', 4765, 1, now());
+INSERT INTO order_detail VALUES (1, 6, 4, 24.72);
+INSERT INTO order_detail VALUES (11, 7, 8, 90.88);
+INSERT INTO order_detail VALUES (16, 8, 6, 219.84);
+INSERT INTO order_detail VALUES (22, 9, 2, 190.54);
+INSERT INTO order_detail VALUES (28, 10, 10, 679);
+INSERT INTO order_detail VALUES (33, 11, 1, 51.34);

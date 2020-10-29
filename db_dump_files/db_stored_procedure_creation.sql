@@ -363,7 +363,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `sp_manage_product`()
 BEGIN
-	select pi.ProductName, cat.categorySub, pi.price, pi.availableQuantity, pi.isShow from product_info pi, category cat where pi.categoryID = cat.categoryID;
+	select pi.ProductID, pi.ProductName, cat.categorySub, pi.price, pi.availableQuantity, pi.isShow from product_info pi, category cat where pi.categoryID = cat.categoryID;
 END//
 DELIMITER ;
 
@@ -375,7 +375,7 @@ END//
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE `manage_comment`()
+CREATE PROCEDURE `sp_manage_comment`()
 BEGIN
 select uc.commentID, pi.productName, uc.commentDate, uc.commentorEmail, uc.comment, uc.adminReply 
 from user_comment uc, product_info pi 

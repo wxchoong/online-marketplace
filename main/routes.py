@@ -62,7 +62,6 @@ def login():
 						session['useremail'] = current_user[0]['userEmail']
 						session['user_pwd'] = pwd
 						flash('You are now logged in','success')
-						cursor.close()
 						
 						#Redirect based on user role (admin/customer)
 						if(isAdmin == True):

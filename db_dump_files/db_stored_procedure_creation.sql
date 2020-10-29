@@ -216,11 +216,12 @@ END //
 DELIMITER ;
 
 DELIMITER //-- Admin Func
-CREATE PROCEDURE `update_product`(productId INT(11), pName VARCHAR(100), pPrice FLOAT, pQuantity INT(11), imageLoc VARCHAR(255), pDescript VARCHAR(255))
+CREATE PROCEDURE `update_product`(productId INT, pCategory int, pName VARCHAR(100), pPrice FLOAT, pQuantity INT, imageLoc VARCHAR(255), pDescript VARCHAR(255))
 BEGIN
     UPDATE product_info 
     SET 
         productName = pName,
+        categoryID = pCategory,
         price = pPrice,
         availableQuantity = pQuantity,
         imagePath = imageLoc,
@@ -231,7 +232,7 @@ END //
 DELIMITER ;
 
 DELIMITER //-- Admin Func
-CREATE PROCEDURE `delete_product`(productId INT(11))
+CREATE PROCEDURE ``hide_product``(productId INT(11))
 BEGIN
     UPDATE product_info SET isShow = 0 WHERE productID = productId;
 END //
@@ -281,12 +282,6 @@ DELIMITER ;
 
 
 --4.Comment Table 
-DELIMITER //-- Admin Func
-CREATE PROCEDURE `display_comment_all`(productId int, email VARCHAR(45))
-BEGIN
-    SELECT * FROM user_comment WHERE productID = productId;
-END //
-DELIMITER ;
 
 DELIMITER //-- Admin Func
 CREATE PROCEDURE `display_comment_not_reply_yet`(productId int, email VARCHAR(45))
@@ -380,5 +375,15 @@ BEGIN
 select uc.commentID, pi.productName, uc.commentDate, uc.commentorEmail, uc.comment, uc.adminReply 
 from user_comment uc, product_info pi 
 where uc.productID = pi.productID;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE FUNCTION `check_user_exist`(Email VARCHAR(45)) RETURNS INT
+DETERMINISTIC
+BEGIN
+DECLARE isUserExist INT;
+SELECT COUNT(userEmail) FROM user_info WHERE userEmail = Email INTO isUserExist;
+RETURN isUserExist;
 END//
 DELIMITER ;

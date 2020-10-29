@@ -92,7 +92,7 @@
 							<td class="text-left">{{detail}}</td>
 							{% endfor %}
 							<td>
-								<button type="button" onclick="deleteProduct(value);" class="btn btn-outline-danger btn-sm" value={{item[0]}}>Hide</button>
+								<button type="button" onclick="hideProduct(value);" class="btn btn-outline-danger btn-sm" value={{item[0]}}>Hide</button>
 								<button type="button" onclick="editProduct(value);"class="btn btn-outline-primary btn-sm" value={{item[0]}}>Edit</button>
 							</td>
 						</tr>
@@ -129,9 +129,9 @@
 							<td class="text-left">{{o_detail}}</td>
 							{% endfor %}
 							<td>
-								<button type="button" class="btn btn-outline-success btn-sm" value={{orders[0]}}>Confirmed</button>
-								<button type="button" class="btn btn-outline-danger btn-sm" value={{orders[0]}}>Cancelled</button>
-								<button type="button" class="btn btn-outline-primary btn-sm" value={{orders[0]}}>Delivered</button>
+								<button type="button" onclick="ConfirmedOrder(value);" class="btn btn-outline-success btn-sm" value={{orders[0]}}>Confirmed</button>
+								<button type="button" onclick="CancelledOrder(value);" class="btn btn-outline-danger btn-sm" value={{orders[0]}}>Cancelled</button>
+								<button type="button" onclick="DeliveredOrder(value);" class="btn btn-outline-primary btn-sm" value={{orders[0]}}>Delivered</button>
 							</td>
 						</tr>
 						{%endfor%}
@@ -289,11 +289,11 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<textarea class="form-control" rows="10"></textarea>
+							<textarea id="replyMsg" class="form-control" rows="10"></textarea>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary">Save changes</button>
+							<button type="button" onclick="sendReply();" class="btn btn-primary">Save changes</button>
 						</div>
 					</div>
 				</div>
@@ -322,7 +322,7 @@
 								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Please reply Comment here"></textarea>
 							</td>-->
 							<td>
-								<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#basicExampleModal"> Reply </button>
+								<button type="button" class="btn btn-outline-primary btn-sm" onclick="replyComment(value);" data-toggle="modal" value="{{comments[0]}}" data-target="#basicExampleModal"> Reply </button>
 							</td>
 						</tr>
 						{%endfor%}
@@ -376,11 +376,103 @@
 
 function editProduct(value){
 	console.log(value);
+	$.ajax({
+    data : {'productID': value},
+    type : 'POST',
+    url : '/editProduct'
+	})
+  	.done(function(data){
+		if(data.status = 'success'){
+		}
+		else{
+			alert(data.message);
+		}
+	});
 }
 
-function deleteProduct(value){
+function hideProduct(value){
+	$.ajax({
+	data : {'productID': value},
+    type : 'POST',
+    url : '/hideProduct'
+	})
+  	.done(function(data){
+		if(data.status = 'success'){
+		}
+		else{
+			alert(data.message);
+		}
+	});
 	console.log(value);
 }
+
+function ConfirmedOrder(value){
+	$.ajax({
+    data : {'orderID': value},
+    type : 'POST',
+    url : '/confirmOrder'
+	})
+  	.done(function(data){
+		if(data.status = 'success'){
+		}
+		else{
+			alert(data.message);
+		}
+	});
+	console.log(value);
+}
+function CancelledOrder(value){
+	$.ajax({
+	data : {'orderID': value},
+    type : 'POST',
+    url : '/cancelOrder'
+	})
+  	.done(function(data){
+		if(data.status = 'success'){
+		}
+		else{
+			alert(data.message);
+		}
+	});
+	console.log(value);
+}
+function DeliveredOrder(value){
+	$.ajax({
+	data : {'orderID': value},
+    type : 'POST',
+    url : '/deliverOrder'
+	})
+  	.done(function(data){
+		if(data.status = 'success'){
+		}
+		else{
+			alert(data.message);
+		}
+	});
+	console.log(value);
+}
+function sendReply(){
+	var message = document.getElementById("replyMsg").value;
+	var commentID = localStorage.getItem('commentID');
+	$.ajax({
+    data : {'commentID': commentID, 'message':message},
+    type : 'POST',
+    url : '/updateReply'
+	})
+  	.done(function(data){
+		if(data.status = 'success'){
+		}
+		else{
+			alert(data.message);
+		}
+	});
+}
+
+function replyComment(value){
+	localStorage.setItem('commentID', value);
+
+}
+
 </script>
 		  
 	</body>

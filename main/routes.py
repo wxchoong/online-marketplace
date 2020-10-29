@@ -108,7 +108,29 @@ def is_admin(f):
 @app.route('/admin')
 @is_admin
 def admin():
-	return render_template('admin_main.html')
+	try:
+		cursor = db.cursor()
+		productList = []
+		orderList = []
+		commentList = []
+	except Exception as e:
+		return jsonify({'Status':'Failed', 'Error':str(e)})
+	else:
+		cursor.callproc('sp_manage_product')
+		for result in cursor.stored_results():
+			for item in result.fetchall():
+				productList.append(item)
+		cursor.nextset()
+		cursor.callproc('sp_manage_order')
+		for result in cursor.stored_results():
+			for item in result.fetchall():
+				orderList.append(item)
+		cursor.nextset()
+		cursor.callproc('sp_manage_comment')
+		for result in cursor.stored_results():
+			for item in result.fetchall():
+				commentList.append(item)
+	return render_template('admin_main.html', productList=productList, orderList=orderList, commentList=commentList)
 
 #User Account
 @app.route('/account', methods=['GET','POST'])
@@ -275,6 +297,7 @@ def search():
 	finally:
 		cursor.close()
 	#return render_template('category.html', searchlist=itemList)
+
 
 #--------------------------------Functions for User Account---------------------------------------#
 

@@ -95,7 +95,7 @@ DELIMITER //
 CREATE PROCEDURE `display_product_by_ID`(productIdentifier INT)
 BEGIN
 	Select productName, price, productDescription, availableQuantity, imagePath from product_info
-    where productIdentifier = productID;
+    where productIdentifier = productID AND availableQuantity > 0;
 END//
 DELIMITER ;
 
@@ -211,7 +211,7 @@ BEGIN
     select productID, productName,category.categorySub, price, availableQuantity, isShow
     from product_info join category
     on product_info.categoryID = category.categoryID
-    WHERE isShow = pIsShow;
+    WHERE isShow = pIsShow AND availableQuantity > 0;
 END //
 DELIMITER ;
 
@@ -346,4 +346,39 @@ CREATE PROCEDURE `display_bookmark_user`(email VARCHAR(45))
 BEGIN
     select pi.productName, pi.price, pi.imagePath, pi.productID, bm.isMarked, bm.bookmarkID from product_info pi, bookmark bm where pi.productID = bm.productID and bm.isMarked = 1 and bm.userEmail = email; 
 END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE `get_top_spending_user`()
+BEGIN
+	SELECT ui.userEmail, oi.totalItemPrice as Spending FROM user_info ui INNER JOIN order_info oi
+    ON ui.userEmail = oi.orderedCustomer
+    ORDER BY  Spending desc limit 5;
+END//
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE `sp_manage_product`()
+BEGIN
+	select pi.ProductName, cat.categorySub, pi.price, pi.availableQuantity, pi.isShow from product_info pi, category cat where pi.categoryID = cat.categoryID;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE `sp_manage_order`()
+BEGIN
+	select orderID, totalItemPrice, orderStatus from order_info;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE `manage_comment`()
+BEGIN
+select uc.commentID, pi.productName, uc.commentDate, uc.commentorEmail, uc.comment, uc.adminReply 
+from user_comment uc, product_info pi 
+where uc.productID = pi.productID;
+END//
 DELIMITER ;

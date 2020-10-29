@@ -9,15 +9,15 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordFiel
 ###  Functions Checklist and ToDos (Remove Later) ###
 # 1. Index Page -  Done*
 # 2. Category Page - Done*
-# 3. Product Page - Pending bookmarking function
+# 3. Product Page - Done*
 # 4. Login Page - Done*
 # 5. Signup Page - Done*
-# 6. Admin Page - Pending, refer to "Admin CRUD" section (also pending UI for item editing)
-# 7. Account Page - Pending stored procedure for user to post review, and render all orders of the customer
+# 6. Admin Page - Pending statistics 
+# 7. Account Page - Pending user function to post review, and render all orders of the customer
 # 8. Cart Page - Pending 'add to cart' function and function for creating view
 # 9. Checkout Page - Pending function for inserting order details
 # 10. Payment Page - Done*
-# 11. Search - Pending AJAX
+# 11. Search - Done*
 
 #--------------------------------Routes---------------------------------------#
 

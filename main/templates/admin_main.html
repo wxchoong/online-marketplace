@@ -93,7 +93,7 @@
 							{% endfor %}
 							<td>
 								<button type="button" onclick="hideProduct(value);" class="btn btn-outline-danger btn-sm" value={{item[0]}}>Hide</button>
-								<button type="button" onclick="editProduct(value);"class="btn btn-outline-primary btn-sm" value={{item[0]}}>Edit</button>
+								<a href="/admin/updateProduct"><button type="button" onclick="editProduct(value);"class="btn btn-outline-primary btn-sm" value={{item[0]}}>Edit</button></a>
 							</td>
 						</tr>
 						{% endfor %}

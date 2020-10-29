@@ -390,36 +390,147 @@ def logout():
 #--------------------------------Functions for Admin CRUD---------------------------------------#
 
 # ----- Product -----
-# 1. Render All Existing Products in the List  (reference @ line 334 see if its correct)
-# @app.route('/admin/viewProducts')
 
 # 2. Update/Edit Existing Product Info
-@app.route('/admin/updateProduct')
+@app.route('/admin/updateProduct', methods=['GET', 'POST'])
+def updateProduct():
+	if request.method == 'POST':
+		try:
+			cursor = db.cursor()
+			prodId = int(request.form['prodId'])
+			prodName = request.form['prodName']
+			prodPrice = request.form['prodPrice']
+			prodQty = request.form['prodQty']
+			prodDescription = request.form['prodDescription']
+			prodImgPath = ''
+
+			parse = (prodId, prodName, prodPrice, prodQty, prodImgPath, prodDescription)
+
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			try:
+				cursor.callproc('update_product', parse)
+			except Exception as e:
+				return jsonify({'status': 'failed', 'message' : str(e)})
+			else:
+				db.commit()
+				flash('Product Updated', 'success')  
+			finally:
+				cursor.close()
+				return render_template('admin_update.html')
+
+	return render_template('admin_update.html')
+		
 
 # 3. Delete Existing Product
-@app.route('/admin/deleteProduct')
+@app.route('/admin/hideProduct', methods=['GET', 'POST'])
+def hideProduct():
+	try:
+		cursor = db.cursor()
+		prodId = int(request.form['prodId'])
+		parse = (prodId)
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('delete_product', parse)
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			db.commit()
+			flash('Product Visibility Changed', 'success')  
+		finally:
+			cursor.close()
+			return jsonify({'status':status, 'message':'success'})
 
 
 # 4. Add New Product
-@app.route('/admin/addProduct')
+@app.route('/admin/addProduct',  methods=['GET', 'POST'])
 def addProduct():
+	if request.method == 'POST':
+		try:
+			cursor = db.cursor()
+			catId = int(request.form['catId'])
+			prodName = request.form['prodName']
+			prodPrice = request.form['prodPrice']
+			prodQty = request.form['prodQty']
+			prodDescription = request.form['prodDescription']
+			prodImgPath = ''
+
+			parse = (catId, prodName, prodDescription, prodQty, prodPrice, 0, prodImgPath)
+
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			try:
+				cursor.callproc('add_product', parse)
+			except Exception as e:
+				return jsonify({'status': 'failed', 'message' : str(e)})
+			else:
+				db.commit()
+				flash('Product Added', 'success')  
+			finally:
+				cursor.close()
+				return render_template('admin_update.html')
+
 	return render_template('admin_update.html')
 
 # ----- Order -----
-# 5. Render All Existing Orders in the List
-@app.route('/admin/viewOrders')
 # 6. Change Status of Order
-@app.route('/admin/updateOrder')
+@app.route('/admin/updateOrderStat', methods=['GET', 'POST'])
+def updateOrder():
+	try:
+		cursor = db.cursor()
+		orderId = int(request.form['orderId'])
+		orderStatus = int(request.form['orderStatus'])
+
+		parse = (orderId, orderStatus)
+
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('update_order_status', parse)
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			db.commit()
+			flash('Order status changed', 'success')  
+		finally:
+			cursor.close()
+			return jsonify({'status':status, 'message':'success'})
+
 
 # ----- Comment -----
 # 7. Reply to Customer Comment
-@app.route('/admin/replyComment')
-# 8. Delete User Comment
-@app.route('/admin/deleteComment')
+@app.route('/admin/replyComment', methods=['GET', 'POST'])
+def replyComment():
+	try:
+		cursor = db.cursor()
+		commentId = int(request.form['orderId'])
+		commentText = request.form['orderStatus']
+
+		parse = (commentId, commentText)
+
+	except Exception as e:
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.callproc('insert_admin_reply', parse)
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			db.commit()
+			flash('Order status changed', 'success')  
+		finally:
+			cursor.close()
+			return jsonify({'status':status, 'message':'success'})
 
 # ----- Statistics -----
 # 9. Render Revenues, Top Sales and Top Customers data
-@app.route('/admin/viewStatistics')
+@app.route('/admin/viewStatistics', methods=['GET', 'POST'])
+# def viewStatistics():
 
 #--------------------------------APIs---------------------------------------#
 #APIs for getting all product data

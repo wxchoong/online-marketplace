@@ -44,7 +44,7 @@
     <div class="container">
         <br />
         <br />
-
+        <form class="form-update" action="" method="POST">
         <div class="row mb-2 product-detail">
             <div class="col-md-6">
                 <div class="row">
@@ -70,34 +70,35 @@
                 <!-- Medium input -->
                 <div class="md-form">
                     <p class="font-weight-bold">Product Name</p>
-                    <input type="text" id="inputMDEx" class="form-control" placeholder="Eleonora Mint Totem Vase">
+                    <input type="text" id="inputMDEx" name="prodName" class="form-control">
                 </div>
 
                 <!-- Small input -->
                 <div class="md-form form-sm">
                     <p class="font-weight-bold">Product Price</p>
-                    <input type="text" id="inputSMEx" class="form-control form-control-sm" placeholder="S$149.99 (GST Incl.)">
+                    <input type="text" id="inputSMEx" name="prodPrice" class="form-control form-control-sm">
                 </div>
                 <div class="md-form form-sm">
                     <p class="font-weight-bold">Available Quantity:</p>
-                    <input type="text" id="inputSMEx" class="form-control form-control-sm" placeholder="100">
+                    <input type="text" id="inputSMEx" name="prodQty" class="form-control form-control-sm">
                 </div>
                 <!-- Large input -->
                 <div class="md-form form-lg">
                     <p class="font-weight-bold">Product Description</p>
 
-                    <textarea class="form-control" rows="10" placeholder="Tiered curves articulate a tall vase, creating a playfully exaggerated take on the classic gourd vase. Talented artisans apply glaze by hand, coating the earthenware in matte mint green. Display the sculptural vase on its own, hosting one of our lifelike faux stems, or grouped with the other colorful totem vases. Our Eleonora mint totem vase is a Crate and Barrel exclusive."></textarea>
+                    <textarea class="form-control" name="prodDescription" rows="10" ></textarea>
                 </div>
                 <br />
                 <br />
                 <div class="col">
-                    <button type="button" class="btn btn-dark tn-lg ">Update</button>
+                    <button type="submit" class="btn btn-dark tn-lg">Update</button>
 
                 </div>
 
             </div>
         </div>
-            </div>
+        </form>
+    </div>
 
 
 

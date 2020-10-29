@@ -125,7 +125,7 @@ def admin():
 			for item in result.fetchall():
 				orderList.append(item)
 		cursor.nextset()
-		cursor.callproc('sp_manage_comment')
+		cursor.callproc('manage_comment')
 		for result in cursor.stored_results():
 			for item in result.fetchall():
 				commentList.append(item)
@@ -391,11 +391,15 @@ def logout():
 
 # ----- Product -----
 # 1. Render All Existing Products in the List  (reference @ line 334 see if its correct)
-@app.route('/admin/viewProducts')
-# 2. Update Existing Product Info
+# @app.route('/admin/viewProducts')
+
+# 2. Update/Edit Existing Product Info
 @app.route('/admin/updateProduct')
+
 # 3. Delete Existing Product
 @app.route('/admin/deleteProduct')
+
+
 # 4. Add New Product
 @app.route('/admin/addProduct')
 def addProduct():

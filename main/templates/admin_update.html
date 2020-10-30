@@ -48,7 +48,7 @@
         <div class="row mb-2 product-detail">
             <div class="col-md-6">
                 <div class="row">
-                    <img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg')}}" alt="white-night-stand">
+                    <img class="card-img-top" id="prodImg" src="{{url_for('static', filename='assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg')}}" alt="white-night-stand">
                 </div>
                 <div class="form-group">
                     <br/>
@@ -70,23 +70,23 @@
                 <!-- Medium input -->
                 <div class="md-form">
                     <p class="font-weight-bold">Product Name</p>
-                    <input type="text" id="inputMDEx" name="prodName" class="form-control">
+                    <input type="text" id="prodName" name="prodName" class="form-control">
                 </div>
 
                 <!-- Small input -->
                 <div class="md-form form-sm">
                     <p class="font-weight-bold">Product Price</p>
-                    <input type="text" id="inputSMEx" name="prodPrice" class="form-control form-control-sm">
+                    <input type="text" id="prodPrice" name="prodPrice" class="form-control form-control-sm">
                 </div>
                 <div class="md-form form-sm">
                     <p class="font-weight-bold">Available Quantity:</p>
-                    <input type="text" id="inputSMEx" name="prodQty" class="form-control form-control-sm">
+                    <input type="text" id="prodQuantity" name="prodQty" class="form-control form-control-sm">
                 </div>
                 <!-- Large input -->
                 <div class="md-form form-lg">
                     <p class="font-weight-bold">Product Description</p>
 
-                    <textarea class="form-control" name="prodDescription" rows="10" ></textarea>
+                    <textarea class="form-control" id="prodDescription" name="prodDescription" rows="10" ></textarea>
                 </div>
                 <br />
                 <br />
@@ -122,12 +122,36 @@
 
     <!--- end of footer-->
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+   <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+    <script type="text/javascript" src="{{ url_for('static', filename='/assets/dist/js/3.4.1_jquery.min.js') }}"></script>
     <script src="{{url_for('static', filename='assets/dist/custom/slugify.js')}}"></script>
     <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
     <script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
     <script>
         $(document).ready(function () {
+            var productID = location.toString().substring(location.toString().indexOf('?')+1,location.toString().length);
+            var prodName = document.getElementById('prodName');
+            var prodPrice = document.getElementById('prodPrice');
+            var prodDescription = document.getElementById('prodDescription');
+            var prodQuantity = document.getElementById('prodQuantity');
+            var prodImg = document.getElementById('prodImg');
+            $.ajax({
+      			data : {'prodID':productID},
+      			type : 'POST',
+      			url : '/renderSingleProduct'
+			})
+  			.done(function(data){
+				if(data.status = 'success'){
+                    prodName.value = data.itemList[0][0];
+                    prodPrice.value = '$'+data.itemList[0][1];
+                    prodDescription.innerText = data.itemList[0][2];
+                    prodQuantity.value = data.itemList[0][3];
+                    prodImg.src = data.itemList[0][4];
+				}
+				else{
+					alert(data.message);
+				}
+			});
             $('.bookmark').click(function () {
                 $("button.bookmark").toggleClass("text-dark");
                 $("button.bookmark").toggleClass("text-danger");

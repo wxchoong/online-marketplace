@@ -2,7 +2,7 @@ DELIMITER //
 CREATE PROCEDURE `sp_item_by_categoryMain`(categoryTitle varchar(45))
 BEGIN
 	Select productName,price,imagePath, productID from product_info 
-    where categoryID IN
+    where isShow = 1 and categoryID IN
     (Select categoryID from category where categoryMain = categoryTitle);
 END //
 DELIMITER ;
@@ -12,7 +12,7 @@ DELIMITER //
 CREATE PROCEDURE `sp_item_by_categorySub`(categorySubTitle varchar(45))
 BEGIN
 	Select productName,price,imagePath, productID from product_info 
-    where categoryID = 
+    where isShow = 1 and categoryID = 
     (Select categoryID from category where categorySub = categorySubTitle);
 END //
 DELIMITER ;
@@ -22,7 +22,7 @@ DELIMITER //
 CREATE PROCEDURE `search_product`(searchStr VARCHAR(45))
 BEGIN
     Select productName,price,imagePath, productID from product_info 
-    where productName LIKE searchStr;
+    where productName LIKE searchStr and isShow = 1;
 END //
 DELIMITER ;
 
@@ -106,19 +106,19 @@ BEGIN
 	set @specifiedOrder = ordering;
     IF @specifiedOrder = 'latest' THEN
 		Select productName,price,imagePath, productID from product_info 
-		where categoryID = 
+		where isShow = 1 and categoryID = 
 		(Select categoryID from category where categorySub = categorySubTitle)
 		order by lastUpdated desc;
 	END IF;
 	IF @specifiedOrder = 'asc' THEN
 		Select productName,price,imagePath, productID from product_info 
-		where categoryID = 
+		where isShow = 1 and categoryID = 
 		(Select categoryID from category where categorySub = categorySubTitle)
 		order by price asc;
 	END IF;
 	IF @specifiedOrder = 'desc' THEN
 		Select productName,price,imagePath, productID from product_info 
-		where categoryID = 
+		where isShow = 1 and categoryID = 
 		(Select categoryID from category where categorySub = categorySubTitle)
 		order by price desc;
 	END IF;
@@ -200,7 +200,7 @@ DELIMITER //
 CREATE PROCEDURE `display_product_all`()
 BEGIN
     select productName, price, imagePath, productID
-    from product_info where availableQuantity > 0;
+    from product_info where availableQuantity > 0 and isShow = 1;
 
 END //
 DELIMITER ;
@@ -232,9 +232,17 @@ END //
 DELIMITER ;
 
 DELIMITER //-- Admin Func
-CREATE PROCEDURE `hide_product`(productId INT(11))
+CREATE PROCEDURE `hide_product`(productId INT(11), currentState BIT)
 BEGIN
-    UPDATE product_info SET isShow = 0 WHERE productID = productId;
+	IF currentState = 1 THEN
+		UPDATE product_info 
+		SET isShow = 0, lastUpdated = now()
+		WHERE productID = productId;
+	ELSEIF currentState = 0 THEN
+		UPDATE product_info 
+		SET isShow = 1, lastUpdated = now()
+		WHERE productID = productId;
+	END IF;
 END //
 DELIMITER ;
 
@@ -298,9 +306,11 @@ END //
 DELIMITER ;
 
 DELIMITER //-- Admin Func
-CREATE PROCEDURE `insert_admin_reply`(commentId int, Reply VARCHAR(100))
+CREATE PROCEDURE `insert_admin_reply`(commentor varchar(45), commentId int, Reply VARCHAR(100))
 BEGIN
-    UPDATE user_comment SET adminReply = Reply WHERE commentID = commentId;
+ UPDATE user_comment 
+ SET adminReply = Reply 
+ WHERE commentID = commentId and commentorEmail = commentor;
 END //
 DELIMITER ;
 

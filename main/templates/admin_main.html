@@ -53,7 +53,7 @@
 			<div class="card bg-light mb-3">
 				<br />
 				<ul class="list-group admin-menu category_block">
-					<li class="list-group-item is-active">Manage Products</li>
+					<li class="list-group-item">Manage Products</li>
 					<li class="list-group-item">Manage Orders</li>
 					<li class="list-group-item">View Statistics</li>
 					<li class="list-group-item">Manage Comment</li>
@@ -92,8 +92,12 @@
 							<td class="text-left">{{detail}}</td>
 							{% endfor %}
 							<td>
-								<button type="button" onclick="hideProduct(value);" class="btn btn-outline-danger btn-sm" value={{item[0]}}>Hide</button>
-								<a href="/admin/updateProduct"><button type="button" onclick="editProduct(value);"class="btn btn-outline-primary btn-sm" value={{item[0]}}>Edit</button></a>
+								{%if item[5] == 1%}
+								<button type="button" onclick="hideProduct(value,'hide');" class="btn btn-outline-danger btn-sm" value={{item[0]}}>Hide</button>
+								{%else%}
+								<button type="button" onclick="hideProduct(value,'show');" class="btn btn-outline-success btn-sm" value={{item[0]}}>UnHide</button>
+								{%endif%}
+								<a href="/admin/updateProduct?{{item[0]}}"><button type="button" class="btn btn-outline-primary btn-sm" value={{item[0]}}>Edit</button></a>
 							</td>
 						</tr>
 						{% endfor %}
@@ -129,9 +133,21 @@
 							<td class="text-left">{{o_detail}}</td>
 							{% endfor %}
 							<td>
-								<button type="button" onclick="ConfirmedOrder(value);" class="btn btn-outline-success btn-sm" value={{orders[0]}}>Confirmed</button>
+								{%if orders[2] == "Confirmed"%}
+								<button type="button" onclick="ConfirmedOrder(value);" class="active btn btn-outline-success btn-sm" value={{orders[0]}}>Confirmed</button>
 								<button type="button" onclick="CancelledOrder(value);" class="btn btn-outline-danger btn-sm" value={{orders[0]}}>Cancelled</button>
 								<button type="button" onclick="DeliveredOrder(value);" class="btn btn-outline-primary btn-sm" value={{orders[0]}}>Delivered</button>
+								{%endif%}
+								{%if orders[2] == "Cancelled"%}
+								<button type="button"  disabled onclick="ConfirmedOrder(value);" class="btn btn-outline-success btn-sm" value={{orders[0]}}>Confirmed</button>
+								<button type="button"  onclick="CancelledOrder(value);" class="active btn btn-outline-danger btn-sm" value={{orders[0]}}>Cancelled</button>
+								<button type="button"  disabled onclick="DeliveredOrder(value);" class="btn btn-outline-primary btn-sm" value={{orders[0]}}>Delivered</button>
+								{%endif%}
+								{%if orders[2] == "Delivered"%}
+								<button type="button" disabled class="btn btn-outline-success btn-sm" value={{orders[0]}}>Confirmed</button>
+								<button type="button" disabled class="btn btn-outline-danger btn-sm" value={{orders[0]}}>Cancelled</button>
+								<button type="button"  class="active btn btn-outline-primary btn-sm" value={{orders[0]}}>Delivered</button>
+								{%endif%}
 							</td>
 						</tr>
 						{%endfor%}
@@ -293,7 +309,6 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<form action=' ' method='POST'>
 							<button type="button" id="sendReply" data-dismiss="modal" class="btn btn-primary">Save changes</button>
 							</form>
 						</div>
@@ -324,7 +339,7 @@
 								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Please reply Comment here"></textarea>
 							</td>-->
 							<td>
-								<button type="button" class="btn btn-outline-primary btn-sm" onclick="replyComment(value);" data-toggle="modal" value="{{comments[0]}}" data-target="#basicExampleModal"> Reply </button>
+								<button type="button" class="btn btn-outline-primary btn-sm" onclick="replyComment(value);" data-toggle="modal" value="{{comments}}" data-target="#basicExampleModal"> Reply </button>
 							</td>
 						</tr>
 						{%endfor%}
@@ -361,7 +376,23 @@
 var saveReplyBtn =  document.getElementById('sendReply');
   $(document).ready(function () {
 	  $('.admin-div').css("display", "none");
-	  $('.manage-products').show();
+	  if(localStorage.getItem('adminGoTo') == 'comment'){
+		  localStorage.setItem('adminGoTo', '');
+		  document.querySelectorAll('li').forEach(s=>{
+				if(s.innerText == 'Manage Comment'){
+					s.click();
+				}
+			})
+	  }
+	  else{
+		localStorage.setItem('adminGoTo', '');
+		document.querySelectorAll('li').forEach(s=>{
+			if(s.innerText == 'Manage Products'){
+				s.click();
+			}
+		})
+		//$('.manage-products').show();
+	  }
   });
 
   $(".admin-menu .list-group-item").click(function () {
@@ -378,37 +409,22 @@ var saveReplyBtn =  document.getElementById('sendReply');
 
   }
 
-function editProduct(value){
+function hideProduct(value, doWhat){
 	console.log(value);
-	//$.ajax({
-    //data : {'productID': value},
-    //type : 'POST',
-    //url : '/editProduct'
-	//})
-  	//.done(function(data){
-	//	if(data.status = 'success'){
-	//	}
-	//	else{
-	//		alert(data.message);
-	//	}
-	//});
-}
-
-function hideProduct(value){
-	console.log(value);
-	//$.ajax({
-	//data : {'productID': value},
-    //type : 'POST',
-    //url : '/admin/hideProduct'
-	//})
-  	//.done(function(data){
-	//	if(data.status = 'success'){
-	//		location.reload();
-	//	}
-	//	else{
-	//		alert(data.message);
-	//	}
-	//});
+	$.ajax({
+	data : {'productID': value, 'doWhat': doWhat},
+    type : 'POST',
+    url : '/admin/hideProduct'
+	})
+  	.done(function(data){
+		if(data.status == 'success'){
+			localStorage.setItem('adminGoTo', '');
+			location.reload();
+		}
+		else{
+			alert(data.message);
+		}
+	});
 }
 
 function ConfirmedOrder(value){
@@ -459,18 +475,18 @@ function DeliveredOrder(value){
 
 
 saveReplyBtn.onclick = function(){
-	console.log("sending...");
 	var message = document.getElementById("replyMsg").value;
-	console.log(saveReplyBtn.value);
-	console.log(message);
+	var commentID = saveReplyBtn.value.split(',')[0].replace('(', '').replace(' ', '');
+	var commentor = saveReplyBtn.value.split(',')[8].replace("'", "").replace("'", "").replace(' ', '');
 	$.ajax({
-    data : {'commentID': saveReplyBtn.value, 'message':message},
+    data : {'commentor': commentor, 'commentID': commentID, 'message':message},
     type : 'POST',
     url : '/admin/replyComment'
 	})
   	.done(function(data){
-		if(data.status = 'success'){
-			alert(data.status);
+		if(data.status == 'success'){
+			localStorage.setItem('adminGoTo', 'comment');
+			location.reload();
 		}
 		else{
 			alert(data.message);
@@ -479,7 +495,6 @@ saveReplyBtn.onclick = function(){
 };
 
 function replyComment(value){
-	console.log("reply");
 	var saveReplyBtn =  document.getElementById('sendReply');
     saveReplyBtn.value = value;
 

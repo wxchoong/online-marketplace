@@ -432,20 +432,23 @@ def hideProduct():
 	try:
 		cursor = db.cursor()
 		prodId = int(request.form['productID'])
+		doWhat = request.form['doWhat']
 		parse = (prodId,)
-		print(str(prodId))
 	except Exception as e:
 		print(str(e))
 		return jsonify({'status': 'failed', 'message' : str(e)})
 	else:
 		try:
-			cursor.callproc('hide_product', parse)
+			if doWhat == 'show':
+				cursor.execute('UPDATE product_info SET isShow=1, lastUpdated=now() WHERE productID=%s;', parse)
+			if doWhat == 'hide':
+				cursor.execute('UPDATE product_info SET isShow=0, lastUpdated=now() WHERE productID=%s;', parse)
 		except Exception as e:
 			print(str(e))
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			db.commit()
-			flash('Product Visibility Changed', 'success')  
+			#flash('Product Visibility Changed', 'success')  
 		finally:
 			cursor.close()
 			return jsonify({'status':'success', 'message':'success'})
@@ -514,23 +517,33 @@ def updateOrder():
 def replyComment():
 	try:
 		cursor = db.cursor()
+		commentor = request.form['commentor']
 		commentId = int(request.form['commentID'])
 		commentText = request.form['message']
-		parse = (commentId, commentText)
+		parse = (commentor, commentId, commentText)
 
 	except Exception as e:
-		return jsonify({'status': 'failed', 'message' : str(e)})
+		cursor.close()
+		print("1: "+str(e))
+		status = 'failed'
+		message = (str(e))
+		return jsonify({'status':status, 'message':message})
 	else:
 		try:
 			cursor.callproc('insert_admin_reply', parse)
 		except Exception as e:
-			return jsonify({'status': 'failed', 'message' : str(e)})
+			cursor.close()
+			print(str(e))
+			status = 'failed'
+			message = (str(e))
 		else:
 			db.commit()
-			flash('Reply status changed', 'success')  
+			status = 'success'
+			message = commentText
 		finally:
 			cursor.close()
-			return jsonify({'status':'success', 'message':'success'})
+	finally:
+		return jsonify({'status':status, 'message':message})
 
 # ----- Statistics -----
 # 9. Render Revenues, Top Sales and Top Customers data

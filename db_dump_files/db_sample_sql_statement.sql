@@ -11,3 +11,4 @@ call sort_product_by_ordering('Rugs', 'asc');
 call sort_product_by_ordering('Rugs', 'desc');
 call sp_item_by_categoryMain('Living Room');
 select check_bookmark_exist(6, 'stanley@gmail.com');
+call insert_admin_reply('augustine@inserted.com', 1, 'testing');

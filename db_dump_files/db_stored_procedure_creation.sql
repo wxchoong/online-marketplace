@@ -232,7 +232,7 @@ END //
 DELIMITER ;
 
 DELIMITER //-- Admin Func
-CREATE PROCEDURE ``hide_product``(productId INT(11))
+CREATE PROCEDURE `hide_product`(productId INT(11))
 BEGIN
     UPDATE product_info SET isShow = 0 WHERE productID = productId;
 END //

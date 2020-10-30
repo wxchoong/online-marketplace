@@ -293,7 +293,9 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" onclick="sendReply();" class="btn btn-primary">Save changes</button>
+							<form action=' ' method='POST'>
+							<button type="button" id="sendReply" data-dismiss="modal" class="btn btn-primary">Save changes</button>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -350,11 +352,13 @@
 <!--- end of footer-->
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<script type="text/javascript" src="{{ url_for('static', filename='/assets/dist/js/3.4.1_jquery.min.js') }}"></script>
 <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
 <script src="{{url_for('static', filename='assets/dist/custom/slugify.js')}}"></script>
 <script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
 <script>
+var saveReplyBtn =  document.getElementById('sendReply');
   $(document).ready(function () {
 	  $('.admin-div').css("display", "none");
 	  $('.manage-products').show();
@@ -376,100 +380,108 @@
 
 function editProduct(value){
 	console.log(value);
-	$.ajax({
-    data : {'productID': value},
-    type : 'POST',
-    url : '/editProduct'
-	})
-  	.done(function(data){
-		if(data.status = 'success'){
-		}
-		else{
-			alert(data.message);
-		}
-	});
+	//$.ajax({
+    //data : {'productID': value},
+    //type : 'POST',
+    //url : '/editProduct'
+	//})
+  	//.done(function(data){
+	//	if(data.status = 'success'){
+	//	}
+	//	else{
+	//		alert(data.message);
+	//	}
+	//});
 }
 
 function hideProduct(value){
-	$.ajax({
-	data : {'productID': value},
-    type : 'POST',
-    url : '/hideProduct'
-	})
-  	.done(function(data){
-		if(data.status = 'success'){
-		}
-		else{
-			alert(data.message);
-		}
-	});
 	console.log(value);
+	//$.ajax({
+	//data : {'productID': value},
+    //type : 'POST',
+    //url : '/admin/hideProduct'
+	//})
+  	//.done(function(data){
+	//	if(data.status = 'success'){
+	//		location.reload();
+	//	}
+	//	else{
+	//		alert(data.message);
+	//	}
+	//});
 }
 
 function ConfirmedOrder(value){
-	$.ajax({
-    data : {'orderID': value},
-    type : 'POST',
-    url : '/confirmOrder'
-	})
-  	.done(function(data){
-		if(data.status = 'success'){
-		}
-		else{
-			alert(data.message);
-		}
-	});
+	//$.ajax({
+    //data : {'orderID': value},
+    //type : 'POST',
+    //url : '/confirmOrder'
+	//})
+  	//.done(function(data){
+	//	if(data.status = 'success'){
+	//	}
+	//	else{
+	//		alert(data.message);
+	//	}
+	//});
 	console.log(value);
 }
 function CancelledOrder(value){
-	$.ajax({
-	data : {'orderID': value},
-    type : 'POST',
-    url : '/cancelOrder'
-	})
-  	.done(function(data){
-		if(data.status = 'success'){
-		}
-		else{
-			alert(data.message);
-		}
-	});
+	//$.ajax({
+	//data : {'orderID': value},
+    //type : 'POST',
+    //url : '/cancelOrder'
+	//})
+  	//.done(function(data){
+	//	if(data.status = 'success'){
+	//	}
+	//	else{
+	//		alert(data.message);
+	//	}
+	//});
 	console.log(value);
 }
 function DeliveredOrder(value){
-	$.ajax({
-	data : {'orderID': value},
-    type : 'POST',
-    url : '/deliverOrder'
-	})
-  	.done(function(data){
-		if(data.status = 'success'){
-		}
-		else{
-			alert(data.message);
-		}
-	});
+	//$.ajax({
+	//data : {'orderID': value},
+    //type : 'POST',
+    //url : '/deliverOrder'
+	//})
+  	//.done(function(data){
+	//	if(data.status = 'success'){
+	//	}
+	//	else{
+	//		alert(data.message);
+	//	}
+	//});
 	console.log(value);
 }
-function sendReply(){
+
+
+saveReplyBtn.onclick = function(){
+	console.log("sending...");
 	var message = document.getElementById("replyMsg").value;
-	var commentID = localStorage.getItem('commentID');
+	console.log(saveReplyBtn.value);
+	console.log(message);
 	$.ajax({
-    data : {'commentID': commentID, 'message':message},
+    data : {'commentID': saveReplyBtn.value, 'message':message},
     type : 'POST',
-    url : '/updateReply'
+    url : '/admin/replyComment'
 	})
   	.done(function(data){
 		if(data.status = 'success'){
+			alert(data.status);
 		}
 		else{
 			alert(data.message);
 		}
 	});
-}
+};
 
 function replyComment(value){
-	localStorage.setItem('commentID', value);
+	console.log("reply");
+	var saveReplyBtn =  document.getElementById('sendReply');
+    saveReplyBtn.value = value;
 
 }
 

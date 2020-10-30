@@ -419,6 +419,9 @@ def updateProduct():
 			finally:
 				cursor.close()
 				return render_template('admin_update.html')
+	else:
+		cursor = db.cursor()
+		cursor.close()
 
 	return render_template('admin_update.html')
 		
@@ -428,21 +431,24 @@ def updateProduct():
 def hideProduct():
 	try:
 		cursor = db.cursor()
-		prodId = int(request.form['prodId'])
-		parse = (prodId)
+		prodId = int(request.form['productID'])
+		parse = (prodId,)
+		print(str(prodId))
 	except Exception as e:
+		print(str(e))
 		return jsonify({'status': 'failed', 'message' : str(e)})
 	else:
 		try:
-			cursor.callproc('delete_product', parse)
+			cursor.callproc('hide_product', parse)
 		except Exception as e:
+			print(str(e))
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			db.commit()
 			flash('Product Visibility Changed', 'success')  
 		finally:
 			cursor.close()
-			return jsonify({'status':status, 'message':'success'})
+			return jsonify({'status':'success', 'message':'success'})
 
 
 # 4. Add New Product
@@ -499,7 +505,7 @@ def updateOrder():
 			flash('Order status changed', 'success')  
 		finally:
 			cursor.close()
-			return jsonify({'status':status, 'message':'success'})
+			return jsonify({'status':'success', 'message':'success'})
 
 
 # ----- Comment -----
@@ -508,9 +514,8 @@ def updateOrder():
 def replyComment():
 	try:
 		cursor = db.cursor()
-		commentId = int(request.form['orderId'])
-		commentText = request.form['orderStatus']
-
+		commentId = int(request.form['commentID'])
+		commentText = request.form['message']
 		parse = (commentId, commentText)
 
 	except Exception as e:
@@ -522,10 +527,10 @@ def replyComment():
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			db.commit()
-			flash('Order status changed', 'success')  
+			flash('Reply status changed', 'success')  
 		finally:
 			cursor.close()
-			return jsonify({'status':status, 'message':'success'})
+			return jsonify({'status':'success', 'message':'success'})
 
 # ----- Statistics -----
 # 9. Render Revenues, Top Sales and Top Customers data

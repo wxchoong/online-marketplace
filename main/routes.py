@@ -12,9 +12,9 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordFiel
 # 3. Product Page - Done*
 # 4. Login Page - Done*
 # 5. Signup Page - Done*
-# 6. Admin Page - Pending statistics 
+# 6. Admin Page - Pending statistics, update/add product
 # 7. Account Page - Pending user function to post review, and render all orders of the customer
-# 8. Cart Page - Pending 'add to cart' function and function for creating view
+# 8. Cart Page - Pending 'add to cart' function
 # 9. Checkout Page - Pending function for inserting order details
 # 10. Payment Page - Done*
 # 11. Search - Done*
@@ -125,7 +125,7 @@ def admin():
 			for item in result.fetchall():
 				orderList.append(item)
 		cursor.nextset()
-		cursor.callproc('manage_comment')
+		cursor.callproc('sp_manage_comment')
 		for result in cursor.stored_results():
 			for item in result.fetchall():
 				commentList.append(item)
@@ -192,14 +192,58 @@ def products(cat,prod):
 
 
 #Cart Page
-@app.route('/cart')
+@app.route('/cart', methods=['GET','POST'])
 @is_logged_in
 def cart():
 	# for 1 argument, db has to give such syntax
 	# authenticator = (session['username'])
 	# cursor = db.cursor()
 	# cursor.callproc('sp_getCurrentUserCart', authenticator)
+
+	# for each ID in session['cart']
+	if request.method == 'POST':
+		try:
+			cursor = db.cursor()
+			args = (prodId,)
+			itemList = []
+		except Exception as e:
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			try:
+				cursor.callproc('get_cart_product', args)
+				for result in cursor.stored_results():
+					for item in result.fetchall():
+						itemList.append(item)
+			except Exception as e:
+				cursor.close()
+				return jsonify({'status': 'failed', 'message': str(e)})
+			else:
+				cursor.close()
+				return jsonify({"success":"success", 'itemList':itemList})
+		finally:
+			cursor.close()
+		
 	return render_template('cart.html', user=session['username'])
+	
+#Add To Cart Function
+@app.route('/addToCart/<int:product_id>', methods=['GET','POST'])
+@is_logged_in
+def add_to_cart(product_id):
+	quantity = request.form['prodQty']
+	if 'cart' in session:
+		#Add to cart if product is not inside
+		if not any(product_id in p for p in session['cart']):
+			session['cart'].append({product_id: quantity})
+
+		# If the product is already in the cart, update the quantity
+		elif any(product_id in p for p in session['cart']):
+			for p in session['cart']:
+				p.update((k, quantity) for k, v in p.items() if k == product_id)
+
+	else:
+		# In this block, the user has not started a cart, so we start it for them and add the product. 
+		session['cart'] = [{product_id: quantity}]
+    #return 
 
 #Checkout
 @app.route('/checkout', methods=['GET','POST'])
@@ -214,7 +258,7 @@ def checkout():
 			address = request.form['reciAddress']
 			postalCode = request.form['reciPostal']
 			phone = request.form['reciPhone']
-			orderStat = 'confirmed'
+			orderStat = 'Confirmed'
 			totalPrice = 666
 			deliverDate = datetime.now() + timedelta(days=3)
 			remark = 'call me when delivering'

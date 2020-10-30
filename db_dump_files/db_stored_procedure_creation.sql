@@ -188,7 +188,7 @@ DELIMITER ;
 
 
 -- 1.product table 
-DELIMITER //-- Admin Func
+DELIMITER //
 CREATE PROCEDURE `add_product`(categoryID int, pName VARCHAR(100), pDescript VARCHAR(255), pAvaQuantity INT, pPrice FLOAT, pSoldQuan int, imagePath VARCHAR(255))
 BEGIN
     insert into product_info 
@@ -205,7 +205,7 @@ BEGIN
 END //
 DELIMITER ;
 
-DELIMITER // -- Admin Func
+DELIMITER //
 CREATE PROCEDURE `display_product_filter`(categoryID INT(11), pIsShow BIT(1))
 BEGIN
     select productID, productName,category.categorySub, price, availableQuantity, isShow
@@ -215,7 +215,7 @@ BEGIN
 END //
 DELIMITER ;
 
-DELIMITER //-- Admin Func
+DELIMITER //
 CREATE PROCEDURE `update_product`(productId INT, pCategory int, pName VARCHAR(100), pPrice FLOAT, pQuantity INT, imageLoc VARCHAR(255), pDescript VARCHAR(255))
 BEGIN
     UPDATE product_info 
@@ -231,7 +231,7 @@ BEGIN
 END //
 DELIMITER ;
 
-DELIMITER //-- Admin Func
+DELIMITER //
 CREATE PROCEDURE `hide_product`(productId INT(11), currentState BIT)
 BEGIN
 	IF currentState = 1 THEN
@@ -264,21 +264,21 @@ BEGIN
 END //
 DELIMITER ;
 
-DELIMITER //-- Admin Func
+DELIMITER //
 CREATE PROCEDURE `display_order_admin`()
 BEGIN
     select orderID, totalPrice, orderStatus from order_info;
 END //
 DELIMITER ;
 
-DELIMITER //-- Admin Func
+DELIMITER //
 CREATE PROCEDURE `display_order_filter`(oStatus INT)
 BEGIN
     select orderID, totalPrice, orderStatus from order_info WHERE orderStatus = oStatus;
 END //
 DELIMITER ;
 
-DELIMITER //-- Admin Func
+DELIMITER //
 CREATE PROCEDURE `update_order_status`(orderId INT(11), oStatus int)
 BEGIN
     UPDATE order_info SET orderStatus = oStatus WHERE orderID = orderId;
@@ -291,30 +291,30 @@ DELIMITER ;
 
 --4.Comment Table 
 
-DELIMITER //-- Admin Func
+DELIMITER //
 CREATE PROCEDURE `display_comment_not_reply_yet`(productId int, email VARCHAR(45))
 BEGIN
     SELECT * FROM user_comment WHERE adminReply = "No Reply Yet" AND productID = productId;
 END //
 DELIMITER ;
 
-DELIMITER //-- Admin Func
+DELIMITER //
 CREATE PROCEDURE `display_comment_replied`(productId int, email VARCHAR(45))
 BEGIN
     SELECT * FROM user_comment WHERE adminReply != "No Reply Yet" AND productID = productId;
 END //
 DELIMITER ;
 
-DELIMITER //-- Admin Func
+DELIMITER //
 CREATE PROCEDURE `insert_admin_reply`(commentor varchar(45), commentId int, Reply VARCHAR(100))
 BEGIN
  UPDATE user_comment 
  SET adminReply = Reply 
  WHERE commentID = commentId and commentorEmail = commentor;
-END //
+END  //
 DELIMITER ;
 
-DELIMITER //-- Admin Func
+DELIMITER //
 CREATE PROCEDURE `delete_admin_reply`(commentId int)
 BEGIN
     UPDATE user_comment SET adminReply = "No Reply Yet" WHERE commentID = commentId;

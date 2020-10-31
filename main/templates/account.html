@@ -118,19 +118,20 @@
 <div class="my-orders accordion md-accordion" id="orderAccordion" role="tablist" aria-multiselectable="true">
 
   <!-- Accordion card -->
+  {%for orders in orderList%}
   <div class="card">
     <!-- Card header -->
-    <div class="card-header" role="tab" id="orderNo1">
-      <a class="collapsed" data-toggle="collapse" data-parent="#orderAccordion" href="#collapse1"
-        aria-expanded="true" aria-controls="collapse1">
+    <div class="card-header" role="tab" id="orderNo{{orders[0]}}">
+      <a class="collapsed" data-toggle="collapse" data-parent="#orderAccordion" href="#collapse{{orders[0]}}"
+        aria-expanded="true" aria-controls="collapse{{orders[0]}}">
         <h5 class="mb-0">
-          # <span class="order-number">01234567</span> - <span class="text-muted order-total">S$ 477.00</span> <span class="order-status confirmed" style="float:right;">Confirmed</span><i style="clear:both;float:right;" class="fa fa-angle-down"></i>
+          # <span class="order-number">{{orders[0]}}</span> - <span class="text-muted order-total">S$ {{orders[8]}}</span> <span class="order-status confirmed" style="float:right;">{{orders[7]}}</span><i style="clear:both;float:right;" class="fa fa-angle-down"></i>
         </h5>
       </a>
     </div>
 
     <!-- Card body -->
-    <div id="collapse1" class="collapse show" role="tabpanel" aria-labelledby="headingTwo1"
+    <div id="collapse{{orders[0]}}" class="collapse" role="tabpanel" aria-labelledby="headingTwo1"
       data-parent="#orderAccordion">
       <div class="card-body"> 
 	  
@@ -142,13 +143,13 @@
 					<span><b>Order ID:</b></span>
 				</div>
 				<div class="col">	
-					# <span id="orderID">01234567</span>
+					# <span id="orderID">{{orders[0]}}</span>
 				</div>
 				<div class="col">
 					<span><b>Order Status:</b></span>
 				</div>
 				<div class="col">	
-					<span id="orderStatus">Confirmed</span>
+					<span id="orderStatus">{{orders[7]}}</span>
 				</div>
 			  </div> 			
 			  <div class="row">
@@ -156,13 +157,13 @@
 					<span><b>No. of Items:</b></span>
 				</div>
 				<div class="col">	
-					<span id="orderQty">3</span>
+					<span id="orderQty">{{orders[11]}}</span>
 				</div>
 				<div class="col">
 					<span><b>Order Total:</b></span>
 				</div>
 				<div class="col">	
-					S$ <span id="orderTotal">477.00</span>
+					S$ <span id="orderTotal">{{orders[8]}}</span>
 				</div>
 			  </div> 			
 			  <div class="row">
@@ -170,7 +171,7 @@
 					<span><b>Date Ordered:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="orderDate">01 Oct 2020 9:00:00 AM</span>
+					<span id="orderDate">{{orders[2]}}</span>
 				</div>
 			  </div> 			
 			  <div class="row">
@@ -178,7 +179,7 @@
 					<span><b>Date Delivered:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="deliveryDate">10 Oct 2020 12:00:00 PM</span>
+					<span id="deliveryDate">{{orders[9]}}</span>
 				</div>
 			  </div> 
 			  <div class="row">
@@ -186,7 +187,7 @@
 					<span><b>Remark:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="orderRemark">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</span>
+					<span id="orderRemark">{{orders[10]}}</span>
 				</div>
 			  </div>		
 		  
@@ -195,17 +196,17 @@
 		
 		<nav>
 		  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-			<a class="nav-item nav-link active" id="nav-order-01234567-tab" data-toggle="tab" href="#nav-order-01234567" role="tab" aria-controls="nav-order-01234567" aria-selected="true">Order Details</a>
-			<a class="nav-item nav-link" id="nav-shipping-01234567-tab" data-toggle="tab" href="#nav-shipping-01234567" role="tab" aria-controls="nav-shipping-01234567" aria-selected="false">Shipping &amp; Payment</a>
+			<a onclick="getOrderDetail(id);" class="nav-item nav-link active" id="nav-order-{{orders[0]}}-tab" data-toggle="tab" href="#nav-order-{{orders[0]}}" role="tab" aria-controls="nav-order-{{orders[0]}}" aria-selected="true">Order Details</a>
+			<a class="nav-item nav-link" id="nav-shipping-{{orders[0]}}-tab" data-toggle="tab" href="#nav-shipping-{{orders[0]}}" role="tab" aria-controls="nav-shipping-{{orders[0]}}" aria-selected="false">Shipping &amp; Payment</a>
 		  </div>
 		</nav>
 		<div class="tab-content" id="nav-tabContent">
-		  <div class="tab-pane fade show active" id="nav-order-01234567" role="tabpanel" aria-labelledby="nav-order-01234567-tab">
+		  <div class="tab-pane fade show active" id="nav-order-{{orders[0]}}" role="tabpanel" aria-labelledby="nav-order-{{orders[0]}}-tab">
 			<div class="row products">
 				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
 					<a href="/livingRoom/leatherSofa"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/sofa/leather-sofa.jpg')}}" alt="leather-sofa"></a>
 					<div class="card-body">
-						<h5 class="product-name"><a href="/livingRoom/leatherSofa">Leather Sofa</a></h5>
+						<h5 class="product-name"><a href="/livingRoom/leatherSofa"></a>Leather Sofa</a></h5>
 						<div class="row">
 						<div class="col">
 							<p>Item price:<br/> S$ <span class="item-price">299.00</span> <span class="text-muted">(GST Incl.)</span></p>
@@ -259,7 +260,7 @@
 				</div>
 			</div>
 		  </div>
-		  <div class="tab-pane fade" id="nav-shipping-01234567" role="tabpanel" aria-labelledby="nav-shipping-01234567-tab">
+		  <div class="tab-pane fade" id="nav-shipping-{{orders[0]}}" role="tabpanel" aria-labelledby="nav-shipping-{{orders[0]}}-tab">
 			<div class="col-12 tab">
 				<h5>Shipping Details</h5>
 			  <div class="row">
@@ -267,7 +268,7 @@
 					<span><b>Recipient Name:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="reciName">James Tan</span>
+					<span id="reciName">{{orders[3]}}</span>
 				</div>
 			  </div>		
 			  <div class="row">
@@ -275,7 +276,7 @@
 					<span><b>Contact Number:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="reciPhone">98765432</span>
+					<span id="reciPhone">{{orders[6]}}</span>
 				</div>
 			  </div> 				
 			  <div class="row">
@@ -283,7 +284,7 @@
 					<span><b>Delivery Address:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="reciAddress">#01-01, BLK 123 Kent Ridge Road</span>
+					<span id="reciAddress">{{orders[4]}}</span>
 				</div>
 			  </div>		
 			  <div class="row">
@@ -291,18 +292,16 @@
 					<span><b>Postal Code:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="reciPostal">98765432</span>
+					<span id="reciPostal">{{orders[5]}}</span>
 				</div>
 			  </div> 
-
-				
 				<h5>Payment Details</h5>
 			  <div class="row">
 				<div class="col-3">
 					<span><b>Payment Method:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="paymentMethod">Visa</span>
+					<span id="paymentMethod">{{orders[14]}}</span>
 				</div>
 			  </div>		
 			  <div class="row">
@@ -310,7 +309,7 @@
 					<span><b>Card Number:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="cardNo">xxxx xxxx xxxx 1234</span>
+					<span id="cardNo">xxxx xxxx xxxx {{orders[13]}}</span>
 				</div>
 			  </div> 			
 			  <div class="row">
@@ -318,7 +317,7 @@
 					<span><b>Cardholder Name:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="cardName">James Tan</span>
+					<span id="cardName">{{orders[11]}}</span>
 				</div>
 			  </div>			
 			  <div class="row">
@@ -326,7 +325,7 @@
 					<span><b>Expiry Date:</b></span>
 				</div>
 				<div class="col-9">	
-					<span id="cardExpiry">06/23</span>
+					<span id="cardExpiry">{{orders[15]}}</span>
 				</div>
 			  </div> 		
 
@@ -339,191 +338,8 @@
     </div>
 
   </div>
+  {%endfor%}
   <!-- Accordion card -->
-
-  <!-- Accordion card -->
-  <div class="card">
-
-    <!-- Card header -->
-    <div class="card-header" role="tab" id="orderNo2">
-      <a class="collapsed" data-toggle="collapse" data-parent="#orderAccordion" href="#collapse2"
-        aria-expanded="false" aria-controls="collapse2">
-        <h5 class="mb-0">
-          # <span class="order-number">02222222</span> - <span class="text-muted order-total">S$ 79.00</span> <span class="order-status cancelled" style="float:right;">Cancelled</span><i style="clear:both;float:right;" class="fa fa-angle-down"></i>
-        </h5>
-      </a>
-    </div>
-
-    <!-- Card body -->
-    <div id="collapse2" class="collapse" role="tabpanel" aria-labelledby="headingTwo21"
-      data-parent="#orderAccordion">
-      <div class="card-body">
-        <div class="col-12">
-		  <h4>Order Summary</h4>
-		  <div class="order-summary">			
-			  <div class="row">
-				<div class="col">
-					<span><b>Order ID:</b></span>
-				</div>
-				<div class="col">	
-					# <span id="orderID">02222222</span>
-				</div>
-				<div class="col">
-					<span><b>Order Status:</b></span>
-				</div>
-				<div class="col">	
-					<span id="orderStatus">Cancelled</span>
-				</div>
-			  </div> 			
-			  <div class="row">
-				<div class="col">
-					<span><b>No. of Items:</b></span>
-				</div>
-				<div class="col">	
-					<span id="orderQty">1</span>
-				</div>
-				<div class="col">
-					<span><b>Order Total:</b></span>
-				</div>
-				<div class="col">	
-					S$ <span id="orderTotal">79.00</span>
-				</div>
-			  </div> 			
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Date Ordered:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="orderDate">01 Oct 2020 9:00:00 AM</span>
-				</div>
-			  </div> 			
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Date Delivered:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="deliveryDate">10 Oct 2020 12:00:00 PM</span>
-				</div>
-			  </div> 
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Remark:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="orderRemark">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</span>
-				</div>
-			  </div>		
-		  
-		  </div>
-		</div>
-		
-		<nav>
-		  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-			<a class="nav-item nav-link active" id="nav-order-02222222-tab" data-toggle="tab" href="#nav-order-02222222" role="tab" aria-controls="nav-order-02222222" aria-selected="true">Order Details</a>
-			<a class="nav-item nav-link" id="nav-shipping-02222222-tab" data-toggle="tab" href="#nav-shipping-02222222" role="tab" aria-controls="nav-shipping" aria-selected="false">Shipping &amp; Payment</a>
-		  </div>
-		</nav>
-		<div class="tab-content" id="nav-tabContent">
-		  <div class="tab-pane fade show active" id="nav-order-02222222" role="tabpanel" aria-labelledby="nav-order-02222222-tab">
-			<div class="row products">
-				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
-					<a href="/livingRoom/persianCarpet"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/carpets-and-rugs/persian-carpet.jpg')}}" alt="persian-carpet"></a>
-					<div class="card-body">
-						<h5 class="product-name"><a href="/livingRoom/persianCarpet">Persian Carpet</a></h5>
-						<div class="row">
-						<div class="col">
-							<p>Item price:<br/> S$ <span class="item-price">79.00</span> <span class="text-muted">(GST Incl.)</span></p>
-							<p>Quantity:<br/> <span class="item-qty">1</span></p>
-						</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		  </div>
-		  <div class="tab-pane fade" id="nav-shipping-02222222" role="tabpanel" aria-labelledby="nav-shipping-02222222-tab">
-			<div class="col-12 tab">
-				<h5>Shipping Details</h5>
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Recipient Name:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="reciName">James Tan</span>
-				</div>
-			  </div>		
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Contact Number:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="reciPhone">98765432</span>
-				</div>
-			  </div> 				
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Delivery Address:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="reciAddress">#01-01, BLK 123 Kent Ridge Road</span>
-				</div>
-			  </div>		
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Postal Code:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="reciPostal">98765432</span>
-				</div>
-			  </div> 
-
-				
-				<h5>Payment Details</h5>
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Payment Method:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="paymentMethod">Visa</span>
-				</div>
-			  </div>		
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Card Number:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="cardNo">xxxx xxxx xxxx 1234</span>
-				</div>
-			  </div> 			
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Cardholder Name:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="cardName">James Tan</span>
-				</div>
-			  </div>			
-			  <div class="row">
-				<div class="col-3">
-					<span><b>Expiry Date:</b></span>
-				</div>
-				<div class="col-9">	
-					<span id="cardExpiry">06/23</span>
-				</div>
-			  </div> 		
-
-			  
-			</div>
-		  </div>
-		  
-		</div>		
-      
-		
-      </div>
-    </div>
-
-  </div>
-  <!-- Accordion card -->
-
 </div>
 <!-- Accordion wrapper -->
 
@@ -611,22 +427,22 @@ $( ".account-menu .list-group-item" ).click(function(){
 		$('.'+selectedItem).show();
 		
 	}
-	//function dislike(bookmarkID) {
-	//	$.ajax({
-    //	data : {'bookmarkID':bookmarkID},
-    //	type : 'POST',
-    //	url : '/likeOrDislikeProduct'
-	//	})
-	//	.done(function(data){
-	//		if(data.success){
-	//			//$(this).removeClass('text-danger');
-	//			//$(this).addClass('text-dark');
-	//		}
-	//		else{
-	//			alert(data.message);
-	//		}
-	//	});
-	//}
+	function getOrderDetail(value){
+		var orderID = value.replace("nav-order-", '').replace("-tab",'');
+		$.ajax({
+    	data : {'orderID':orderID, 'userIdentifier':'{{mail}}'},
+    	type : 'POST',
+    	url : '/getOrderDetailOnOrderID'
+		})
+  		.done(function(data){
+			if(data.success){
+				console.log(data.detailList);
+			}
+			else{
+				alert(data.message);
+			}
+		});
+	}
 
 </script>
 

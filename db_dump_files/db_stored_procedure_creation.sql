@@ -206,6 +206,16 @@ END //
 DELIMITER ;
 
 DELIMITER //
+CREATE PROCEDURE `update_order_status`(orderId int, changes varchar(20))
+BEGIN
+	Update order_info
+    SET orderStatus = changes
+    WHERE orderID = orderId;
+END //
+DELIMITER ;
+
+
+DELIMITER //
 CREATE PROCEDURE `display_product_filter`(categoryID INT(11), pIsShow BIT(1))
 BEGIN
     select productID, productName,category.categorySub, price, availableQuantity, isShow
@@ -260,7 +270,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `display_order_user`(email VARCHAR(45))
 BEGIN
-    select orderID, totalPrice, orderStatus from order_info where userEmail = email;
+    select * from order_info where orderedCustomer = email;
 END //
 DELIMITER ;
 
@@ -397,3 +407,14 @@ SELECT COUNT(userEmail) FROM user_info WHERE userEmail = Email INTO isUserExist;
 RETURN isUserExist;
 END//
 DELIMITER ;
+
+
+CREATE PROCEDURE `get_order_detail_for_ordered`(email varchar(45), orderId int)
+BEGIN
+    SELECT pi.productName, od.subTotal, od.quantity, uc.comment, uc.adminReply, pi.imagePath
+    from product_info pi, order_detail od, user_comment uc, order_info oi
+    where pi.productID = od.productID 
+    and od.orderID = oi.orderID 
+    and uc.productID = od.productID 
+    and uc.commentorEmail = email and od.orderID = orderId;
+END

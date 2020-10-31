@@ -142,7 +142,22 @@ def account():
 			updateProfile()
 		elif request.form['update_detail'] == 'updateReview':
 			postReview()
-	return render_template('account.html', user=session['username'], lastname=session['lastname'], mail=session['useremail'])
+	try:
+		cursor = db.cursor()
+		orderList = []
+		args = (session['useremail'], )
+	except Exception as e:
+		return jsonify({'Status':'Failed', 'Error':str(e)})
+	else:
+		try:
+			cursor.callproc('display_order_user', args)
+		except Exception as e:
+			return jsonify({'Status':'Failed', 'Error':str(e)})
+		else:
+			for result in cursor.stored_results():
+				for item in result.fetchall():
+					orderList.append(item)
+	return render_template('account.html', orderList=orderList, user=session['username'], lastname=session['lastname'], mail=session['useremail'])
 
 #Register Page
 @app.route('/signup', methods=['GET', 'POST'])
@@ -512,7 +527,6 @@ def addProduct():
 			prodQty = request.form['prodQty']
 			prodDescription = request.form['prodDescription']
 			prodImgPath = ''
-
 			parse = (catId, prodName, prodDescription, prodQty, prodPrice, 0, prodImgPath)
 
 		except Exception as e:
@@ -537,17 +551,24 @@ def addProduct():
 def updateOrder():
 	try:
 		cursor = db.cursor()
-		orderId = int(request.form['orderId'])
-		orderStatus = int(request.form['orderStatus'])
-
-		parse = (orderId, orderStatus)
-
+		orderId = int(request.form['orderID'])
+		orderStatus = request.form['changes']
+		parse = (orderId,)
 	except Exception as e:
+		print(str(e))
 		return jsonify({'status': 'failed', 'message' : str(e)})
 	else:
 		try:
-			cursor.callproc('update_order_status', parse)
+			#cursor.callproc('update_order_status', parse)
+			if orderStatus == 'Confirmed':
+				cursor.execute('Update order_info SET orderStatus=\'Confirmed\' WHERE orderID=%s;', parse)
+			if orderStatus == 'Cancelled':
+				cursor.execute('Update order_info SET orderStatus=\'Cancelled\' WHERE orderID=%s;', parse)
+			if orderStatus == 'Delivered':
+				cursor.execute('Update order_info SET orderStatus=\'Delivered\' WHERE orderID=%s;', parse)
+
 		except Exception as e:
+			print(str(e))
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			db.commit()
@@ -751,6 +772,35 @@ def getTopPicks():
 		cursor.close()
 		return jsonify({"success":status, 'itemList':itemList, 'message':message})
 
+#APIs for getting order detail based on orderID
+@app.route('/getOrderDetailOnOrderID', methods=['GET', 'POST'])
+def getOrderDetailOnOrderID():
+	orderId = int(request.form['orderID'])
+	userInSess = request.form['userIdentifier']
+	detailList = []
+	try:
+		cursor = db.cursor()
+		args = (userInSess, orderId)
+	except Exception as e:
+		cursor.close()
+		status = 'failed'
+		message = str(e)
+	else:
+		try:
+			cursor.callproc('get_order_detail_for_ordered', args)
+		except Exception as e:
+			cursor.close()
+			status = 'failed'
+			message = str(e)
+		else:
+			for result in cursor.stored_results():
+				for item in result.fetchall():
+					detailList.append(item)
+					status = 'success'
+					message = 'success'
+		finally:
+			cursor.close()
+			return jsonify({"success":status, 'detailList':detailList, 'message':message})
 
 
 #APIs for getting all bookmarks made by user

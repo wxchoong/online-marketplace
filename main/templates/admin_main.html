@@ -134,19 +134,19 @@
 							{% endfor %}
 							<td>
 								{%if orders[2] == "Confirmed"%}
-								<button type="button" onclick="ConfirmedOrder(value);" class="active btn btn-outline-success btn-sm" value={{orders[0]}}>Confirmed</button>
-								<button type="button" onclick="CancelledOrder(value);" class="btn btn-outline-danger btn-sm" value={{orders[0]}}>Cancelled</button>
-								<button type="button" onclick="DeliveredOrder(value);" class="btn btn-outline-primary btn-sm" value={{orders[0]}}>Delivered</button>
+								<button type="button"  onclick="ConfirmedOrder(value, 'Confirmed');" class="active btn btn-outline-success btn-sm" value={{orders[0]}}>Confirmed</button>
+								<button type="button" onclick="CancelledOrder(value, 'Cancelled');" class="btn btn-outline-danger btn-sm" value={{orders[0]}}>Cancelled</button>
+								<button type="button" onclick="DeliveredOrder(value, 'Delivered');" class="btn btn-outline-primary btn-sm" value={{orders[0]}}>Delivered</button>
 								{%endif%}
 								{%if orders[2] == "Cancelled"%}
-								<button type="button"  disabled onclick="ConfirmedOrder(value);" class="btn btn-outline-success btn-sm" value={{orders[0]}}>Confirmed</button>
-								<button type="button"  onclick="CancelledOrder(value);" class="active btn btn-outline-danger btn-sm" value={{orders[0]}}>Cancelled</button>
-								<button type="button"  disabled onclick="DeliveredOrder(value);" class="btn btn-outline-primary btn-sm" value={{orders[0]}}>Delivered</button>
+								<button type="button"  disabled class="btn btn-outline-success btn-sm" >Confirmed</button>
+								<button type="button"  class="active btn btn-outline-danger btn-sm" >Cancelled</button>
+								<button type="button"  disabled class="btn btn-outline-primary btn-sm" >Delivered</button>
 								{%endif%}
 								{%if orders[2] == "Delivered"%}
-								<button type="button" disabled class="btn btn-outline-success btn-sm" value={{orders[0]}}>Confirmed</button>
-								<button type="button" disabled class="btn btn-outline-danger btn-sm" value={{orders[0]}}>Cancelled</button>
-								<button type="button"  class="active btn btn-outline-primary btn-sm" value={{orders[0]}}>Delivered</button>
+								<button type="button" disabled class="btn btn-outline-success btn-sm" >Confirmed</button>
+								<button type="button" disabled class="btn btn-outline-danger btn-sm" >Cancelled</button>
+								<button type="button" class="active btn btn-outline-primary btn-sm" >Delivered</button>
 								{%endif%}
 							</td>
 						</tr>
@@ -384,6 +384,14 @@ var saveReplyBtn =  document.getElementById('sendReply');
 				}
 			})
 	  }
+	  else if(localStorage.getItem('adminGoTo') == 'order'){
+		  localStorage.setItem('adminGoTo', '');
+		  document.querySelectorAll('li').forEach(s=>{
+				if(s.innerText == 'Manage Orders'){
+					s.click();
+				}
+			})
+	  }
 	  else{
 		localStorage.setItem('adminGoTo', '');
 		document.querySelectorAll('li').forEach(s=>{
@@ -410,7 +418,6 @@ var saveReplyBtn =  document.getElementById('sendReply');
   }
 
 function hideProduct(value, doWhat){
-	console.log(value);
 	$.ajax({
 	data : {'productID': value, 'doWhat': doWhat},
     type : 'POST',
@@ -428,49 +435,55 @@ function hideProduct(value, doWhat){
 }
 
 function ConfirmedOrder(value){
-	//$.ajax({
-    //data : {'orderID': value},
-    //type : 'POST',
-    //url : '/confirmOrder'
-	//})
-  	//.done(function(data){
-	//	if(data.status = 'success'){
-	//	}
-	//	else{
-	//		alert(data.message);
-	//	}
-	//});
 	console.log(value);
+	$.ajax({
+    data : {'orderID': value, 'changes':'Confirmed'},
+    type : 'POST',
+    url : '/admin/updateOrderStat'
+	})
+  	.done(function(data){
+		if(data.status = 'success'){
+			localStorage.setItem('adminGoTo', 'order');
+			location.reload();
+		}
+		else{
+			alert(data.message);
+		}
+	});
 }
 function CancelledOrder(value){
-	//$.ajax({
-	//data : {'orderID': value},
-    //type : 'POST',
-    //url : '/cancelOrder'
-	//})
-  	//.done(function(data){
-	//	if(data.status = 'success'){
-	//	}
-	//	else{
-	//		alert(data.message);
-	//	}
-	//});
 	console.log(value);
+	$.ajax({
+    data : {'orderID': value, 'changes':'Cancelled'},
+    type : 'POST',
+    url : '/admin/updateOrderStat'
+	})
+  	.done(function(data){
+		if(data.status = 'success'){
+			localStorage.setItem('adminGoTo', 'order');
+			location.reload();
+		}
+		else{
+			alert(data.message);
+		}
+	});
 }
 function DeliveredOrder(value){
-	//$.ajax({
-	//data : {'orderID': value},
-    //type : 'POST',
-    //url : '/deliverOrder'
-	//})
-  	//.done(function(data){
-	//	if(data.status = 'success'){
-	//	}
-	//	else{
-	//		alert(data.message);
-	//	}
-	//});
 	console.log(value);
+	$.ajax({
+    data : {'orderID': value, 'changes':'Delivered'},
+    type : 'POST',
+    url : '/admin/updateOrderStat'
+	})
+  	.done(function(data){
+		if(data.status = 'success'){
+			localStorage.setItem('adminGoTo', 'order');
+			location.reload();
+		}
+		else{
+			alert(data.message);
+		}
+	});
 }
 
 

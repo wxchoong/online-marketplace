@@ -439,14 +439,16 @@ def logout():
 def updateProduct():
 	if request.method == 'POST':
 		try:
+			prodId = int(request.form['prodId'])
 			cursor = db.cursor()
 			prodName = request.form['prodName']
+			prodCat =  1
 			prodPrice = request.form['prodPrice']
 			prodQty = request.form['prodQty']
 			prodDescription = request.form['prodDescription']
-			prodImgPath = ''
+			prodImgPath = request.form['prodImg']
 
-			parse = (prodId, prodName, prodPrice, prodQty, prodImgPath, prodDescription)
+			parse = (prodId, prodCat, prodName, prodPrice, prodQty, prodImgPath, prodDescription)
 			print(parse)
 
 		except Exception as e:

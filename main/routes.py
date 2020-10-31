@@ -14,7 +14,7 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordFiel
 # 5. Signup Page - Done*
 # 6. Admin Page - Pending statistics, update/add product
 # 7. Account Page - Pending user function to post review, and render all orders of the customer
-# 8. Cart Page - Pending 'add to cart' function
+# 8. Cart Page - Done*
 # 9. Checkout Page - Pending function for inserting order details
 # 10. Payment Page - Done*
 # 11. Search - Done*
@@ -246,6 +246,8 @@ def checkout():
 	if request.method == 'POST':
 		try:
 			cursor = db.cursor()
+
+			#parameters for inserting order
 			email = session['useremail']
 			orderDate = datetime.now()
 			name = request.form['reciName']
@@ -272,6 +274,9 @@ def checkout():
 			#cardCvv = request.form['cc_cvv']
 			parse = (email, orderDate, name, address, postalCode, phone, orderStat, totalPrice, 
 			deliverDate, remark, totalQty, cardName, cardNum, payIdx, cardExpiry)
+
+
+			#parameters for inserting order details
 
 		except Exception as e:
 			print(str(e))
@@ -435,7 +440,6 @@ def updateProduct():
 	if request.method == 'POST':
 		try:
 			cursor = db.cursor()
-			prodId = int(request.form['prodId'])
 			prodName = request.form['prodName']
 			prodPrice = request.form['prodPrice']
 			prodQty = request.form['prodQty']
@@ -443,8 +447,10 @@ def updateProduct():
 			prodImgPath = ''
 
 			parse = (prodId, prodName, prodPrice, prodQty, prodImgPath, prodDescription)
+			print(parse)
 
 		except Exception as e:
+			print(e)
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			try:

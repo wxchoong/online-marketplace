@@ -48,17 +48,17 @@
         <div class="row mb-2 product-detail">
             <div class="col-md-6">
                 <div class="row">
-                    <img class="card-img-top" id="prodImg" src="{{url_for('static', filename='assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg')}}" alt="white-night-stand">
+                    <img class="card-img-top" id="prodImg" src="{{url_for('static', filename='assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg')}}"
+                        alt="white-night-stand">
                 </div>
                 <div class="form-group">
-                    <br/>
+                    <br />
                     <div class="input-group">
                         <span class="input-group-btn">
                             <span class="btn btn-default btn-file">
-                                Browse… <input type="file" id="imgInp">
+                               <input type="file" id="imgInp">
                             </span>
                         </span>
-                        <input type="text" class="form-control" readonly>
                     </div>
                     <img id='img-upload' />
                 </div>
@@ -70,28 +70,39 @@
                 <!-- Medium input -->
                 <div class="md-form">
                     <p class="font-weight-bold">Product Name</p>
-                    <input type="text" id="prodName" name="prodName" class="form-control">
+                    <input type="text" id="prodName" name="prodName" class="form-control" value={{request.form.prodName}}>
                 </div>
-
+                <br />
+                <div>
+                    <p class="font-weight-bold">Product Category</p>
+                    <select name="Product Category " id="Category">
+                        <option value="Category1">Category1</option>
+                        <option value="Category2">Category2</option>
+                        <option value="Category3">Category3</option>
+                    </select>
+                </div>
+                <br />
                 <!-- Small input -->
                 <div class="md-form form-sm">
                     <p class="font-weight-bold">Product Price</p>
-                    <input type="text" id="prodPrice" name="prodPrice" class="form-control form-control-sm">
+                    <input type="text" id="prodPrice" name="prodPrice" class="form-control form-control-sm" value={{request.form.prodPrice}}>
                 </div>
+                <br />
                 <div class="md-form form-sm">
                     <p class="font-weight-bold">Available Quantity:</p>
-                    <input type="text" id="prodQuantity" name="prodQty" class="form-control form-control-sm">
+                    <input type="text" id="prodQuantity" name="prodQty" class="form-control form-control-sm" value={{request.form.prodQty}}>
                 </div>
+                <br />
                 <!-- Large input -->
                 <div class="md-form form-lg">
                     <p class="font-weight-bold">Product Description</p>
 
-                    <textarea class="form-control" id="prodDescription" name="prodDescription" rows="10" ></textarea>
+                    <textarea class="form-control" id="prodDescription" name="prodDescription" rows="10" value={{request.form.prodDescription}}></textarea>
                 </div>
                 <br />
                 <br />
                 <div class="col">
-                    <button type="submit" class="btn btn-dark tn-lg">Update</button>
+                    <button type="submit" class="btn btn-dark tn-lg" name="prodId">Update</button>
 
                 </div>
 
@@ -135,6 +146,7 @@
             var prodDescription = document.getElementById('prodDescription');
             var prodQuantity = document.getElementById('prodQuantity');
             var prodImg = document.getElementById('prodImg');
+            $(".prodId").value = productID;
             $.ajax({
       			data : {'prodID':productID},
       			type : 'POST',
@@ -142,6 +154,7 @@
 			})
   			.done(function(data){
 				if(data.status = 'success'){
+                    console.log(data.itemList);
                     prodName.value = data.itemList[0][0];
                     prodPrice.value = '$'+data.itemList[0][1];
                     prodDescription.innerText = data.itemList[0][2];

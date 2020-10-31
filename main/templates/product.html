@@ -29,16 +29,16 @@
                     <span id="prodQuantity">Available Quantity:</span>
                     <div class="mt-1 mb-3">
 						<div class="def-number-input number-input safari_only">
-						  <i class="fa fa-minus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></i>
-						  <input class="quantity" min="1" name="quantity" value="1" type="number" Readonly>
-						  <i class="fa fa-plus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></i>
+						  <i class="fa fa-minus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepDown();"></i>
+						  <input class="quantity" min="1" name="quantity" value="1" type="number">
+						  <i class="fa fa-plus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepUp();"></i>
 						</div>
                     </div>
                 </div>
                 <div>
                     <div class="row">
                         <div class="col">
-                            <a class="btn btn-lg btn-block mybtn">Add to cart</a>
+                            <a class="btn btn-lg btn-block mybtn addToCart">Add to cart</a>
                         </div>
                         <div class="col-auto">
                             <button class="bookmark btn btn-lg rounded-circle border-0 bg-light text-dark">♥</button>
@@ -60,10 +60,11 @@
 <script src="{{url_for('static', filename='assets/dist/custom/slugify.js')}}"></script>
       <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
 	  <script>		
+       var productID;
 		$( document ).ready(function() {
             var currentBookmark;
             var currentBookmarkID;
-            var productID = location.toString().substring(location.toString().indexOf('?')+1,location.toString().length);
+            productID = location.toString().substring(location.toString().indexOf('?')+1,location.toString().length);
             var prodName = document.getElementById('prodName');
             var prodPrice = document.getElementById('prodPrice');
             var prodDescription = document.getElementById('prodDescription');
@@ -127,7 +128,7 @@
         type : 'POST',
         url : '/displayBookmarkOfUser'
 	    })
-  	.done(function(data){
+  	    .done(function(data){
 		if(data.success){
 			for(var i=0; i<data.itemList.length; i++){
                 if(data.itemList[i][0] == productName){
@@ -151,8 +152,26 @@
 		else{
 			alert(data.message);
 		}
+	    });
+    }
+
+    $(".addToCart").click(function(){
+       var qty = $('.quantity').val();
+       console.log(qty);
+        $.ajax({
+        data : {'prodId':productID, 'prodQty': qty},
+        type : 'POST',
+        url : '/addToCart'
+	    })
+  	    .done(function(data){
+		if(data.success){
+            console.log(data.message);
+		}
+		else{
+			alert(data.message);
+		}
 	});
-        }
+    });
 	  </script>	
 
 {% endblock %}

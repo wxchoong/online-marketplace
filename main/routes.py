@@ -195,55 +195,49 @@ def products(cat,prod):
 @app.route('/cart', methods=['GET','POST'])
 @is_logged_in
 def cart():
-	# for 1 argument, db has to give such syntax
-	# authenticator = (session['username'])
-	# cursor = db.cursor()
-	# cursor.callproc('sp_getCurrentUserCart', authenticator)
-
-	# for each ID in session['cart']
-	if request.method == 'POST':
-		try:
-			cursor = db.cursor()
-			args = (prodId,)
-			itemList = []
-		except Exception as e:
-			return jsonify({'status': 'failed', 'message' : str(e)})
-		else:
-			try:
-				cursor.callproc('get_cart_product', args)
+	itemList = []
+	cart_list =[]
+	try:
+		cursor = db.cursor()
+		# for each ID in session['cart']
+		cart_list = session['cart']
+	except Exception as e:
+		print(str(e))
+	else:
+		for items in cart_list:
+			for prodId in items:
+				args = (int(prodId), )
+				cursor.callproc('display_product_by_ID', args)
 				for result in cursor.stored_results():
 					for item in result.fetchall():
 						itemList.append(item)
-			except Exception as e:
-				cursor.close()
-				return jsonify({'status': 'failed', 'message': str(e)})
-			else:
-				cursor.close()
-				return jsonify({"success":"success", 'itemList':itemList})
-		finally:
-			cursor.close()
-		
-	return render_template('cart.html', user=session['username'])
+	finally:
+		cursor.close()
+	return render_template('cart.html', noOfItems=len(itemList), itemList=itemList, cart=cart_list, user=session['username'])
 	
 #Add To Cart Function
-@app.route('/addToCart/<int:product_id>', methods=['GET','POST'])
+@app.route('/addToCart', methods=['GET','POST'])
 @is_logged_in
-def add_to_cart(product_id):
-	quantity = request.form['prodQty']
+def add_to_cart():
+	product_id = int(request.form['prodId'])
+	quantity = int(request.form['prodQty'])
 	if 'cart' in session:
+		cart_list = session['cart']
 		#Add to cart if product is not inside
-		if not any(product_id in p for p in session['cart']):
-			session['cart'].append({product_id: quantity})
-
+		if not any(str(product_id) in p for p in cart_list):
+			cart_list = session['cart']
+			cart_list.append({product_id : quantity})
 		# If the product is already in the cart, update the quantity
-		elif any(product_id in p for p in session['cart']):
-			for p in session['cart']:
-				p.update((k, quantity) for k, v in p.items() if k == product_id)
-
+		elif any(str(product_id) in p for p in cart_list):
+			for p in cart_list:
+				for o in p:
+					if(o == str(product_id)):
+						p[o] = quantity
+		session['cart'] = cart_list
 	else:
 		# In this block, the user has not started a cart, so we start it for them and add the product. 
 		session['cart'] = [{product_id: quantity}]
-    #return 
+	return jsonify({'status': 'success', 'message' : 'success'})
 
 #Checkout
 @app.route('/checkout', methods=['GET','POST'])
@@ -638,8 +632,6 @@ def renderCategories():
 		else:
 			cursor.close()
 			return jsonify({"success":"success", 'itemList':itemList})
-	finally:
-		cursor.close()
 
 #API for getting ONE product data
 @app.route('/renderSingleProduct', methods=['GET', 'POST'])

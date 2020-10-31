@@ -94,8 +94,8 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `display_product_by_ID`(productIdentifier INT)
 BEGIN
-	Select productName, price, productDescription, availableQuantity, imagePath from product_info
-    where productIdentifier = productID AND availableQuantity > 0;
+	Select productName, price, productDescription, availableQuantity, imagePath, productID from product_info
+    where productIdentifier = productID, AND availableQuantity > 0;
 END//
 DELIMITER ;
 

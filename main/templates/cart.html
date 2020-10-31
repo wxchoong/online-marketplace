@@ -22,27 +22,28 @@
       <div class="card wish-list mb-3">
         <div class="card-body">
 
-          <h5 class="mb-4">My Shopping Cart (<span>2</span> items)</h5>
+          <h5 class="mb-4">My Shopping Cart (<span>{{noOfItems}}</span> items)</h5>
 
+         {%for item in itemList%}
           <div class="row mb-4">
             <div class="col-md-5 col-lg-3 col-xl-3">
               <div class="mb-3 mb-md-0">                
-                <a href="/livingRoom/leatherSofa"><img class="img-fluid w-100" src="{{url_for('static', filename='assets/dist/images/products/living-room/sofa/leather-sofa.jpg')}}" alt="leather-sofa"></a>
+                <img class="img-fluid w-100" src={{item[4]}}></a>
               </div>
             </div>
             <div class="col-md-7 col-lg-9 col-xl-9">
               <div>
                 <div class="d-flex justify-content-between">
                   <div>
-                    <h5>Leather Sofa</h5>
-                    <p class="mb-3 text-muted text-uppercase small">Color - blue</p>
-                    <p class="mb-3 text-muted text-uppercase small">Size: 6.9" dia x 18.7" H</p>
+                    <h5>{{item[0]}}</h5>
+                    <p class="mb-3 text-muted text-uppercase small">{{item[2]}}</p>
                   </div>
                   <div>
                     <div class="def-number-input number-input safari_only mb-0 w-100">
-                      <i class="fa fa-minus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></i>
-                      <input class="quantity" min="1" name="quantity" value="1" type="number" Readonly>
-					  <i class="fa fa-plus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></i>
+                      {%for p in cart%}
+                        {%for o in p%}
+                          {%if (o == item[5]|string)%}
+                            <input class="quantity" min="1" name="quantity" value={{p[o]}} type="number" Readonly>
                     </div>
                   </div>
                 </div>
@@ -50,47 +51,16 @@
                   <div>                    
 					<i class="fa fa-trash" ></i> <a href="#!" type="button" class="card-link-secondary small text-uppercase mr-3">Remove item </a>
                   </div>
-                  <p class="mb-0"><span><strong>S$ 299.00</strong></span></p>
+                  <p class="mb-0"><span class="price"><strong>{{item[1]|float * p[o]|float}}</strong></span></p>
+                  {%endif%}
+                  {%endfor%}
+                  {%endfor%}
                 </div>
               </div>
             </div>
           </div>
-          
-		  <hr class="mb-4">
-		  
-		   <div class="row mb-4">
-            <div class="col-md-5 col-lg-3 col-xl-3">
-              <div class="mb-3 mb-md-0">                
-                <a href="/livingRoom/woodenCoffeeTable"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/coffee-table/wooden-coffee-table.jpg')}}" alt="wooden-coffee-table"></a>
-              </div>
-            </div>
-            <div class="col-md-7 col-lg-9 col-xl-9">
-              <div>
-                <div class="d-flex justify-content-between">
-                  <div>
-                    <h5>Wooden Coffee Table</h5>
-                    <p class="mb-3 text-muted text-uppercase small">Color - brown</p>
-                    <p class="mb-3 text-muted text-uppercase small">Size: 6.9" dia x 18.7" H</p>
-                  </div>
-                  <div>
-                    <div class="def-number-input number-input safari_only mb-0 w-100">
-                      <i class="fa fa-minus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></i>
-                      <input class="quantity" min="1" name="quantity" value="1" type="number" Readonly>
-					  <i class="fa fa-plus" aria-hidden="true" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>                    
-					<i class="fa fa-trash" ></i> <a href="#!" type="button" class="card-link-secondary small text-uppercase mr-3">Remove item </a>
-                  </div>
-                  <p class="mb-0"><span><strong>S$ 99.00</strong></span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          
+          <hr class="mb-4">
+          {%endfor%}          
         </div>
       </div>
       <!-- Card -->
@@ -111,15 +81,15 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
               Amount
-              <span>$25.98</span>
+              <span id="totalPrice"></span>
             </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <!--<li class="list-group-item d-flex justify-content-between align-items-center px-0">
               GST
               <span>S$ 0.00</span>
-            </li>
+            </li>-->
             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
               Shipping
-              <span>S$ 0.00</span>
+              <span>S$ 10.00</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
               <div>
@@ -128,7 +98,7 @@
                   <p class="mb-0">(including GST)</p>
                 </strong>
               </div>
-              <span><strong>$53.98</strong></span>
+              <span><strong id="afterGST"></strong></span>
             </li>
           </ul>
 
@@ -167,7 +137,18 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js')}}"></script>
 	  <script>
-		
+		var totalPrice = document.getElementById("totalPrice");
+    var add = 0;
+    var afterGST = document.getElementById("afterGST");
+    $(document).ready(function () {
+			document.querySelectorAll('span').forEach(s=>{
+				if(s.className == 'price'){
+					add += parseFloat(s.innerText);
+				}
+			})
+      totalPrice.innerText = add;
+      afterGST.innerText = parseFloat(totalPrice.innerText)+10;
+    });
 	  
 	  </script>
 	  

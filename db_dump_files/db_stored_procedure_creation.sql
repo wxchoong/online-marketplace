@@ -419,7 +419,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `get_order_detail_for_ordered`(email varchar(45), orderId int)
 BEGIN
-    SELECT pi.productName, od.subTotal, od.quantity, uc.comment, uc.adminReply, pi.imagePath, uc.commentDate
+    SELECT pi.productName, od.subTotal, od.quantity, uc.comment, uc.adminReply, pi.imagePath, uc.commentDate, uc.commentID
     from product_info pi, order_detail od, user_comment uc, order_info oi
     where pi.productID = od.productID 
     and od.orderID = oi.orderID 
@@ -470,5 +470,14 @@ BEGIN
     set soldQuantity = @currentSold + numOfItems
     WHERE productID = prodID;
 RETURN 1;
+END//
+DELIMITER;
+
+DELIMITER //
+CREATE PROCEDURE `insert_user_comment`(commentId INT, comment VARCHAR(100))
+BEGIN
+ UPDATE user_comment 
+ SET comment = comment 
+ WHERE commentID = commentId;
 END//
 DELIMITER;

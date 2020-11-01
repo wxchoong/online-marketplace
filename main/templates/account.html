@@ -372,7 +372,6 @@ $( ".account-menu .list-group-item" ).click(function(){
 	}
 	function getOrderDetail(value){
 		var orderID = value.replace("nav-order-", '').replace("-tab",'');
-		console.log(orderID);
 		$.ajax({
     	data : {'orderID':orderID, 'userIdentifier':'{{mail}}'},
     	type : 'POST',
@@ -394,7 +393,11 @@ $( ".account-menu .list-group-item" ).click(function(){
 						'</span> <span class="text-muted">(GST Incl.)</span></p><p>Quantity:<br/> <span class="item-qty">'+
 						data.detailList[i][2]+
 						'</span></p><h5>My Review: </h5>'+
-						'<form class="form-review" action="" method="POST"><textarea rows="2" class="form-control font-weight-light" name="inputReview" placeholder="Write your Review..." value={{request.form.inputReview}}></textarea><button class="btn btn-lg mybtn" type="submit" name="update_detail" value="updateReview">Submit</button></form>'+  
+						'<textarea rows="2" class="form-control font-weight-light" id="'+
+						data.detailList[i][7]+
+						'" placeholder="Write your Review..."></textarea><button class="btn btn-lg mybtn" onclick="submitComment(value);" name="update_detail" value="'+
+						data.detailList[i][7]+
+						'">Submit</button>'+  
 						'</div></div></div></div>'
 						);
 					}
@@ -449,7 +452,22 @@ $( ".account-menu .list-group-item" ).click(function(){
 			}
 		});
 	}
-
+	function submitComment(value){
+		var content = document.getElementById(value).value;
+		$.ajax({
+    	data : {'commentId':value, 'comment':content},
+    	type : 'POST',
+    	url : '/insertComment'
+		})
+  		.done(function(data){
+			if(data.status=="success"){
+				location.reload();
+			}
+			else{
+				alert(data.status);
+			}
+		});
+	}
 </script>
 
 {% endblock %}

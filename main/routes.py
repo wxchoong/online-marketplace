@@ -582,7 +582,6 @@ def addProduct():
 	else:
 		cursor.execute('select categorySub from category;')
 		catList = cursor.fetchall()
-		print(catList)
 		cursor.close()
 	return render_template('admin_update.html', catList=catList)
 
@@ -842,9 +841,9 @@ def getOrderDetailOnOrderID():
 					detailList.append(item)
 					status = 'success'
 					message = 'success'
-		finally:
-			cursor.close()
-			return jsonify({"success":status, 'detailList':detailList, 'message':message})
+	finally:
+		cursor.close()
+		return jsonify({"success":status, 'detailList':detailList, 'message':message})
 
 
 #APIs for getting all bookmarks made by user
@@ -885,9 +884,6 @@ def dislikeProduct():
 		likeOrNo = int(request.form['likeOrNo'])
 		prodID = int(request.form['prodID'])
 		args = (prodID,userIdentifier,likeOrNo)
-		print(userIdentifier)
-		print(type(likeOrNo))
-		print(type(prodID))
 	except Exception as e:
 		status = 'failed'
 		print(str(e))
@@ -909,4 +905,34 @@ def dislikeProduct():
    		cursor.close()
    		return jsonify({'status':status, 'message':message})
 
+
+
+#APIs for inserting user comment
+@app.route('/insertComment', methods=['GET', 'POST']) 
+def insertComment(): 
+	try: 
+		cursor = db.cursor()
+		commentId = int(request.form['commentId'])
+		content = request.form['comment']
+		args = (content, commentId)
+	except Exception as e:
+		status = 'failed'
+		print(str(e))
+		message = str(e)
+	else: 
+		try: 
+   			cursor.execute('UPDATE user_comment SET comment=%s,commentDate=now() WHERE commentID=%s;', args) 
+		except Exception as e: 
+   			cursor.close() 
+   			print(str(e))
+   			status = 'failed'
+   			message = str(e)
+		else:
+   			db.commit()
+   			cursor.close() 
+   			status = 'success'
+   			message = content
+	finally: 
+		cursor.close()
+		return jsonify({'status':status, 'message':message})
 #--------------------------------------------------------------------------#

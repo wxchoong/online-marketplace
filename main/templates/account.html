@@ -125,7 +125,7 @@
       <a class="collapsed" data-toggle="collapse" data-parent="#orderAccordion" href="#collapse{{orders[0]}}"
         aria-expanded="true" aria-controls="collapse{{orders[0]}}">
         <h5 class="mb-0">
-          # <span class="order-number">{{orders[0]}}</span> - <span class="text-muted order-total">S$ {{orders[8]}}</span> <span class="order-status confirmed" style="float:right;">{{orders[7]}}</span><i style="clear:both;float:right;" class="fa fa-angle-down"></i>
+          # <span class="order-number">{{orders[0]}}</span> - <span class="text-muted order-total">S$ {{orders[8]}}</span> <span class="order-status" style="float:right;">{{orders[7]}}</span><i style="clear:both;float:right;" class="fa fa-angle-down"></i>
         </h5>
       </a>
     </div>
@@ -196,71 +196,16 @@
 		
 		<nav>
 		  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-			<a onclick="getOrderDetail(id);" class="nav-item nav-link active" id="nav-order-{{orders[0]}}-tab" data-toggle="tab" href="#nav-order-{{orders[0]}}" role="tab" aria-controls="nav-order-{{orders[0]}}" aria-selected="true">Order Details</a>
-			<a class="nav-item nav-link" id="nav-shipping-{{orders[0]}}-tab" data-toggle="tab" href="#nav-shipping-{{orders[0]}}" role="tab" aria-controls="nav-shipping-{{orders[0]}}" aria-selected="false">Shipping &amp; Payment</a>
+			<a onclick="getOrderDetail(id);" class="nav-item nav-link" id="nav-order-{{orders[0]}}-tab" data-toggle="tab" href="#nav-order-{{orders[0]}}" role="tab" aria-controls="nav-order-{{orders[0]}}" aria-selected="false">Order Details</a>
+			<a class="nav-item nav-link active" id="nav-shipping-{{orders[0]}}-tab" data-toggle="tab" href="#nav-shipping-{{orders[0]}}" role="tab" aria-controls="nav-shipping-{{orders[0]}}" aria-selected="true">Shipping &amp; Payment</a>
 		  </div>
 		</nav>
 		<div class="tab-content" id="nav-tabContent">
-		  <div class="tab-pane fade show active" id="nav-order-{{orders[0]}}" role="tabpanel" aria-labelledby="nav-order-{{orders[0]}}-tab">
-			<div class="row products">
-				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
-					<a href="/livingRoom/leatherSofa"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/sofa/leather-sofa.jpg')}}" alt="leather-sofa"></a>
-					<div class="card-body">
-						<h5 class="product-name"><a href="/livingRoom/leatherSofa"></a>Leather Sofa</a></h5>
-						<div class="row">
-						<div class="col">
-							<p>Item price:<br/> S$ <span class="item-price">299.00</span> <span class="text-muted">(GST Incl.)</span></p>
-							<p>Quantity:<br/> <span class="item-qty">1</span></p>
-							<h5>My Review:</h5>
-							  <!--if user has not reviewed-->
-							  <form class="form-review" action="" method="POST">
-								<textarea rows="2" class="form-control font-weight-light" name="inputReview" placeholder="Write your Review..." value={{request.form.inputReview}}></textarea>
-								<button class="btn btn-lg mybtn" type="submit" name="update_detail" value="updateReview">Submit</button>
-							  </form>
-							  
-						</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12 col-md-6 col-lg-4 card product-card">
-					<a href="/livingRoom/persianCarpet"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/carpets-and-rugs/persian-carpet.jpg')}}" alt="persian-carpet"></a>
-					<div class="card-body">
-						<h5 class="product-name"><a href="/livingRoom/persianCarpet">Persian Carpet</a></h5>
-						<div class="row">
-						<div class="col">
-							<p>Item price:<br/> S$ <span class="item-price">79.00</span> <span class="text-muted">(GST Incl.)</span></p>
-							<p>Quantity:<br/> <span class="item-qty">1</span></p>
-							<h5>My Review:</h5>	
-							  <!--if user has reviewed-->
-								<span class="text-muted small">12/10/2020 14:59</span>
-							  <p>Received with good condition. Will come back and buy again.</p>
-							 <!--if seller has replied-->
-							<h5>Reply by Seller:</h5>
-								<span class="text-muted small">22/10/2020 14:59</span>
-							  <p>Thank you for your order. We hope to see you again!</p>
-						</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4 card product-card">
-					<a href="/livingRoom/woodenCafeTable"><img class="card-img-top" src="{{url_for('static', filename='assets/dist/images/products/living-room/coffee-table/wooden-coffee-table.jpg')}}" alt="wooden-coffee-table"></a>
-					<div class="card-body">
-						<h5 class="product-name"><a href="/livingRoom/woodenCafeTable">Wooden Coffee Table</a></h5>
-						<div class="row">
-						<div class="col">
-							<p>Item price:<br/> S$ <span class="item-price">99.00</span> <span class="text-muted">(GST Incl.)</span></p>
-							<p>Quantity:<br/> <span class="item-qty">1</span></p>
-							<h5>My Review:</h5>	
-							  <!--if user has reviewed-->
-								<span class="text-muted small">12/10/2020 14:59</span>
-							  <p>Received with good condition. Will come back and buy again.</p>
-						</div>
-						</div>
-					</div>
-				</div>
+		  <div class="tab-pane fade" id="nav-order-{{orders[0]}}" role="tabpanel" aria-labelledby="nav-order-{{orders[0]}}-tab">
+			<div class="row products" id="rowOrderDetailProduct_{{orders[0]}}">
 			</div>
 		  </div>
-		  <div class="tab-pane fade" id="nav-shipping-{{orders[0]}}" role="tabpanel" aria-labelledby="nav-shipping-{{orders[0]}}-tab">
+		  <div class="tab-pane fade show active" id="nav-shipping-{{orders[0]}}" role="tabpanel" aria-labelledby="nav-shipping-{{orders[0]}}-tab">
 			<div class="col-12 tab">
 				<h5>Shipping Details</h5>
 			  <div class="row">
@@ -328,8 +273,6 @@
 					<span id="cardExpiry">{{orders[15]}}</span>
 				</div>
 			  </div> 		
-
-			  
 			</div>
 		  </div>
 		  
@@ -436,7 +379,68 @@ $( ".account-menu .list-group-item" ).click(function(){
 		})
   		.done(function(data){
 			if(data.success){
-				console.log(data.detailList);
+				$("#rowOrderDetailProduct_"+orderID).empty();
+				for(var i=0; i<data.detailList.length; i++){
+					if(data.detailList[i][3].length < 1){
+						$("#rowOrderDetailProduct_"+orderID).append(
+						'<div class="col-sm-12 col-md-6 col-lg-4 card product-card">'+
+						'<img class="card-img-top" src="'+
+						data.detailList[i][5]+
+						'"></a><div class="card-body"><h5 class="product-name"></a>'+
+						data.detailList[i][0]+
+						'</a></h5><div class="row"><div class="col"><p>Item price:<br/> S$ <span class="item-price">'+
+						data.detailList[i][1]+
+						'</span> <span class="text-muted">(GST Incl.)</span></p><p>Quantity:<br/> <span class="item-qty">'+
+						'</span></p><h5>My Review: </h5>'+
+						'<form class="form-review" action="" method="POST"><textarea rows="2" class="form-control font-weight-light" name="inputReview" placeholder="Write your Review..." value={{request.form.inputReview}}></textarea><button class="btn btn-lg mybtn" type="submit" name="update_detail" value="updateReview">Submit</button></form>'+  
+						'</div></div></div></div>'
+						);
+					}
+					else{
+						if(data.detailList[i][4] == "No Reply Yet!"){
+							$("#rowOrderDetailProduct_"+orderID).append(
+							'<div class="col-sm-12 col-md-6 col-lg-4 card product-card">'+
+							'<img class="card-img-top" src="'+
+							data.detailList[i][5]+
+							'"></a><div class="card-body"><h5 class="product-name"></a>'+
+							data.detailList[i][0]+
+							'</a></h5><div class="row"><div class="col"><p>Item price:<br/> S$ <span class="item-price">'+
+							data.detailList[i][1]+
+							'</span> <span class="text-muted">(GST Incl.)</span></p><p>Quantity:<br/> <span class="item-qty">'+
+							data.detailList[i][2]+
+							'</span></p><h5>My Review: </h5>'+
+							'<span class="text-muted small">'+
+							data.detailList[i][6]+
+							'</span><p>'+
+							data.detailList[i][3]+
+							'</p></div></div></div></div>'
+							);
+						}
+						else{
+							$("#rowOrderDetailProduct_"+orderID).append(
+							'<div class="col-sm-12 col-md-6 col-lg-4 card product-card">'+
+							'<img class="card-img-top" src="'+
+							data.detailList[i][5]+
+							'"></a><div class="card-body"><h5 class="product-name"></a>'+
+							data.detailList[i][0]+
+							'</a></h5><div class="row"><div class="col"><p>Item price:<br/> S$ <span class="item-price">'+
+							data.detailList[i][1]+
+							'</span> <span class="text-muted">(GST Incl.)</span></p><p>Quantity:<br/> <span class="item-qty">'+
+							data.detailList[i][2]+
+							'</span></p><h5>My Review: </h5>'+
+							'<span class="text-muted small">'+
+							data.detailList[i][6]+
+							'</span><p>'+
+							data.detailList[i][3]+
+							'</p><h5>Reply by Seller:</h5>'+
+							'<p>'+
+							data.detailList[i][4]+
+							'</p></div></div></div></div>'
+							);
+						}
+
+					}
+				}
 			}
 			else{
 				alert(data.message);

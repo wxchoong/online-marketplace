@@ -411,11 +411,11 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `get_order_detail_for_ordered`(email varchar(45), orderId int)
 BEGIN
-    SELECT pi.productName, od.subTotal, od.quantity, uc.comment, uc.adminReply, pi.imagePath
+    SELECT pi.productName, od.subTotal, od.quantity, uc.comment, uc.adminReply, pi.imagePath, uc.commentDate
     from product_info pi, order_detail od, user_comment uc, order_info oi
     where pi.productID = od.productID 
     and od.orderID = oi.orderID 
     and uc.productID = od.productID 
     and uc.commentorEmail = email and od.orderID = orderId;
-END //
+END//
 DELIMITER;

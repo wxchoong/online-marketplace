@@ -605,7 +605,7 @@ def replyComment():
 		commentor = request.form['commentor']
 		commentId = int(request.form['commentID'])
 		commentText = request.form['message']
-		parse = (commentor, commentId, commentText)
+		parse = (commentText, commentId, commentor)
 
 	except Exception as e:
 		cursor.close()
@@ -615,7 +615,7 @@ def replyComment():
 		return jsonify({'status':status, 'message':message})
 	else:
 		try:
-			cursor.callproc('insert_admin_reply', parse)
+			cursor.execute(' UPDATE user_comment SET adminReply = %s WHERE commentID = %s and commentorEmail = %s;', parse)
 		except Exception as e:
 			cursor.close()
 			print(str(e))

@@ -382,7 +382,7 @@ $( ".account-menu .list-group-item" ).click(function(){
 			if(data.success){
 				$("#rowOrderDetailProduct_"+orderID).empty();
 				for(var i=0; i<data.detailList.length; i++){
-					if(data.detailList[i][3].length < 1){
+					if(data.detailList[i][3].length < 1 || data.detailList[i][3] == 'NIL'){
 						$("#rowOrderDetailProduct_"+orderID).append(
 						'<div class="col-sm-12 col-md-6 col-lg-4 card product-card">'+
 						'<img class="card-img-top" src="'+
@@ -392,6 +392,7 @@ $( ".account-menu .list-group-item" ).click(function(){
 						'</a></h5><div class="row"><div class="col"><p>Item price:<br/> S$ <span class="item-price">'+
 						data.detailList[i][1]+
 						'</span> <span class="text-muted">(GST Incl.)</span></p><p>Quantity:<br/> <span class="item-qty">'+
+						data.detailList[i][2]+
 						'</span></p><h5>My Review: </h5>'+
 						'<form class="form-review" action="" method="POST"><textarea rows="2" class="form-control font-weight-light" name="inputReview" placeholder="Write your Review..." value={{request.form.inputReview}}></textarea><button class="btn btn-lg mybtn" type="submit" name="update_detail" value="updateReview">Submit</button></form>'+  
 						'</div></div></div></div>'

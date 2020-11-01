@@ -84,10 +84,18 @@ END//
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE `add_order_detail`(productID INT, orderID INT, numOfItems INT)
+CREATE PROCEDURE `add_order_detail`(prodID INT, orderID INT, numOfItems INT)
 BEGIN
-	SET @subTotal = get_sub_total(productID,numOfItems);
-	insert into order_detail VALUES(productID, orderID, numOfItems, @subTotal);
+	SET @subTotal = get_sub_total(prodID,numOfItems);
+	insert into order_detail VALUES(prodID, orderID, numOfItems, @subTotal);
+    SET @currentAvail = get_Avail(prodID);
+    update product_info
+    set availableQuantity = @currentAvail - numOfItems
+    WHERE productID = prodID;
+	SET @currentSold = get_Sold(prodID);
+    update product_info
+    set soldQuantity = @currentSold + numOfItems
+    WHERE productID = prodID;
 END//
 DELIMITER ;
 
@@ -417,5 +425,50 @@ BEGIN
     and od.orderID = oi.orderID 
     and uc.productID = od.productID 
     and uc.commentorEmail = email and od.orderID = orderId;
+END//
+DELIMITER;
+
+
+DELIMITER //
+CREATE PROCEDURE `add_default_no_comment`(email varchar(45), prodID int)
+BEGIN
+	INSERT into user_comment values (NULL, email, 'NIL', now(), prodID, 'No Reply Yet!');
+END//
+DELIMITER;
+
+
+DELIMITER //
+CREATE FUNCTION `get_Avail`(prodID int) RETURNS int
+    DETERMINISTIC
+BEGIN
+	DECLARE qty int;
+    select availableQuantity from product_info where productID = prodID INTO qty;
+RETURN qty;
+END//
+DELIMITER;
+
+DELIMITER //
+CREATE FUNCTION `get_Sold`(prodID int) RETURNS int
+    DETERMINISTIC
+BEGIN
+	DECLARE qty int;
+    select soldQuantity from product_info where productID = prodID INTO qty;
+RETURN qty;
+END//
+DELIMITER;
+
+DELIMITER //
+CREATE FUNCTION `update_qty`(prodID int, numOfItems int) RETURNS int
+    DETERMINISTIC
+BEGIN
+    SET @currentAvail = get_Avail(prodID);
+    update product_info
+    set availableQuantity = @currentAvail - numOfItems
+    WHERE productID = prodID;
+	SET @currentSold = get_Sold(prodID);
+    update product_info
+    set soldQuantity = @currentSold + numOfItems
+    WHERE productID = prodID;
+RETURN 1;
 END//
 DELIMITER;

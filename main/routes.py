@@ -311,12 +311,17 @@ def checkout():
 			try:
 				cursor.callproc('add_order', parse)
 				db.commit()
-
 				cursor.nextset()
 				for items in cart_list:
 					for prodId in items:
 						args = (int(prodId), order_no, int(items[prodId]))
 						cursor.callproc('add_order_detail', args)
+						db.commit()
+						cursor.nextset()
+						forComment = (email, int(prodId))
+						cursor.callproc('add_default_no_comment', forComment)
+						db.commit()
+						cursor.nextset()
 
 			except Exception as e:
 				print(str(e))

@@ -238,3 +238,7 @@ INSERT INTO order_detail VALUES (16, 8, 6, 219.84);
 INSERT INTO order_detail VALUES (22, 9, 2, 190.54);
 INSERT INTO order_detail VALUES (28, 10, 10, 679);
 INSERT INTO order_detail VALUES (33, 11, 1, 51.34);
+
+
+INSERT INTO user_comment values (NULL, 'stanley@gmail.com', 'NIL', now(), 58, 'No Reply Yet!');
+INSERT INTO user_comment values (NULL, 'stanley@gmail.com', 'NIL', now(), 75, 'No Reply Yet!');

@@ -12,10 +12,10 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordFiel
 # 3. Product Page - Done*
 # 4. Login Page - Done*
 # 5. Signup Page - Done*
-# 6. Admin Page - Pending statistics, update/add product
+# 6. Admin Page - Pending statistics, update/add product (image path & category)
 # 7. Account Page - Pending user function to post review, and render all orders of the customer
 # 8. Cart Page - Done*
-# 9. Checkout Page - Pending function for inserting order details
+# 9. Checkout Page - Done* - need total price
 # 10. Payment Page - Done*
 # 11. Search - Done*
 
@@ -50,7 +50,7 @@ def login():
 				current_user = cursor.fetchall()
 			
 				#Verify user id and password if user exists
-				if current_user != None:
+				if current_user != []:
 					pwd = current_user[0]['userPassword']
 					isAdmin = current_user[0]['isAdmin']
 
@@ -262,6 +262,9 @@ def checkout():
 		try:
 			cursor = db.cursor()
 
+			#parameters for inserting order details
+			cart_list = session['cart']
+
 			#parameters for inserting order
 			email = session['useremail']
 			orderDate = datetime.now()
@@ -272,12 +275,12 @@ def checkout():
 			orderStat = 'Confirmed'
 			totalPrice = 666
 			deliverDate = datetime.now() + timedelta(days=3)
-			remark = 'call me when delivering'
-			totalQty = 6
+			remark = 'call when delivering'
+			totalQty = len(cart_list)
 			cardName = request.form['cc_name']
 			cardNum = request.form['cc_number']
 			paymentMethod = request.form['payment']
-			cardExpiry = datetime.now() + timedelta(days=365)
+			cardExpiry = request.form['cc_expiry']
 
 			if(paymentMethod == 'visa'):
 				payIdx = 1
@@ -290,8 +293,16 @@ def checkout():
 			parse = (email, orderDate, name, address, postalCode, phone, orderStat, totalPrice, 
 			deliverDate, remark, totalQty, cardName, cardNum, payIdx, cardExpiry)
 
+			#get new order id
+			order_no = 1
+			order_query = "SELECT orderID FROM order_info ORDER BY orderedDate DESC LIMIT 1;"
+			cursor.execute(order_query)
+			prev_order = cursor.fetchall()
+			
+			#Verify user id and password if user exists
+			if prev_order != []:
+				order_no = prev_order[0][0] + 1
 
-			#parameters for inserting order details
 
 		except Exception as e:
 			print(str(e))
@@ -299,6 +310,14 @@ def checkout():
 		else:
 			try:
 				cursor.callproc('add_order', parse)
+				db.commit()
+
+				cursor.nextset()
+				for items in cart_list:
+					for prodId in items:
+						args = (int(prodId), order_no, int(items[prodId]))
+						cursor.callproc('add_order_detail', args)
+
 			except Exception as e:
 				print(str(e))
 				return jsonify({'status': 'failed', 'message' : str(e)})
@@ -306,6 +325,7 @@ def checkout():
 				db.commit()
 				flash('Payment successful', 'success')  
 			finally:
+				session.pop('cart', None)
 				cursor.close()
 				return redirect(url_for('payment'))
 	return render_template('checkout.html', user=session['username'])
@@ -322,12 +342,13 @@ def payment():
 	current_order = cursor.fetchall()
 			
 	#Verify user id and password if user exists
-	if current_order != None:
+	if current_order != []:
 		order_no = current_order[0][0]
 	
 	cursor.close()
 
 	return render_template('payment.html', user=session['username'], orderId=order_no)
+
 
 #Search for Products
 @app.route('/search', methods=['GET', 'POST'])
@@ -454,29 +475,28 @@ def logout():
 def updateProduct():
 	if request.method == 'POST':
 		try:
-			prodId = int(request.form['prodId'])
 			cursor = db.cursor()
+			prodId = int(request.form['prodId'])
 			prodName = request.form['prodName']
-			prodCat =  1
-			prodPrice = request.form['prodPrice']
-			prodQty = request.form['prodQty']
+			prodPrice = float(request.form['prodPrice'])
+			prodQty = int(request.form['prodQty'])
 			prodDescription = request.form['prodDescription']
-			prodImgPath = request.form['prodImg']
+			prodImagePath = request.form['prodImagePath']
 
-			parse = (prodId, prodCat, prodName, prodPrice, prodQty, prodImgPath, prodDescription)
+			parse = (prodName, prodPrice, prodQty, prodImagePath, prodDescription, prodId)
 			print(parse)
 
 		except Exception as e:
-			print(e)
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			try:
-				cursor.callproc('update_product', parse)
+				cursor.execute('UPDATE product_info SET productName=%s, price=%s, \
+					availableQuantity=%s, imagePath=%s, productDescription=%s, \
+						lastUpdated=now() WHERE productID=%s;', parse)
 			except Exception as e:
 				return jsonify({'status': 'failed', 'message' : str(e)})
 			else:
 				db.commit()
-				flash('Product Updated', 'success')  
 			finally:
 				cursor.close()
 				return render_template('admin_update.html')
@@ -509,7 +529,6 @@ def hideProduct():
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			db.commit()
-			#flash('Product Visibility Changed', 'success')  
 		finally:
 			cursor.close()
 			return jsonify({'status':'success', 'message':'success'})
@@ -521,12 +540,13 @@ def addProduct():
 	if request.method == 'POST':
 		try:
 			cursor = db.cursor()
-			catId = int(request.form['catId'])
+			catId = 1
 			prodName = request.form['prodName']
-			prodPrice = request.form['prodPrice']
-			prodQty = request.form['prodQty']
+			prodPrice = float(request.form['prodPrice'])
+			prodQty = int(request.form['prodQty'])
 			prodDescription = request.form['prodDescription']
-			prodImgPath = ''
+			prodImgPath = '/static/assets/dist/images/Products/living-room/coffee-table/wooden-coffee-table.jpg'
+
 			parse = (catId, prodName, prodDescription, prodQty, prodPrice, 0, prodImgPath)
 
 		except Exception as e:
@@ -538,7 +558,6 @@ def addProduct():
 				return jsonify({'status': 'failed', 'message' : str(e)})
 			else:
 				db.commit()
-				flash('Product Added', 'success')  
 			finally:
 				cursor.close()
 				return render_template('admin_update.html')
@@ -572,7 +591,6 @@ def updateOrder():
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			db.commit()
-			flash('Order status changed', 'success')  
 		finally:
 			cursor.close()
 			return jsonify({'status':'success', 'message':'success'})

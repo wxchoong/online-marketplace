@@ -50,6 +50,7 @@
                 <div class="row">
                     <img class="card-img-top" id="prodImg" name="prodImg" src="{{url_for('static', filename='assets/dist/images/products/bedroom/night-stands/white-night-stand.jpg')}}"
                         alt="white-night-stand">
+                    <input type="hidden" id="prodImagePath" name="prodImagePath" value={{request.form.prodImagePath}}>
                 </div>
                 <div class="form-group">
                     <br />
@@ -147,6 +148,7 @@
             var prodQuantity = document.getElementById('prodQuantity');
             var prodImg = document.getElementById('prodImg');
             var prodId = document.getElementById('prodId');
+            var prodImagePath = document.getElementById('prodImagePath');
             prodId.value = productID;
             $.ajax({
       			data : {'prodID':productID},
@@ -157,11 +159,11 @@
 				if(data.status = 'success'){
                     console.log(data.itemList);
                     prodName.value = data.itemList[0][0];
-                    prodPrice.value = '$'+data.itemList[0][1];
+                    prodPrice.value = data.itemList[0][1];
                     prodDescription.innerText = data.itemList[0][2];
                     prodQuantity.value = data.itemList[0][3];
                     prodImg.src = data.itemList[0][4];
-                    prodImg.value = data.itemList[0][4];
+                    prodImagePath.value = data.itemList[0][4];
 				}
 				else{
 					alert(data.message);

@@ -95,7 +95,7 @@ DELIMITER //
 CREATE PROCEDURE `display_product_by_ID`(productIdentifier INT)
 BEGIN
 	Select productName, price, productDescription, availableQuantity, imagePath, productID from product_info
-    where productIdentifier = productID, AND availableQuantity > 0;
+    where productIdentifier = productID AND availableQuantity > 0;
 END//
 DELIMITER ;
 
@@ -205,14 +205,14 @@ BEGIN
 END //
 DELIMITER ;
 
-DELIMITER //
-CREATE PROCEDURE `update_order_status`(orderId int, changes varchar(20))
-BEGIN
-	Update order_info
-    SET orderStatus = changes
-    WHERE orderID = orderId;
-END //
-DELIMITER ;
+-- DELIMITER //
+-- CREATE PROCEDURE `update_order_status`(orderId int, changes varchar(20))
+-- BEGIN
+-- 	Update order_info
+--     SET orderStatus = changes
+--     WHERE orderID = orderId;
+-- END //
+-- DELIMITER ;
 
 
 DELIMITER //
@@ -408,7 +408,7 @@ RETURN isUserExist;
 END//
 DELIMITER ;
 
-
+DELIMITER //
 CREATE PROCEDURE `get_order_detail_for_ordered`(email varchar(45), orderId int)
 BEGIN
     SELECT pi.productName, od.subTotal, od.quantity, uc.comment, uc.adminReply, pi.imagePath
@@ -417,4 +417,5 @@ BEGIN
     and od.orderID = oi.orderID 
     and uc.productID = od.productID 
     and uc.commentorEmail = email and od.orderID = orderId;
-END
+END //
+DELIMITER;

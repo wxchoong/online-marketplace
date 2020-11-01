@@ -14,5 +14,5 @@ select check_bookmark_exist(6, 'stanley@gmail.com');
 call insert_admin_reply('augustine@inserted.com', 1, 'testing');
 
 
-select orderedCustomer, totalItemPrice as totalSpending from order_info
-group by orderedCustomer order by totalSpending desc;
+select distinct(orderedCustomer), sum(totalItemPrice) as totalSpending from order_info
+group by orderedCustomer order by totalSpending desc LIMIT 5;

@@ -76,7 +76,7 @@
                 <br />
                 <div>
                     <p class="font-weight-bold">Product Category</p>
-                    <select name="Product Category " id="Category">
+                    <select name="prodCat" id="Category">
                         {%for cat in catList%}
                         <option value="{{cat}}">{{cat|replace("('","")|replace("',)", "")|replace("-"," ")}}</option>
                         {%endfor%}

@@ -505,11 +505,18 @@ def updateProduct():
 			finally:
 				cursor.close()
 				return render_template('admin_update.html')
-	else:
+	try:
+		catList = []
 		cursor = db.cursor()
+	except Exception as e:
 		cursor.close()
-
-	return render_template('admin_update.html')
+		return jsonify({'failed':'failed', 'message':str(e)})
+	else:
+		cursor.execute('select categorySub from category;')
+		catList = cursor.fetchall()
+		print(catList)
+		cursor.close()
+	return render_template('admin_update.html', catList=catList)
 		
 
 # 3. Delete Existing Product
@@ -566,8 +573,18 @@ def addProduct():
 			finally:
 				cursor.close()
 				return render_template('admin_update.html')
-
-	return render_template('admin_update.html')
+	try:
+		catList = []
+		cursor = db.cursor()
+	except Exception as e:
+		cursor.close()
+		return jsonify({'failed':'failed', 'message':str(e)})
+	else:
+		cursor.execute('select categorySub from category;')
+		catList = cursor.fetchall()
+		print(catList)
+		cursor.close()
+	return render_template('admin_update.html', catList=catList)
 
 # ----- Order -----
 # 6. Change Status of Order

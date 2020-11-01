@@ -372,6 +372,7 @@ $( ".account-menu .list-group-item" ).click(function(){
 	}
 	function getOrderDetail(value){
 		var orderID = value.replace("nav-order-", '').replace("-tab",'');
+		console.log(orderID);
 		$.ajax({
     	data : {'orderID':orderID, 'userIdentifier':'{{mail}}'},
     	type : 'POST',

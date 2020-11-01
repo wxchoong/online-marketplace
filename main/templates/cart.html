@@ -102,7 +102,7 @@
             </li>
           </ul>
 
-          <a href="/checkout"><button type="button" class="btn btn-lg btn-block mybtn">CHECKOUT >>></button></a>
+          <a href="/checkout"><button onclick="savePricing();" type="button" class="btn btn-lg btn-block mybtn">CHECKOUT >>></button></a>
 		  
 			<br/>
 		  <h5 class="mb-4">We accept</h5>
@@ -149,7 +149,9 @@
       totalPrice.innerText = add;
       afterGST.innerText = parseFloat(totalPrice.innerText)+10;
     });
-	  
+	  function savePricing(){
+      localStorage.setItem("amt", parseFloat(totalPrice.innerText) + 10)
+    }
 	  </script>
 	  
 {% endblock %}

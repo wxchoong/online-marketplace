@@ -273,7 +273,7 @@ def checkout():
 			postalCode = request.form['reciPostal']
 			phone = request.form['reciPhone']
 			orderStat = 'Confirmed'
-			totalPrice = 666
+			totalPrice = float(request.form['payable'])
 			deliverDate = datetime.now() + timedelta(days=3)
 			remark = 'call when delivering'
 			totalQty = len(cart_list)
@@ -796,11 +796,14 @@ def getOrderDetailOnOrderID():
 	orderId = int(request.form['orderID'])
 	userInSess = request.form['userIdentifier']
 	detailList = []
+	status='failed'
+	message='failed'
 	try:
 		cursor = db.cursor()
 		args = (userInSess, orderId)
 	except Exception as e:
 		cursor.close()
+		print(str(e))
 		status = 'failed'
 		message = str(e)
 	else:
@@ -808,6 +811,7 @@ def getOrderDetailOnOrderID():
 			cursor.callproc('get_order_detail_for_ordered', args)
 		except Exception as e:
 			cursor.close()
+			print(str(e))
 			status = 'failed'
 			message = str(e)
 		else:

@@ -11,7 +11,7 @@
 				
 				<div class="card mb-3">
 					<div class="card-body">
-
+                        <!--
 					  <h5 class="mb-3">Cart Summary</h5>
 
 					  <ul class="list-group list-group-flush">
@@ -34,10 +34,10 @@
 							  <p class="mb-0">(including GST)</p>
 							</strong>
 						  </div>
-						  <span><strong>$53.98</strong></span>
+						  <span><strong id="payable"></strong></span>
 						</li>
 					  </ul>
-					  
+                    -->
 					</div>
 				  </div>
 				  
@@ -136,6 +136,7 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" id="payable" name="payable" value={{request.form.payable}}>
                     <hr class="mb-4">
                     <a href="/checkout"><button class="btn btn-lg btn-block mybtn" type="submit">Proceed to payment</button></a>
                 </form>
@@ -154,6 +155,7 @@
 	  <script>
 		
 		$( document ).ready(function() {
+            var payable = document.getElementById('payable');
 			$('input[name="payment"]').click(function(){
 				var inputValue = $(this).attr("value");
 				if(inputValue!="cash"){
@@ -162,6 +164,8 @@
 					$(".cc-div").hide();
 				}
 			});
+            var totalPrice = localStorage.getItem("amt");
+            payable.value = totalPrice;
 		});
 		
 	  </script>	

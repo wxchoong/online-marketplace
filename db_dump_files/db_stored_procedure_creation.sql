@@ -36,25 +36,6 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE FUNCTION `get_total_spending_of_the_month`(email varchar(45),  specificMonth int) RETURNS int
-    DETERMINISTIC
-BEGIN
-	DECLARE total INT;
-    SELECT 
-        SUM(OD.subTotal)
-    INTO total
-    FROM 
-        order_detail
-    INNER JOIN 
-		order_info USING (orderedCustomer)
-    WHERE 
-        orderedCustomer = email AND 
-        EXTRACT(MONTH FROM orderedDate) = specificMonth;
-    RETURN total;
-END //
-DELIMITER ;
-
-DELIMITER //
 CREATE FUNCTION `check_bookmark_exist`(bProductId int, bEmail VARCHAR(45)) RETURNS INT 
 DETERMINISTIC
 BEGIN
@@ -68,7 +49,7 @@ DELIMITER //
 CREATE PROCEDURE `get_top_picks`()
 BEGIN
 	SELECT productName, imagePath, productID FROM product_info
-    where soldQuantity < 100
+    where availableQuantity > 0
     ORDER BY soldQuantity desc limit 5;
 END//
 DELIMITER ;
@@ -479,5 +460,31 @@ BEGIN
  UPDATE user_comment 
  SET comment = comment 
  WHERE commentID = commentId;
+END//
+DELIMITER;
+
+
+DELIMITER //
+CREATE PROCEDURE `get_vip_user`()
+BEGIN
+select distinct(orderedCustomer), sum(totalItemPrice) as totalSpending from order_info
+group by orderedCustomer order by totalSpending desc LIMIT 5;
+END//
+DELIMITER;
+
+DELIMITER //
+CREATE PROCEDURE `get_top_sales`()
+BEGIN
+select productName, soldQuantity from product_info order by soldQuantity desc limit 5;
+END//
+DELIMITER;
+
+
+DELIMITER //
+CREATE PROCEDURE `get_rev_of_month` ()
+BEGIN
+SELECT SUM(totalItemPrice) orderTotal 
+from order_info WHERE orderStatus <>'Cancelled'
+group by MONTH(CURRENT_DATE());
 END//
 DELIMITER;

@@ -12,7 +12,7 @@ call sort_product_by_ordering('Rugs', 'desc');
 call sp_item_by_categoryMain('Living Room');
 select check_bookmark_exist(6, 'stanley@gmail.com');
 call insert_admin_reply('augustine@inserted.com', 1, 'testing');
-
+SELECT productName, imagePath, productID, availableQuantity, soldQuantity FROM product_infowhere availableQuantity > 0ORDER BY soldQuantity desc limit 5;
 
 select distinct(orderedCustomer), sum(totalItemPrice) as totalSpending from order_info
 group by orderedCustomer order by totalSpending desc LIMIT 5;

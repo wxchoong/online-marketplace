@@ -112,6 +112,9 @@ def admin():
 		productList = []
 		orderList = []
 		commentList = []
+		vipList = []
+		topSales = []
+		revOfMth = []
 	except Exception as e:
 		return jsonify({'Status':'Failed', 'Error':str(e)})
 	else:
@@ -129,7 +132,22 @@ def admin():
 		for result in cursor.stored_results():
 			for item in result.fetchall():
 				commentList.append(item)
-	return render_template('admin_main.html', productList=productList, orderList=orderList, commentList=commentList)
+		cursor.nextset()
+		cursor.callproc('get_vip_user')
+		for result in cursor.stored_results():
+			for item in result.fetchall():
+				vipList.append(item)
+		cursor.nextset()
+		cursor.callproc('get_top_sales')
+		for result in cursor.stored_results():
+			for item in result.fetchall():
+				topSales.append(item)
+		cursor.nextset()
+		cursor.callproc('get_rev_of_month')
+		for result in cursor.stored_results():
+			for item in result.fetchall():
+				revOfMth.append(item)
+	return render_template('admin_main.html',revOfMth=revOfMth, topSales=topSales,vipList=vipList, productList=productList, orderList=orderList, commentList=commentList)
 
 #User Account
 @app.route('/account', methods=['GET','POST'])
@@ -567,11 +585,13 @@ def addProduct():
 			parse = (catId, prodName, prodDescription, prodQty, prodPrice, 0, prodImgPath)
 
 		except Exception as e:
+			print(str(e))
 			return jsonify({'status': 'failed', 'message' : str(e)})
 		else:
 			try:
 				cursor.callproc('add_product', parse)
 			except Exception as e:
+				print(str(e))
 				return jsonify({'status': 'failed', 'message' : str(e)})
 			else:
 				db.commit()
@@ -582,6 +602,7 @@ def addProduct():
 		catList = []
 		cursor = db.cursor()
 	except Exception as e:
+		print(str(e))
 		cursor.close()
 		return jsonify({'failed':'failed', 'message':str(e)})
 	else:

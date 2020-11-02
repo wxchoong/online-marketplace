@@ -552,20 +552,17 @@ def addProduct():
 	if request.method == 'POST':
 		try:
 			cursor = db.cursor()
-			catId = 1
 			prodCat = str(request.form['prodCat']).replace("('", "").replace("',)", "")
 			prodName = request.form['prodName']
 			prodPrice = float(request.form['prodPrice'])
 			prodQty = int(request.form['prodQty'])
 			prodDescription = request.form['prodDescription']
-			prodImgPath = '/static/assets/dist/images/Products/living-room/coffee-table/wooden-coffee-table.jpg'
-			print(prodCat)
+			prodImgPath = '/static/assets/dist/images/Products/' + str(request.form['prodNewImg'])
 			parse = (prodCat,)
-			print(parse)
+
 			cursor.execute("SELECT categoryID FROM category WHERE categorySub=%s;", parse)
 			catList = cursor.fetchall()
-			#catId = int(catList[0][0])
-			print(catList)
+			catId = int(catList[0][0])
 
 			parse = (catId, prodName, prodDescription, prodQty, prodPrice, 0, prodImgPath)
 

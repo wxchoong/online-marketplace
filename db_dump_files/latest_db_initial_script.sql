@@ -57,7 +57,7 @@ CREATE TABLE `order_info` (
   `cardHolder` VARCHAR(100) DEFAULT 'EMPTY',
   `cardNumber` INT DEFAULT '0',
   `paymentMethod` INT NOT NULL DEFAULT '1',
-  `cardExpiryDate` DATE,
+  `cardExpiryDate` DATE DEFAULT NULL,
   PRIMARY KEY (`orderID`),
   CONSTRAINT `order_info_ref_user_info`
     FOREIGN KEY (`orderedCustomer`)
@@ -102,6 +102,7 @@ CREATE TABLE `user_comment` (
   CONSTRAINT `user_comment_ref_product_info` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`)
 ) ENGINE=InnoDB;
 
+-- Table structure for table `order_detail`
 DROP TABLE IF EXISTS `order_detail`;
 CREATE TABLE `order_detail` (
   `productID` int NOT NULL,
@@ -125,5 +126,4 @@ CREATE TABLE `bookmark` (
   PRIMARY KEY (`bookMarkID`),
   CONSTRAINT `bookmark_ref_productInfo` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`),
   CONSTRAINT `bookmark_ref_userInfo` FOREIGN KEY (`userEmail`) REFERENCES `user_info` (`userEmail`)
-
 ) ENGINE=InnoDB;

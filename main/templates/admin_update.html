@@ -149,6 +149,8 @@
             var prodImg = document.getElementById('prodImg');
             var prodId = document.getElementById('prodId');
             var prodImagePath = document.getElementById('prodImagePath');
+            var newImagePath = document.getElementById('imgInp');
+            console.log(newImagePath);
             prodId.value = productID;
             $.ajax({
       			data : {'prodID':productID},
@@ -199,7 +201,10 @@
                     var reader = new FileReader();
 
                     reader.onload = function (e) {
-                        $('#img-upload').attr('src', e.target.result);
+                        // $('#img-upload').attr('src', e.target.result);
+                        $('#prodImg').attr('src', e.target.result);
+                        prodImagePath.value = '/static/assets/dist/images/products-images/' + input.files[0].name;
+                        console.log(prodImagePath.value);
                     }
 
                     reader.readAsDataURL(input.files[0]);

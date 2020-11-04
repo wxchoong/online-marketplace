@@ -12,10 +12,10 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, PasswordFiel
 # 3. Product Page - Done*
 # 4. Login Page - Done*
 # 5. Signup Page - Done*
-# 6. Admin Page - Pending statistics, update/add product (image path & category)
-# 7. Account Page - Pending user function to post review, and render all orders of the customer
+# 6. Admin Page - Done* (pending image paths)
+# 7. Account Page - Done*
 # 8. Cart Page - Done*
-# 9. Checkout Page - Done* - need total price
+# 9. Checkout Page - Done* 
 # 10. Payment Page - Done*
 # 11. Search - Done*
 
@@ -294,11 +294,15 @@ def checkout():
 			totalPrice = float(request.form['payable'])
 			deliverDate = datetime.now() + timedelta(days=3)
 			remark = 'call when delivering'
-			totalQty = len(cart_list)
+			totalQty = 0
 			cardName = request.form['cc_name']
 			cardNum = request.form['cc_number']
 			paymentMethod = request.form['payment']
 			cardExpiry = request.form['cc_expiry']
+
+			for items in cart_list:
+				for prodId in items:
+					totalQty += int(items[prodId])
 
 			if(paymentMethod == 'visa'):
 				payIdx = 1
@@ -313,7 +317,7 @@ def checkout():
 
 			#get new order id
 			order_no = 1
-			order_query = "SELECT orderID FROM order_info ORDER BY orderedDate DESC LIMIT 1;"
+			order_query = "SELECT MAX(orderID) FROM order_info;"
 			cursor.execute(order_query)
 			prev_order = cursor.fetchall()
 			
@@ -575,7 +579,7 @@ def addProduct():
 			prodPrice = float(request.form['prodPrice'])
 			prodQty = int(request.form['prodQty'])
 			prodDescription = request.form['prodDescription']
-			prodImgPath = '/static/assets/dist/images/Products/' + str(request.form['prodNewImg'])
+			prodImgPath = '/static/assets/dist/images/products-images/' + str(request.form['prodNewImg'])
 			parse = (prodCat,)
 
 			cursor.execute("SELECT categoryID FROM category WHERE categorySub=%s;", parse)

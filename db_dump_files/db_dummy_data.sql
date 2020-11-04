@@ -158,10 +158,32 @@ INSERT INTO product_info VALUES(NULL,23,'cushions_and_throws_113','Description_1
 INSERT INTO product_info VALUES(NULL,24,'scent_products_114','Description_114',85,now(),92.90,20,NULL,1);
 INSERT INTO product_info VALUES(NULL,24,'scent_products_115','Description_115',7,now(),52.23,20,NULL,1);
 INSERT INTO product_info VALUES(NULL,24,'scent_products_116','Description_116',45,now(),17.69,20,NULL,1);
-update product_info
-set soldQuantity = 100 - availableQuantity;
-update product_info
-set imagePath = '/static/assets/dist/images/Products/living-room/coffee-table/wooden-coffee-table.jpg';
+update product_info set soldQuantity = 100 - availableQuantity;
+
+Update product_info Set imagePath='/static/assets/dist/images/products-images/leather-sofa.jpg' where categoryID = 1;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/persian-carpet.jpg' where categoryID = 2;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/wooden-coffee-table.jpg' where categoryID = 3;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/wooden-tv-console.jpg' where categoryID = 4;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/leather-armchair.jpg' where categoryID = 5;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/elegent-white-queen-size-bedset.jpg' where categoryID = 6;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/white-night-stand.jpg' where categoryID = 7;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/retro-copper-king-size-bed-frame.jpg' where categoryID = 8;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/queen-size-mattress.jpg' where categoryID = 9;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/baby-blue-bath-towel.jpg' where categoryID = 10;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/yellow-grey-bathroom-rug.jpg' where categoryID = 11;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/bathroom-accessories.jpg' where categoryID = 12;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/wooden-dining-table-w-chairs.jpg' where categoryID = 13;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/grey-fabric-dining-chairs.jpg' where categoryID = 14;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/white-plates-set.jpg' where categoryID = 15;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/wine-glasses.jpg' where categoryID = 16;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/dining-table-candles.jpg' where categoryID = 17;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/cutlery-set.jpg' where categoryID = 18;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/dark-grey-blinds.jpg' where categoryID = 19;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/gold-frame-lamp.jpg' where categoryID = 20;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/wall-art-triptych.jpg' where categoryID = 21;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/wooden-frame-mirror.jpg' where categoryID = 22;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/lotus-cushion.jpg' where categoryID = 23;
+Update product_info Set imagePath='/static/assets/dist/images/products-images/floral-reed-defuser.jpg' where categoryID = 24;
 
 INSERT INTO user_comment VALUES (NULL, 'augustine@inserted.com', 'product was nice!',now(),9,1);
 INSERT INTO user_comment VALUES (NULL, 'cwx@inserted.com', 'delivery was fast!',now(),8,1);
@@ -195,7 +217,6 @@ INSERT INTO user_comment VALUES (NULL, 'mystery@inserted.com', 'quality was bad!
 INSERT INTO user_comment VALUES (NULL, 'sebestian@inserted.com', 'not what I expected!',now(),3,1);
 update user_comment
 set adminReply = "No Reply Yet";
-
 
 
 insert into bookmark VALUES (NULL, 1, 'tpu@inserted.com', 1);
@@ -239,6 +260,3 @@ INSERT INTO order_detail VALUES (22, 9, 2, 190.54);
 INSERT INTO order_detail VALUES (28, 10, 10, 679);
 INSERT INTO order_detail VALUES (33, 11, 1, 51.34);
 
-
-INSERT INTO user_comment values (NULL, 'stanley@gmail.com', 'NIL', now(), 58, 'No Reply Yet!');
-INSERT INTO user_comment values (NULL, 'stanley@gmail.com', 'NIL', now(), 75, 'No Reply Yet!');

@@ -601,7 +601,7 @@ def addProduct():
 				db.commit()
 			finally:
 				cursor.close()
-				return render_template('admin_update.html')
+				return redirect(url_for('admin'))
 	try:
 		catList = []
 		cursor = db.cursor()

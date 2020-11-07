@@ -57,6 +57,7 @@
 					<li class="list-group-item">Manage Orders</li>
 					<li class="list-group-item">View Statistics</li>
 					<li class="list-group-item">Manage Comment</li>
+					<li class="list-group-item">Manage Users</li>
 				</ul>
 			</div>
 		</div>
@@ -299,6 +300,48 @@
 							</td>
 						</tr>
 						{%endfor%}
+					</tbody>
+				</table>
+			</div>
+			<div class="admin-div manage-users col-9">
+				<div
+					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+					<h1 class="h2">Users</h1>
+					<!-- <div class="btn-toolbar mb-2 mb-md-0">
+						<div class="btn-group mr-2">
+							<button type="button" class="btn btn-outline-success btn-sm">User</button>
+							<button type="button" class="btn btn-outline-danger btn-sm">Admin</button>
+						</div>
+					</div> -->
+				</div>
+				<table class="table table-striped table-sm">
+					<thead>
+						<tr>
+							<th style="width:10%">User Email</th>
+							<th style="width:10%">Name</th>
+							<th style="width:10%">User Role</th>
+							<th style="width:30%">Action</th>
+			
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>myemail@gmail.com</td>
+							<td>James Bond</td>
+							<td>User</td>
+							<td>
+								<button type="button" class="btn btn-outline-success btn-sm">Change to Admin</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+							</td>
+						</tr>
+						<tr>
+							<td>myemail@admin.com</td>
+							<td>Double O Seven</td>
+							<td>Admin</td>
+							<td>
+								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

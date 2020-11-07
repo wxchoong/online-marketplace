@@ -158,7 +158,6 @@ INSERT INTO product_info VALUES(NULL,23,'cushions_and_throws_113','Description_1
 INSERT INTO product_info VALUES(NULL,24,'scent_products_114','Description_114',85,now(),92.90,20,NULL,1);
 INSERT INTO product_info VALUES(NULL,24,'scent_products_115','Description_115',7,now(),52.23,20,NULL,1);
 INSERT INTO product_info VALUES(NULL,24,'scent_products_116','Description_116',45,now(),17.69,20,NULL,1);
-update product_info set soldQuantity = 100 - availableQuantity;
 
 Update product_info Set imagePath='/static/assets/dist/images/products-images/leather-sofa.jpg' where categoryID = 1;
 Update product_info Set imagePath='/static/assets/dist/images/products-images/persian-carpet.jpg' where categoryID = 2;

@@ -62,7 +62,10 @@ def login():
 						session['useremail'] = current_user[0]['userEmail']
 						session['user_pwd'] = pwd
 						flash('You are now logged in','success')
-						
+						cursor.nextset()
+						user_query = "UPDATE user_info SET lastLogin = NOW() WHERE userEmail = '" +session['useremail'] +"';"
+						cursor.execute(user_query)
+						db.commit()
 						#Redirect based on user role (admin/customer)
 						if(isAdmin == True):
 							session['is_admin'] = True

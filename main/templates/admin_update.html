@@ -103,7 +103,7 @@
                 <br />
                 <br />
                 <div class="col">
-                    <button type="submit" class="btn btn-dark tn-lg" id="prodId" name="prodId">Update</button>
+                    <button type="submit" class="btn btn-dark tn-lg" id="prodId" name="prodId">Add</button>
 
                 </div>
 
@@ -165,6 +165,7 @@
                     prodQuantity.value = data.itemList[0][3];
                     prodImg.src = data.itemList[0][4];
                     prodImagePath.value = data.itemList[0][4];
+                    prodId.innerText = "Update";
 				}
 				else{
 					alert(data.message);

@@ -120,7 +120,8 @@
                 console.log(data.message);
 			}
 			else{
-				alert(data.message);
+                alert("Not Logged in!");
+			    location.replace("http://localhost:5000/login");
 			}
 		});
 	}
@@ -166,11 +167,12 @@
         url : '/addToCart'
 	    })
   	    .done(function(data){
-		if(data.success){
-            console.log(data.message);
+		if(data.status){
+            alert(data.message);
 		}
 		else{
-			alert(data.message);
+            alert("Not Logged in!");
+			location.replace("http://localhost:5000/login");
 		}
 	});
     });

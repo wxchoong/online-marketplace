@@ -126,4 +126,6 @@ CREATE TABLE `bookmark` (
   PRIMARY KEY (`bookMarkID`),
   CONSTRAINT `bookmark_ref_productInfo` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`),
   CONSTRAINT `bookmark_ref_userInfo` FOREIGN KEY (`userEmail`) REFERENCES `user_info` (`userEmail`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE)
 ) ENGINE=InnoDB;

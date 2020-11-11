@@ -62,7 +62,10 @@ def login():
 						session['useremail'] = current_user[0]['userEmail']
 						session['user_pwd'] = pwd
 						flash('You are now logged in','success')
-						
+						cursor.nextset()
+						user_query = "UPDATE user_info SET lastLogin = NOW() WHERE userEmail = '" +session['useremail'] +"';"
+						cursor.execute(user_query)
+						db.commit()
 						#Redirect based on user role (admin/customer)
 						if(isAdmin == True):
 							session['is_admin'] = True
@@ -115,6 +118,7 @@ def admin():
 		vipList = []
 		topSales = []
 		revOfMth = []
+		userList = []
 	except Exception as e:
 		return jsonify({'Status':'Failed', 'Error':str(e)})
 	else:
@@ -147,7 +151,11 @@ def admin():
 		for result in cursor.stored_results():
 			for item in result.fetchall():
 				revOfMth.append(item)
-	return render_template('admin_main.html',revOfMth=revOfMth, topSales=topSales,vipList=vipList, productList=productList, orderList=orderList, commentList=commentList)
+		cursor.nextset()
+		cursor.execute('Select userEmail, userPhone, userFirstName, userLastName, dateJoined, lastLogin, isAdmin from user_info')
+		for result in cursor.fetchall():
+			userList.append(result)
+	return render_template('admin_main.html',userList=userList, revOfMth=revOfMth, topSales=topSales,vipList=vipList, productList=productList, orderList=orderList, commentList=commentList)
 
 #User Account
 @app.route('/account', methods=['GET','POST'])
@@ -497,7 +505,7 @@ def logout():
 
 # ----- Product -----
 
-# 2. Update/Edit Existing Product Info
+#1. Update/Edit Existing Product Info
 @app.route('/admin/updateProduct', methods=['GET', 'POST'])
 def updateProduct():
 	if request.method == 'POST':
@@ -540,6 +548,56 @@ def updateProduct():
 		cursor.close()
 	return render_template('admin_update.html', catList=catList)
 		
+
+# 2. Change Existing User Rights
+@app.route('/admin/changeRights', methods=['GET', 'POST'])
+def changeRights():
+	try:
+		cursor = db.cursor()
+		userMail = request.form['userMail']
+		toWhat = request.form['toWhat']
+		parse = (userMail,)
+	except Exception as e:
+		print(str(e))
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			if toWhat == 'toAdmin':
+				cursor.execute('UPDATE user_info SET isAdmin=1 WHERE userEmail=%s;', parse)
+			if toWhat == 'toUser':
+				cursor.execute('UPDATE user_info SET isAdmin=0 WHERE userEmail=%s;', parse)
+		except Exception as e:
+			print(str(e))
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			db.commit()
+		finally:
+			cursor.close()
+			return jsonify({'status':'success', 'message':'success'})
+
+
+# 2. Delete Existing User
+@app.route('/admin/deleteUser', methods=['GET', 'POST'])
+def deleteUser():
+	try:
+		cursor = db.cursor()
+		userMail = request.form['userMail']
+		parse = (userMail,)
+	except Exception as e:
+		print(str(e))
+		return jsonify({'status': 'failed', 'message' : str(e)})
+	else:
+		try:
+			cursor.execute('DELETE from user_info WHERE userEmail=%s;', parse)
+		except Exception as e:
+			print(str(e))
+			return jsonify({'status': 'failed', 'message' : str(e)})
+		else:
+			db.commit()
+		finally:
+			cursor.close()
+			return jsonify({'status':'success', 'message':'success'})
+
 
 # 3. Delete Existing Product
 @app.route('/admin/hideProduct', methods=['GET', 'POST'])

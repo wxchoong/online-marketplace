@@ -66,8 +66,6 @@
 				<h1 class="h2">Products</h1>
 				<div class="btn-toolbar mb-2 mb-md-0">
 					<div class="btn-group mr-2">
-						<!-- <button type="button" class="btn btn-outline-success btn-sm">Active</button> -->
-						<!-- <button type="button" class="btn btn-outline-danger btn-sm">Inactive</button> -->
 						<a href='/admin/addProduct'><button type="button" class="btn btn-outline-info btn-sm">Add</button></a>
 					</div>
 
@@ -318,30 +316,34 @@
 					<thead>
 						<tr>
 							<th style="width:10%">User Email</th>
-							<th style="width:10%">Name</th>
+							<th style="width:10%">User Contact</th>
+							<th style="width:10%">First Name</th>
+							<th style="width:10%">Last Name</th>
+							<th style="width:15%">Date Joined</th>
+							<th style="width:15%">Last Login</th>
 							<th style="width:10%">User Role</th>
-							<th style="width:30%">Action</th>
+							<th style="width:20%">Action</th>
 			
 						</tr>
 					</thead>
 					<tbody>
+						{%for user in userList%}
 						<tr>
-							<td>myemail@gmail.com</td>
-							<td>James Bond</td>
-							<td>User</td>
+							{%for userDetail in user%}
+							<td>{{userDetail}}</td>
+							{%endfor%}
 							<td>
-								<button type="button" class="btn btn-outline-success btn-sm">Change to Admin</button>
-								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+								{%if user[6] == 0%}
+								<button type="button" onclick="changeRights(value,'toAdmin');" class="btn btn-outline-success btn-sm" value={{user[0]}}>Change to Admin</button>
+								<button type="button" onclick="delUser(value);" class="btn btn-outline-danger btn-sm" value={{user[0]}}>Delete</button>
+								{%endif%}
+								{%if user[6] == 1%}
+								<button type="button" onclick="changeRights(value,'toUser');" class="btn btn-outline-success btn-sm" value={{user[0]}}>Change to User</button>
+								<button type="button" onclick="delUser(value);" class="btn btn-outline-danger btn-sm" value={{user[0]}}>Delete</button>
+								{%endif%}
 							</td>
 						</tr>
-						<tr>
-							<td>myemail@admin.com</td>
-							<td>Double O Seven</td>
-							<td>Admin</td>
-							<td>
-								<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
-							</td>
-						</tr>
+						{%endfor%}
 					</tbody>
 				</table>
 			</div>
@@ -391,6 +393,14 @@ var saveReplyBtn =  document.getElementById('sendReply');
 				}
 			})
 	  }
+	  else if(localStorage.getItem('adminGoTo') == 'user'){
+		  localStorage.setItem('adminGoTo', '');
+		  document.querySelectorAll('li').forEach(s=>{
+				if(s.innerText == 'Manage Users'){
+					s.click();
+				}
+			})
+	  }
 	  else{
 		localStorage.setItem('adminGoTo', '');
 		document.querySelectorAll('li').forEach(s=>{
@@ -425,6 +435,40 @@ function hideProduct(value, doWhat){
   	.done(function(data){
 		if(data.status == 'success'){
 			localStorage.setItem('adminGoTo', '');
+			location.reload();
+		}
+		else{
+			alert(data.message);
+		}
+	});
+}
+
+function changeRights(value, toWhat){
+	$.ajax({
+	data : {'userMail': value, 'toWhat': toWhat},
+    type : 'POST',
+    url : '/admin/changeRights'
+	})
+  	.done(function(data){
+		if(data.status == 'success'){
+			localStorage.setItem('adminGoTo', 'user');
+			location.reload();
+		}
+		else{
+			alert(data.message);
+		}
+	});
+}
+
+function delUser(value){
+	$.ajax({
+	data : {'userMail': value},
+    type : 'POST',
+    url : '/admin/deleteUser'
+	})
+  	.done(function(data){
+		if(data.status == 'success'){
+			localStorage.setItem('adminGoTo', 'user');
 			location.reload();
 		}
 		else{

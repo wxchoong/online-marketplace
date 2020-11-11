@@ -487,3 +487,4 @@ SELECT SUM(totalItemPrice) orderTotal
 from order_info WHERE orderStatus <>'Cancelled'
 group by MONTH(CURRENT_DATE());
 END//
+DELIMITER;

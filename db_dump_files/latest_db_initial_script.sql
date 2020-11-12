@@ -98,7 +98,9 @@ CREATE TABLE `user_comment` (
   `productID` int NOT NULL,
   `adminReply` VARCHAR(100) NOT NULL DEFAULT 'No Reply Yet',
   PRIMARY KEY (`commentID`),
-  CONSTRAINT `user_comment_ref_user_info` FOREIGN KEY (`commentorEmail`) REFERENCES `user_info` (`userEmail`),
+  CONSTRAINT `user_comment_ref_user_info` FOREIGN KEY (`commentorEmail`) REFERENCES `user_info` (`userEmail`) 
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
   CONSTRAINT `user_comment_ref_product_info` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`)
 ) ENGINE=InnoDB;
 
@@ -111,6 +113,8 @@ CREATE TABLE `order_detail` (
   `subTotal` FLOAT NOT NULL,
   CONSTRAINT `order_detail_ref_product_info` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`),
   CONSTRAINT `order_detail_ref_order_info` FOREIGN KEY (`orderID`) REFERENCES `order_info` (`orderID`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
 
@@ -127,5 +131,5 @@ CREATE TABLE `bookmark` (
   CONSTRAINT `bookmark_ref_productInfo` FOREIGN KEY (`productID`) REFERENCES `product_info` (`productID`),
   CONSTRAINT `bookmark_ref_userInfo` FOREIGN KEY (`userEmail`) REFERENCES `user_info` (`userEmail`)
   ON DELETE CASCADE
-  ON UPDATE CASCADE)
+  ON UPDATE CASCADE
 ) ENGINE=InnoDB;

@@ -215,7 +215,7 @@ INSERT INTO user_comment VALUES (NULL, 'ling@inserted.com', 'definitely gonna bu
 INSERT INTO user_comment VALUES (NULL, 'mystery@inserted.com', 'quality was bad!',now(),2,1);
 INSERT INTO user_comment VALUES (NULL, 'sebestian@inserted.com', 'not what I expected!',now(),3,1);
 update user_comment
-set adminReply = "No Reply Yet";
+set adminReply = "No Reply Yet" where commentId<1000;
 
 
 insert into bookmark VALUES (NULL, 1, 'tpu@inserted.com', 1);
@@ -228,17 +228,12 @@ insert into bookmark VALUES (NULL, 3, 'tpu@inserted.com', 1);
 insert into bookmark VALUES (NULL, 4, 'tpu@inserted.com', 0);
 insert into bookmark VALUES (NULL, 4, 'JMary@inserted.com', 0);
 insert into bookmark VALUES (NULL, 5, 'augustine@inserted.com', 1);
-insert into bookmark VALUES (NULL, 1, 'stanley@gmail.com', 0);
-insert into bookmark VALUES (NULL, 2, 'stanley@gmail.com', 1);
-insert into bookmark VALUES (NULL, 3, 'stanley@gmail.com', 1);
-insert into bookmark VALUES (NULL, 4, 'stanley@gmail.com', 0);
-insert into bookmark VALUES (NULL, 5, 'stanley@gmail.com', 1);
 
-INSERT INTO order_info VALUES(NULL,'JohnDoe@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Doe','Blk 32C Jigsaw Ave #07-03','579032',90885878,0,18.54,DATE_ADD( DATE_ADD(now(), INTERVAL 3 DAY), INTERVAL 3 DAY),'Test tes',3,'John',3211,1, DATE_ADD(now(), INTERVAL 60 DAY));
-INSERT INTO order_info VALUES(NULL,'JMary@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Mary','Blk 655 Jigsaw Ave #05-0','579655',93225231,0,100.38, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test mary',3,'Mary',1100,1, DATE_ADD(now(), INTERVAL 60 DAY));
-INSERT INTO order_info VALUES(NULL,'ZhouJL@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Jie Lun','Blk 621 Hollywood Ave #22-11','385621',98775903,0,76.66, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test zhou tes',3,'Jie Lun',9999,1, DATE_ADD(now(), INTERVAL 60 DAY));
-INSERT INTO order_info VALUES(NULL,'augustine@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Augustine','Blk 638 Hollywood Ave #17-53','385638',96524788,0,499.25, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test August~',3,'Augustine',1314,1,DATE_ADD(now(), INTERVAL 60 DAY));
-INSERT INTO order_info VALUES(NULL,'sebestian@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Sebestian','Blk 800 Casear Palace Garden #33-42','355800',93397071,0,138.24, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test seb web',3,'Sebestian',5201,1, DATE_ADD(now(), INTERVAL 60 DAY));
+INSERT INTO order_info VALUES(NULL,'JohnDoe@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Doe','Blk 32C Jigsaw Ave #07-03','579032',90885878,'Confirmed',18.54,DATE_ADD( DATE_ADD(now(), INTERVAL 3 DAY), INTERVAL 3 DAY),'Test tes',3,'John',3211,1, DATE_ADD(now(), INTERVAL 60 DAY));
+INSERT INTO order_info VALUES(NULL,'JMary@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Mary','Blk 655 Jigsaw Ave #05-0','579655',93225231,'Confirmed',100.38, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test mary',3,'Mary',1100,1, DATE_ADD(now(), INTERVAL 60 DAY));
+INSERT INTO order_info VALUES(NULL,'ZhouJL@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Jie Lun','Blk 621 Hollywood Ave #22-11','385621',98775903,'Confirmed',76.66, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test zhou tes',3,'Jie Lun',9999,1, DATE_ADD(now(), INTERVAL 60 DAY));
+INSERT INTO order_info VALUES(NULL,'augustine@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Augustine','Blk 638 Hollywood Ave #17-53','385638',96524788,'Confirmed',499.25, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test August~',3,'Augustine',1314,1,DATE_ADD(now(), INTERVAL 60 DAY));
+INSERT INTO order_info VALUES(NULL,'sebestian@inserted.com', DATE_ADD(now(), INTERVAL 3 DAY),'Sebestian','Blk 800 Casear Palace Garden #33-42','355800',93397071,'Confirmed',138.24, DATE_ADD(now(), INTERVAL 3 DAY)+3,'Test seb web',3,'Sebestian',5201,1, DATE_ADD(now(), INTERVAL 60 DAY));
 INSERT INTO order_detail VALUES(1,1,3,18.54);
 INSERT INTO order_detail VALUES(2,2,6,100.38);
 INSERT INTO order_detail VALUES(3,3,1,76.66);
@@ -246,16 +241,16 @@ INSERT INTO order_detail VALUES(4,4,5,499.25);
 INSERT INTO order_detail VALUES(5,5,4,138.24);
 
 
-INSERT INTO order_info VALUES（NULL, 'tpu@inserted.com', now(), 'tian', 'Blk 139A Lorong 1A #19-88', '313139',82317582, 0, 18.54, now()+3, 'Test tp', 4, 'tpu', 3676, 1, now());
-INSERT INTO order_info VALUES（NULL, 'ling@inserted.com', now(), 'gang', 'Blk 13 Toh Yi Drive #04-12', '590013',95631821, 0, 100.38, now()+3, 'Test lg', 8, 'ling', 0000, 2, now());
-INSERT INTO order_info VALUES（NULL, 'cwx@inserted.com', now(), 'Xian', '672 Woodlands Drive 71 #21-11', '730672',23211523, 0, 76.66, now()+3, 'Test yx', 6, 'cwx', 1234, 2, now());
-INSERT INTO order_info VALUES（NULL, 'yangzj@inserted.com', now(), 'yang', '316A Ang Mo Kio Street 31 #15-32', '562316',90479123, 0, 499.25, now()+3, 'Test zj~', 2, NULL, NULL, 3, now());
-INSERT INTO order_info VALUES（NULL, 'fengjy@inserted.com', now(), 'feng', '182 Jln Jurong Kechil #17-53', '596145',96524788, 0, 138.24, now()+3, 'Test dailao', 10, NULL, NULL, 3, now());
-INSERT INTO order_info VALUES（NULL, 'mystery@inserted.com', now(), 'mr', 'NullSpace in LinearAlgebra', '100000',93397071, 0, 138.24, now()+3, 'NO TEST', 1, 'mystery', 4765, 1, now());
-INSERT INTO order_detail VALUES (1, 6, 4, 24.72);
-INSERT INTO order_detail VALUES (11, 7, 8, 90.88);
-INSERT INTO order_detail VALUES (16, 8, 6, 219.84);
-INSERT INTO order_detail VALUES (22, 9, 2, 190.54);
-INSERT INTO order_detail VALUES (28, 10, 10, 679);
-INSERT INTO order_detail VALUES (33, 11, 1, 51.34);
+-- INSERT INTO order_info VALUES（NULL, 'tpu@inserted.com', now(), 'tian', 'Blk 139A Lorong 1A #19-88', '313139',82317582, 0, 18.54, now()+3, 'Test tp', 4, 'tpu', 3676, 1, now());
+-- INSERT INTO order_info VALUES（NULL, 'ling@inserted.com', now(), 'gang', 'Blk 13 Toh Yi Drive #04-12', '590013',95631821, 0, 100.38, now()+3, 'Test lg', 8, 'ling', 0000, 2, now());
+-- INSERT INTO order_info VALUES（NULL, 'cwx@inserted.com', now(), 'Xian', '672 Woodlands Drive 71 #21-11', '730672',23211523, 0, 76.66, now()+3, 'Test yx', 6, 'cwx', 1234, 2, now());
+-- INSERT INTO order_info VALUES（NULL, 'yangzj@inserted.com', now(), 'yang', '316A Ang Mo Kio Street 31 #15-32', '562316',90479123, 0, 499.25, now()+3, 'Test zj~', 2, NULL, NULL, 3, now());
+-- INSERT INTO order_info VALUES（NULL, 'fengjy@inserted.com', now(), 'feng', '182 Jln Jurong Kechil #17-53', '596145',96524788, 0, 138.24, now()+3, 'Test dailao', 10, NULL, NULL, 3, now());
+-- INSERT INTO order_info VALUES（NULL, 'mystery@inserted.com', now(), 'mr', 'NullSpace in LinearAlgebra', '100000',93397071, 0, 138.24, now()+3, 'NO TEST', 1, 'mystery', 4765, 1, now());
+-- INSERT INTO order_detail VALUES (1, 6, 4, 24.72);
+-- INSERT INTO order_detail VALUES (11, 7, 8, 90.88);
+-- INSERT INTO order_detail VALUES (16, 8, 6, 219.84);
+-- INSERT INTO order_detail VALUES (22, 9, 2, 190.54);
+-- INSERT INTO order_detail VALUES (28, 10, 10, 679);
+-- INSERT INTO order_detail VALUES (33, 11, 1, 51.34);
 
